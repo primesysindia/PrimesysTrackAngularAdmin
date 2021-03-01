@@ -1,0 +1,211 @@
+<div class="content-section">
+  <mat-card class="report-card" *ngIf="showRepoCard" [@slideVerticle]>
+    <mat-card-header>
+      <mat-toolbar>
+        <mat-card-title style="font-size:17px">Reports</mat-card-title>
+      </mat-toolbar>
+    </mat-card-header>
+    <form [formGroup]="reportForm" (ngSubmit)="onConfirm()">
+    <mat-card-content class="report-card-content">
+      <mat-form-field>
+        <mat-select  formControlName="reportType" panelClass="repo-list" placeholder="Select Report Type" (selectionChange)="reportRequirement()" required>
+          <mat-option *ngFor="let mlist of moduleList" [value]="mlist">{{mlist.ModuleTitle}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="f.reportType.hasError('required')">Please Choose Report Type</mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="showExceptionRepoType">
+        <mat-select  formControlName="exceptionReportType" panelClass="repo-list" placeholder="Select Exception Report Type" (selectionChange)="getExceptionRepoType($event)" required>
+          <mat-option *ngFor="let elist of exceptionRepoList" [value]="elist">{{elist}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="reportForm.get('exceptionReportType').hasError('required')">Please Choose Exception Report Type</mat-error>
+      </mat-form-field>
+      <div class="show-div" [hidden]="deviceListShow">
+        <mat-form-field>
+            <mat-select formControlName="selectedDevice" placeholder="Select Device Name" (selectionChange)="getSelectedDevice($event)">
+                <mat-option *ngFor="let device of deviceList" [value]="device">
+                  {{device.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="reportForm.get('selectedDevice').hasError('required') && reportForm.get('selectedDevice').touched">
+              Please select device</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="show-div" [hidden]="monthlyReportShow">
+        <mat-form-field>
+          <input matInput [min]="minDate" [max]="maxDate" formControlName="startDate" [matDatepicker]="startPicker" placeholder="Choose start date">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+          <mat-error *ngIf="reportForm.get('startDate').hasError('required') && reportForm.get('startDate').touched">
+            Please choose start date</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [min]="minDate" [max]="maxDate" formControlName="endDate" [matDatepicker]="endPicker" placeholder="Choose end date">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+          <mat-error *ngIf="reportForm.get('endDate').hasError('required') && reportForm.get('endDate').touched">
+            Please choose end date</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="show-div" [hidden]="currDevReportShow">
+        <mat-form-field>
+          <input type="number" [min]="5" [max]="60" step="5" matInput formControlName="timeInMins" placeholder="Enter Time in past minutes">
+          <mat-error *ngIf="reportForm.get('timeInMins').hasError('required') && reportForm.get('timeInMins').touched">
+            Please Enter Time in Mins</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="show-div" [hidden]="tripReportShow">
+        <mat-form-field>
+          <input matInput [min]="minDate" [max]="maxDate" formControlName="reportDate" [matDatepicker]="reportPicker" placeholder="Choose report date">
+          <mat-datepicker-toggle matSuffix [for]="reportPicker"></mat-datepicker-toggle>
+          <mat-datepicker #reportPicker></mat-datepicker>
+          <mat-error *ngIf="reportForm.get('reportDate').hasError('required') && reportForm.get('reportDate').touched">
+            Please choose report date</mat-error>
+        </mat-form-field>
+      </div>
+      <button class="submit-btn" mat-button mat-raised-button [disabled]="!reportForm.valid">Get Report</button>
+      </mat-card-content>
+      <!-- 10 days validation error msg for date wise low battery exception report -->
+      <div style="text-align: center;">
+        <mat-error *ngIf="showExceptionError">You can see upto 10 days report only</mat-error>
+      </div>
+      <!-- report details msg -->
+      <div class="show-msg">
+          {{ reportDetails }}
+      </div>
+    </form>
+  </mat-card>
+  <div class="hide-card" *ngIf="showRepoCard; else forward">
+    <span><img src="assets/collapse.png" width="30px" height="30px" (click)="hideSeekReportCard()"></span>
+  </div>
+  <ng-template #forward>
+    <div class="show-card">
+      <img src="assets/expand.png" width="30px" height="30px" (click)="hideSeekReportCard()">
+    </div>
+  </ng-template>
+  <div class="table-responsive" [hidden]="!showCaption">
+      <div class="table-header" [hidden]="!showTripCaption">
+          <span class="tableTitle">{{ selReportType }}</span>
+          <span class="sideInfo" *ngIf="showSideInfo"> {{ selDeviceName }} &nbsp; on &nbsp; {{ selReportDate | date }}</span>
+          <span class="sideInfo" *ngIf="!showSideInfo"> {{ selDeviceName }} &nbsp;
+                                  From &nbsp; {{ selStartDate | date }} &nbsp; To {{ selEndDate | date }}</span>
+          <span class="btn-download">
+            <button  matTooltip="Download in Excel" (click)="downloadFile()">
+              <i class="material-icons">cloud_download</i>
+            </button>
+          </span>
+      </div>
+      <div class="table-header" [hidden]="!showRepoCaption">
+          <span class="tableTitle">{{ selReportType }}</span>
+          <span class="sideInfo"> {{ selReportDate | date }}</span>
+          <span class="btn-download" [hidden]="showExceptionRepo">
+            <button  matTooltip="Download in Excel" (click)="downloadFile()">
+              <i class="material-icons">cloud_download</i>
+            </button>
+          </span>
+          <span class="btn-download" [hidden]="!showExceptionRepo">
+            <button  matTooltip="Reverse sorting" (click)="setOrderBy()">
+              <span class="show-arrow"><i class="material-icons">arrow_upward</i></span>
+              <i class="material-icons">cloud_download</i>
+              <span class="show-arrow"><i class="material-icons">arrow_downward</i></span>
+            </button>
+          </span>
+      </div>
+      <table class="table table-bordered table-hover">
+          <tr>
+            <th *ngFor="let thead of tableHeading">{{thead}}</th>
+          </tr>
+          <!-- Trip & Monthly reports -->
+          <tr *ngFor="let trip of tripRepo; let i = index" 
+              app-trip-report [trpRepoData]="trip" [index]="i" (totalDist)="getTotlDistance($event)" (stopMins)="stopMins($event)">
+          </tr>
+          <!-- Monitor SOS & Battery Status report -->
+          <tr *ngFor="let monSos of monitorSos; let i = index" app-trip-report [trpRepoData]="monSos" [index]="i">
+          </tr>
+          <!-- Date Range Exception Report -->
+          <tr *ngFor="let exceptionRepo of DateRangeException; let i = index" app-trip-report [trpRepoData]="exceptionRepo" [index]="i">
+          </tr>
+      </table>
+      <div class="km-show" *ngIf="showTripCaption && selReportType == 'Monthly Report'">
+          Total {{ distUnit }} travelled: {{ totalDistance | number}}
+      </div>
+      <!-- Exception Report -->
+      <div [hidden]="!showExceptionRepo">
+       <!--  <ul  class="list-group">
+          <li *ngFor="let exception of exceptionRepo" class="row list-group-item list-group-item-action">
+            <span class="col">{{ exception.fileName }}</span>
+            <span class="col float-right">
+              <a [attr.href]="exceptionRepoUrl+exception.url" role="button">
+                Download
+              </a>
+            </span>
+          </li>
+        </ul> -->
+        <table class="table table-bordered table-hover">
+          <tr *ngFor="let exception of exceptionRepo | orderBy: 'fileName':reverse:'case-insensitive'">
+            <td>{{ exception.fileName }} </td>
+            <td>
+              <a [attr.href]="exceptionRepoUrl+exception.url" role="button">
+                Download
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+  </div>
+  <div class="status-report" [hidden]="!currntStatRepoShow">
+      <div class="table-caption">
+        <div class="row">
+          <div class="col-md-10">
+            <span class="tableTitle">{{ selReportType }}</span>
+            <span class="sideInfo"> {{ selReportDate | date }}</span>
+            <span class="btn-download">
+              <button  matTooltip="Download in Excel" (click)="downloadFile()">
+                <i class="material-icons">cloud_download</i>
+              </button>
+            </span>
+            <span class="generated-date">Generated on: {{ currTime | date : "medium" }}</span>
+          </div>
+          <div class="col-md-2">
+            <span class="search-bar">
+              <mat-form-field>
+                <input matInput placeholder="Search Device" [(ngModel)]="searchDevice">
+                <span matPrefix><i class="material-icons">search</i>&nbsp;</span>
+              </mat-form-field>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+            <div class="off-device-header" *ngIf="offDeviceHeader"><span>{{ offDevicesCount }}&nbsp;OFF Devices </span></div>
+            <ng-scrollbar>
+              <!-- Device on & off status OFF devices-->
+              <ul class="list-group">
+                  <li class="list-group-item" *ngFor="let offStat of deviceOffStatus | searchDevice : searchDevice" app-off-device [offStatusData]="offStat">
+                  </li>
+              </ul>
+              <!-- Device Current status OFF devices & Device ON OFF Status Report -->
+              <div *ngFor="let offStat of currOffDevice | searchDevice : searchDevice" app-off-device [offStatusData]="offStat">
+              </div>
+            </ng-scrollbar>
+        </div>
+        <div class="col-md-8">
+            <div class="on-device-header" *ngIf="onDeviceHeader"><span>{{ onDevicesCount }}&nbsp;ON Devices </span></div>
+            <ng-scrollbar>
+              <!-- Device on & off status ON devices  -->
+              <div *ngFor="let onStat of deviceOnStatus | searchDevice : searchDevice" app-current-status [onStatusData]="onStat">
+              </div>
+              <!-- Device current status ON devices  & Device ON OFF Status Report-->
+              <div *ngFor="let onStat of currOnDevice | searchDevice : searchDevice" app-current-status [onStatusData]="onStat">
+              </div>
+            </ng-scrollbar>
+        </div>
+      </div>
+  </div>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+    <ng-template #customLoadingTemplate>
+        <div class="loader">
+            <img [src]="'../assets/PTLogo.png'">
+        </div>
+    </ng-template>
+</div>

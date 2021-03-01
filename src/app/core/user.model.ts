@@ -1,0 +1,38 @@
+export class User{
+    registrationTypeWeb: string;
+    socketUrl: string;
+    app_id: string;
+    photo:string;
+    distUnit: string;
+    userName: string;
+    className: string;
+    userType: string;
+    mobileNo: string;
+    emailID: string;
+    message: string;
+    error: boolean;
+    roleId: number;
+    flag: number;
+    usrId: number;
+    fenceAllow: number;
+    socketPort: number;
+    accReportAllow: number;
+    accSqliteEnable: number;
+    accSmsDeleteCheckCount: number;
+    accSMSDeleteNo: number;
+    studentCount: number;
+    schoolId: number;
+    markerTimeDIff : number;
+    polylineDistLimit : number;
+    wrongwayTolerance : number;
+    deviceStatusReqTime : number;
+    locationPushInterval : number;
+    sosAllowNo : number;
+    vtsFuncAllow : number;
+    vtsSmsAllow : number;
+    sosBtnCount : number;
+    sosBtnTimeSpan : number;
+    trackReqTimeout : number;
+    platformRenewalStatus : number;
+    webUserID: number;
+}

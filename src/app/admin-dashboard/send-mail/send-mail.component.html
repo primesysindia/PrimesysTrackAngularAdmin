@@ -1,0 +1,48 @@
+<div class="content-section">
+<mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+<h1><mat-card-title style="text-align: center;"><mat-icon style="width: 30px; color: lightsalmon">email</mat-icon>SEND MAIL </mat-card-title></h1>
+<form [formGroup]="sendMailForm" (ngSubmit)="sendMail(sendMailForm.value)">
+  <div class="row">
+    <mat-form-field class="col-md-12">
+      <mat-label>Select Mail Format</mat-label>
+      <mat-select >
+        <mat-option *ngFor="let format of mailFormat" value={{format.mailId}}>
+          <div (click)="optionClicked($event, format)">
+            {{format.tempName}}
+            </div>
+        </mat-option>
+      </mat-select>
+      <mat-error>This field is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-md-12">
+      <mat-label>To: </mat-label>
+      <input type="text" matInput placeholder="Recipient Mail ID" name="sendTo" formControlName="sendTo">
+      <mat-error>This field is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-md-12">
+      <mat-label>Cc </mat-label>
+      <input type="text" matInput placeholder="Sender Mail ID" name="cc" formControlName="cc">
+    </mat-form-field>
+
+    <mat-form-field class="col-md-12">
+      <mat-label>Subject </mat-label>
+      <input type="text" matInput placeholder="Subject" name="subject" formControlName="subject">
+      <mat-error>This field is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-md-12">
+      <mat-label>Compose Email </mat-label>
+      <textarea type="text" matInput placeholder="Compose Email" name="compose" formControlName="compose"></textarea>
+      <mat-error>This field is required.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <button type="submit" style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button>Send Mail</button> &nbsp;&nbsp;
+    <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="resetForm()">Cancel</button>
+  </div>
+</form>
+<ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>

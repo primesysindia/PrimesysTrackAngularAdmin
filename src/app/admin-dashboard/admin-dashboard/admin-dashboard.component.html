@@ -1,0 +1,246 @@
+<div class="content-section">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 10px">
+         <div class="row">
+            <mat-card-header class="col-md-6"> 
+              <mat-card-title>DEVICE CONFIGURATION</mat-card-title>
+            </mat-card-header>
+            <div class="col-md-6">
+             <a [routerLink]="['/command-history']" mat-raised-button style="background: #09a0a0; color: white;" class="float-right">
+                Device Command History
+            </a>
+            </div>
+          </div>
+          <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite; ">
+              <form [formGroup]="adminForm" style="margin:auto; width: 100%;" (ngSubmit)="submit()"  #myForm="ngForm">
+                <div class="row" style="margin-top: 10px;">
+                  <mat-form-field class="col-md-6">
+                    <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+                      [matAutocomplete]="auto" [(ngModel)]="options">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                        <div (click)="optionClicked($event, option)">
+                        {{option.Name}}
+                        </div>
+                      </mat-option>
+                    </mat-autocomplete>
+                    <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+                
+                <mat-error *ngIf="showRadioBtnError">Please select command</mat-error>
+                <div class="form-group" class="scrollbar scrollbar-primary command-list">
+                  <fieldset id="configuration">
+                    <legend>Configuration Commands</legend>
+                    <mat-radio-group formControlName="commands" class="row">
+                      <div class="col-lg-3 col-md-4 col-sm-2" *ngFor="let commands of commandData">
+                          <mat-radio-button value="{{commands.command}}" (click)="onItemChange($event, commands)">{{commands.title}}</mat-radio-button>
+                      </div>
+                    </mat-radio-group>
+                  </fieldset>
+                </div>
+
+                <!-- <mat-error *ngIf="showCheckboxError">Please select checkbox</mat-error> -->
+                <div *ngIf="showAllFields" class="scrollbar scrollbar-primary device-list" FormArrayName="devices">
+                  <fieldset id="configuration">
+                    <legend>Student List</legend>
+                    <div class="row" style="margin-bottom: 7px;">
+                      <!-- <div class="row"> -->
+                        <mat-radio-group class="col-md-10" [hidden]="showRadioButton" (change)="filterType($event)">
+                          <mat-radio-button style="margin-right: 3px;" *ngFor="let type of sortType" [value]="type">
+                              <span *ngIf="type=='On';else off" style="color: rgb(67, 136, 67)">{{type}}</span>
+                              <ng-template #off>
+                                <ng-container *ngIf="type=='Off';else all">
+                                  <span style="color: red">{{type}}</span>
+                                </ng-container>
+                              </ng-template>
+                              <ng-template #all>
+                                <ng-container *ngIf="type=='All';else keyman">
+                                  <span style="color: grey">{{type}}</span>
+                                </ng-container>
+                              </ng-template>
+                              <ng-template #keyman>
+                                <ng-container *ngIf="type=='Keyman';else patrolman">
+                                  <span style="color: #b97455">{{type}}</span>
+                                </ng-container>
+                              </ng-template>
+                              <ng-template #patrolman>
+                                <ng-container>
+                                  <span style="color: blue;">{{type}}</span>
+                                </ng-container>
+                              </ng-template>
+                          </mat-radio-button>
+                        </mat-radio-group>
+                        
+                        <!-- <mat-form-field class="col-md-4" style="width: 100%">
+                          <input matInput type="text" placeholder="Search Device Number" formControlName="searchBox">
+                        </mat-form-field>
+    
+                        <button type="button" (click)="searchSubmit()">Search</button> -->
+                      <!-- </div> -->
+                    </div>
+
+                    <div class="row" *ngIf="showOnDevices">
+
+                      <div class="col-md-12" style="margin-bottom: 7px;">
+                        <button type="button" (click)="CheckAllOptions(onDevicesArray)">Select/Unselect All</button>
+                      </div>
+                      <div class="col-md-1 checkbox" *ngFor="let devLists of onDevicesArray">
+                        <div *ngIf="devLists.isConnected==true">
+                          <input type="checkbox" (change)="onCheckChange($event, devLists)" [checked]="devLists.checked" value="{{devLists.name | slice:-3}}"><span style=" color: green;" >{{devLists.name | slice:-3}}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" *ngIf="showOffDevices">
+                      <div class="col-md-12" style="margin-bottom: 7px;"> 
+                        <button type="button" (click)="CheckAllOptions(offDevicesArray)">Select/Unselect All</button>
+                      </div>
+                      <div class="col-md-1 checkbox" *ngFor="let devLists of offDevicesArray">
+                        <div *ngIf="devLists.isConnected==false">
+                          <input type="checkbox" (change)="onCheckChange($event, devLists)" [checked]="devLists.checked" value="{{devLists.name | slice:-3}}"><span style=" color: red;" >{{devLists.name | slice:-3}}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" *ngIf="showAllDevices">
+                      <div class="col-md-12" style="margin-bottom: 7px;">
+                        <button type="button" (click)="CheckAllOptions(devList, $event)">Select/Unselect All</button>
+                      </div>
+                      <div class="col-md-1 checkbox" *ngFor="let devLists of devList">
+                        <input type="checkbox" (change)="onCheckChange($event, devLists)" [checked]="devLists.checked" value="{{devLists.name | slice:-3}}"><span style=" color: green;" *ngIf="devLists.isConnected==true;else off">{{devLists.name | slice:-3}}</span>
+                        <ng-template #off>
+                          <ng-container *ngIf="devLists.isConnected==false">
+                            <span style=" color: red;" >{{devLists.name | slice:-3}}</span>
+                          </ng-container>
+                        </ng-template>
+                      </div>
+                    </div>
+
+                    <!-- <div class="row" *ngIf="showSearchDevices">
+                      <div class="col-md-12" style="margin-bottom: 7px;">
+                        <button type="button" (click)="CheckAllOptions(devList)">Select/Unselect All</button>
+                      </div>
+                      <div class="col-md-1 checkbox" *ngFor="let devLists of finalArray">
+                        <input type="checkbox" (change)="onCheckChange($event, devLists)" [checked]="devLists.checked" value="{{devLists}}">
+                        <span>{{devLists}}</span>
+                      </div>
+                    </div> -->
+                  </fieldset>
+                </div>
+
+                <div class="row" *ngIf="showCommand" style="margin-top: 15px;">
+                  <div class="col-md-12">
+                  <strong> SELECTED COMMAND: </strong> <span style="background: cadetblue;
+                  color: white;" *ngIf="this.receivedValues">{{this.receivedValues}}</span>
+                  <span style="background: cadetblue;
+                  color: white;" *ngIf="this.staticValue">{{this.staticValue}}</span>
+                </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-6">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action">
+                      SUBMIT
+                    </button>
+                  </div>
+                  <div class="col-md-6">
+                    <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                    color: white;" class="list-group-item list-group-item-action">
+                    CANCEL
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <!-- <table *ngIf="showTable" class="responsive" style="margin-top: 15px; border: 1px solid #dee2e6; width: 50%">
+                <th style="border: 1px solid #dee2e6; padding: 10px;">Device Name</th>
+                <th style="border: 1px solid #dee2e6; padding: 10px;">Device IMEI</th>
+                <th style="border: 1px solid #dee2e6; padding: 10px;">Response</th>
+                <tr *ngFor="let myArr of myArr">
+                  <td style="border: 1px solid #dee2e6; padding: 10px;">{{myArr.name}}</td>
+                  <td style="border: 1px solid #dee2e6; padding: 10px;">{{myArr.device}}</td>
+                  <td style="border: 1px solid #dee2e6; padding: 10px;">{{myArr.msg}}</td>
+                </tr>
+              </table> -->
+              <div class="row" style="margin-top: 10px;">
+                <div class="col-md-12">
+                  <button type="button" class="float-right" style="text-align: center;background-color: #205c69d1!important; 
+                  color: white;" mat-raised-button (click)="refreshBtn()"> 
+                    Refresh
+                  </button>
+                </div>
+              </div>
+              <div class="example-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource">
+                  <ng-container matColumnDef="deviceId">
+                    <th mat-header-cell *matHeaderCellDef> Imei No </th>
+                    <td mat-cell *matCellDef="let row"> {{row.deviceId}} </td>
+                  </ng-container>
+                
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef >Device Name</th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="command">
+                      <th mat-header-cell *matHeaderCellDef >Command</th>
+                      <td mat-cell *matCellDef="let row"> {{row.command}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="commandDeliveredMsg">
+                    <th mat-header-cell *matHeaderCellDef> Command Response </th>
+                    <td mat-cell *matCellDef="let row"> {{row.commandDeliveredMsg | replaceUnderscore}} </td>
+                  </ng-container>
+                
+                  <ng-container matColumnDef="deviceCommandResponse">
+                    <th mat-header-cell *matHeaderCellDef> Device Response</th>
+                    <td mat-cell *matCellDef="let row"> {{row.deviceCommandResponse}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="timestamp">
+                    <th mat-header-cell *matHeaderCellDef>Command Sent At</th>
+                    <td mat-cell *matCellDef="let row"> {{row.timestamp * 1000 |  date : "MMM d, y,  HH:mm"}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="login_name">
+                    <th mat-header-cell *matHeaderCellDef>Command Sent By</th>
+                    <td mat-cell *matCellDef="let row"> {{row.login_name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="resend">
+                    <th mat-header-cell *matHeaderCellDef>Resend</th>
+                    <td mat-cell *matCellDef="let row">
+                    <span *ngIf="row.commandDeliveredMsg == 'device_is_not_connected'">
+                    <button style=" background-color:rgb(131, 156, 131); border-radius: 20px;" (click)="resendCommand(row.commandId, row)" matTooltip="Resend Command">Resend</button></span>
+                  </td>
+                  </ng-container>
+          
+                  <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
+                  <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+                  <!-- <div *ngIf="dataSource.length === 0">No records found</div> -->
+              </table>
+              <mat-paginator [pageSizeOptions]="[30, 50, 100, 500]"></mat-paginator>
+              </div>
+          </mat-card-content>
+          </mat-card>
+          <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+          <!-- <ng-template #customLoadingTemplate>
+             <div class="loader">
+                  <img [src]="'../assets/PTLogo.png'">
+              </div> 
+           </ng-template> -->
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+</div>

@@ -1,0 +1,18 @@
+<ng2-slim-loading-bar color="red"></ng2-slim-loading-bar>
+<div id="mobileView" class="text-center" *ngIf="showMobileView; else WebView">
+    <img src="../assets/logo.png">
+    <div class="mobile-content">
+        <a href="https://play.google.com/store/apps/details?id=com.primesys.VehicalTracking&hl=en">
+        <img src="../assets/images/playstore.png"></a>
+    </div>
+    <div class="mobile-content">
+        <a href="https://apps.apple.com/in/app/primesystrack/id1207768824">
+        <img src="../assets/images/appstore.png"></a>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="skipDownloadApp()">Skip</button>
+</div>
+<ng-template #WebView>
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+    <app-app-footer></app-app-footer>
+</ng-template>

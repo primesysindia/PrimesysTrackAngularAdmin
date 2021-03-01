@@ -1,0 +1,37 @@
+/* .add-emp-form{
+    width: 50%;
+} */
+.field-block{
+    width: 30%;
+    margin-left: 2rem;
+    display: inline-block;
+}
+.vehicle-block{
+    width: 30%;
+    margin-left: 35%;
+}
+textarea.mat-input-element{
+    margin: -7px 0;
+}
+input.mat-input-element{
+    margin-top: 0.25em;
+}
+.gender-block{
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 5px;
+}
+.mat-radio-button{
+    margin-left: 5px;
+    padding-top: 17px;
+}
+button.mat-button.mat-raised-button{
+    border-radius:1rem;
+    padding: 0 2rem;
+    background-color: #205c69!important;
+    color:white!important;
+    text-align: center;
+}
+.submit-btn{
+    margin-left: 38%!important;
+}

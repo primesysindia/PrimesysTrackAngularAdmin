@@ -1,0 +1,94 @@
+<div class="section-content">
+  <mat-card class="feedback-card">
+      <mat-card-header>
+         <!--  <div mat-card-avatar class="user-img"></div> -->
+          <mat-card-title>Feedback</mat-card-title>
+          <mat-card-subtitle>Response will be appreciated</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="feed-form">
+          <ng-scrollbar>
+            <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+              <ol>
+                <label class="questionLabel">
+                  <li>
+                    Overall, how satisfied were you with the product/service?
+                  </li>
+                </label>
+                <div>
+                  <mat-radio-group formControlName="userRate">
+                    <mat-radio-button value="Very Satisfied">Very Satisfied</mat-radio-button>
+                    <mat-radio-button value="Satisfied">Satisfied</mat-radio-button>
+                    <mat-radio-button value="Neutral">Neutral</mat-radio-button>
+                    <mat-radio-button value="Unsatisfied">Unsatisfied</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <label class="questionLabel">
+                  <li>
+                      How often do you use product/service?
+                  </li>
+                </label>
+                <div>
+                <mat-radio-group formControlName="serviceUse">
+                  <mat-radio-button value="Daily">Daily</mat-radio-button>
+                  <mat-radio-button value="Once a week">Once a week</mat-radio-button>
+                  <mat-radio-button value="2 to 3 times a month">2 to 3 times a month</mat-radio-button>
+                  <mat-radio-button value="Once a month">Once a month</mat-radio-button>
+                </mat-radio-group>
+                </div>
+                <label class="questionLabel">
+                  <li>
+                      What aspect of the product/service were you most satisfied by?
+                  </li>
+                </label>
+                <div>
+                <mat-radio-group formControlName="aspect">
+                  <mat-radio-button value="Quality">Quality</mat-radio-button>
+                  <mat-radio-button value="Price">Price</mat-radio-button>
+                  <mat-radio-button value="Installation OR First use experience">Installation or First Use Experience</mat-radio-button>
+                  <mat-radio-button value="Customer Service">Customer Service</mat-radio-button>
+                </mat-radio-group>
+                </div>
+                <label class="questionLabel">
+                  <li>
+                    Thinking of similar products/services offered by other companies, how would you compare the product/service offered by our company?
+                  </li>
+                </label>
+                <div>
+                <mat-radio-group formControlName="company">
+                  <mat-radio-button value="Much Better">Much Better</mat-radio-button>
+                  <mat-radio-button value="Somewhat Better">Somewhat Better</mat-radio-button>
+                  <mat-radio-button value="About the same">About the Same</mat-radio-button>
+                  <mat-radio-button value="Somewhat Worse">Somewhat Worse</mat-radio-button>
+                </mat-radio-group>
+                </div>
+                <label class="questionLabel">
+                  <li>
+                    What do you like about the product/service?
+                  </li>
+                </label>
+                <div>
+                  <mat-form-field>
+                    <textarea matInput formControlName="likeProduct" placeholder="Please enter your opinion about product/service"></textarea>
+                  </mat-form-field>
+                </div>
+                <label class="questionLabel">
+                  <li>
+                      Any Suggestions for our product quality improvement?
+                  </li>
+                </label>
+                <div>
+                  <mat-form-field>
+                    <textarea matInput formControlName="suggestion" placeholder="Please enter your valuable suggestions"></textarea>
+                  </mat-form-field>
+                </div>
+              </ol>
+              <div class="submit-btn">
+                <button mat-raised-button>Submit</button> 
+              </div> 
+            </form>
+          </ng-scrollbar>
+        </div>
+      </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,71 @@
+<div id="AddTaskSection">
+  <mat-card class="add-task-card">
+    <mat-card-header>
+      <mat-toolbar>
+        <mat-card-title style="font-size:17px">Add New Task</mat-card-title>
+      </mat-toolbar>
+    </mat-card-header>
+    <form [formGroup]="addTaskForm" (ngSubmit)="addNewTask()">
+      <mat-card-content class="addtask-card-content">
+        <mat-form-field>
+          <mat-select formControlName="empName" placeholder="Select Driver Name" required>
+            <mat-option *ngFor="let emp of empDetails" [value]="emp">{{emp.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.empName.hasError('required')">Please Select Driver Name</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select formControlName="deviceName" placeholder="Select Vehicle" required>
+            <mat-option *ngFor="let dev of deviceList" [value]="dev">{{dev.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.deviceName.hasError('required')">Please Select Vehicle Name</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [owlDateTimeTrigger]="stDt" formControlName="startTime" [min]="minDate" [owlDateTime]="stDt" placeholder="Select start Date & Time">
+          <owl-date-time [hour12Timer]="'true'" #stDt></owl-date-time>
+          <mat-error *ngIf="f.startTime.hasError('required')">Start Date & Time required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select formControlName="startAdrs" placeholder="Select Start Address" required>
+            <mat-option *ngFor="let stAdrs of startAdress" [value]="stAdrs">{{stAdrs}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.startAdrs.hasError('required')">Please Select Start Address</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [owlDateTimeTrigger]="edDt" formControlName="endTime" [min]="minDate" [owlDateTime]="edDt" placeholder="Select End Date & Time">
+          <owl-date-time [hour12Timer]="'true'" #edDt></owl-date-time>
+          <mat-error *ngIf="f.endTime.hasError('required')">End Date & Time required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select formControlName="endAdrs" placeholder="Select End Address" required>
+            <mat-option *ngFor="let edAdrs of endAdress" [value]="edAdrs">{{edAdrs}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.endAdrs.hasError('required')">Please Select End Address</mat-error>
+        </mat-form-field>
+        <button mat-button mat-raised-button type="submit">Add Task</button>
+        <button mat-button type="button" [routerLink]="['/tasks']">Cancel</button>
+      </mat-card-content>
+    </form>
+  </mat-card>
+  <div class="tasks-table table-responsive">
+      <table class="table table-bordered table-hover">
+          <tr>
+            <th *ngFor="let thead of tableHead">{{thead}}</th>
+          </tr>
+          <tr *ngFor="let task of tasksInfo; let i = index">
+            <td>{{task.driverName}}</td>
+            <td>{{task.deviceName}}</td>
+            <td>{{task.stTime*1000 | date : "MM/dd/yyyy, h:mm a"}}</td>
+            <td>{{task.stAdrs}}</td>
+            <td>{{task.edTime*1000 | date : "MM/dd/yyyy, h:mm a"}}</td>
+            <td>{{task.edAdrs}}</td>
+            <td><mat-icon (click)="deleteTask(i)">delete</mat-icon></td>
+          </tr>
+      </table>
+  </div>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+  <ng-template #customLoadingTemplate>
+      <div class="loader">
+          <img [src]="'../assets/PTLogo.png'">
+      </div>
+  </ng-template>
+</div>

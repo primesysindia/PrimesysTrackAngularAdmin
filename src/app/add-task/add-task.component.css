@@ -1,0 +1,32 @@
+#AddTaskSection{
+    height: 93%;
+    position: relative;
+    padding-top: 6%;
+}
+.add-task-card{
+    width: 90%;
+    margin: 0 auto;
+}
+.addtask-card-content{
+   text-align: center;
+   margin-top: 0.8rem;
+}
+.mat-form-field {
+    margin: 0 1rem;
+}
+button.mat-button.mat-raised-button{
+    border-radius:1rem;
+    padding: 0 2rem;
+    background-color: #205c69!important;
+    color:white!important;
+}
+.mat-toolbar{
+    justify-content: center;
+    height: 50px;
+}
+.tasks-table{
+    width: 90%;
+    height: 60%;
+    margin: 1rem auto;
+    font-size: 14px;
+}

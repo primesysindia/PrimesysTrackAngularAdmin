@@ -1,0 +1,75 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+    <h1><mat-card-title style="text-align: center;">EDIT KEYMAN BEAT</mat-card-title></h1>
+    <mat-card class="example-card">
+      <mat-card-content>
+        <form class="example-form" [formGroup]="updateKeymanForm" >
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>Device Name</mat-label>
+              <input type="text" matInput placeholder="Device Name" name="deviceName" 
+              formControlName="deviceName">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-6">
+              <mat-label>Device Id</mat-label>
+              <input type="text" matInput placeholder="Device Imei" name="kmend" formControlName="deviceImei">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>Km: Start</mat-label>
+              <input type="number" matInput placeholder="Km Start" name="kmstart" formControlName="kmStart">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-6">
+              <mat-label>Km: End</mat-label>
+              <input type="number" matInput placeholder="Km End" name="kmend" formControlName="kmEnd">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>Select Section</mat-label>
+              <mat-select formControlName="sectionName">
+                <mat-option *ngFor="let option of section" value={{option}}>{{option}}</mat-option>
+              </mat-select>
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-6">
+              <mat-label>Email</mat-label>
+              <input type="text" matInput placeholder="Email" name="email" formControlName="email">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>  
+
+          <button class="btn" style="background-color: #205c69; color: white" mat-button mat-raised-button (click)="updateKeymanBeat()">Update</button>&nbsp; &nbsp;
+          <button class="btn btn-danger" style="color: white" mat-button mat-raised-button (click)="resetForm()">Cancel</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  <!-- </div> -->
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

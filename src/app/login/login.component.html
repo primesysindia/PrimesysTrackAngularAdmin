@@ -1,0 +1,57 @@
+<div class="v-header container">
+  <div class="fullscreen-video-wrap"> 
+    <video src="../assets/trackVideo.mp4" autoplay="true" loop="true"></video>
+    <!-- <img [src]="'../assets/login-image-bg.jpg'"> -->
+  </div>
+  <div class="header-overlay"></div>
+  <div class="header-content">
+        <div>
+          <img [src]="'../assets/logo.png'">
+        </div>
+        <div class="iso-info">ISO 9001:2015 Certified<br/>Quality Management System</div>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-group-cls">
+        <mat-form-field>
+        <span matPrefix><mat-icon>person_pin</mat-icon> &nbsp;</span>
+        <input matInput formControlName="username">
+        <mat-placeholder>Enter username</mat-placeholder>
+      </mat-form-field>
+      </div>
+      <div class="form-group-cls">
+          <mat-form-field>
+          <span matPrefix><mat-icon>enhanced_encryption</mat-icon> &nbsp;</span>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Enter password"/>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </mat-form-field>
+      </div>
+      <!-- <p>
+        <mat-form-field>
+          <input  matInput formControlName="email" placeholder="Email" name="email">
+          <mat-error>Please Enter Email</mat-error>  
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <input matInput placeholder="password" formControlName="password" [type]="hide ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            <mat-error>Please Enter Password</mat-error> 
+        </mat-form-field>
+      </p> -->
+      <mat-checkbox>Keep me sign in</mat-checkbox>
+      <div>
+          <button mat-raised-button>Login</button>
+        <div *ngIf="errMsg" class="error-message">* {{errMsg}}</div>
+      </div>
+      </form>
+  </div>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate">
+  </ngx-loading>
+    <ng-template #customLoadingTemplate>
+        <div class="loader">
+            <img [src]="'../assets/PTLogo.png'">
+        </div>
+        <!-- <div class="loader-msg" *ngIf="railwayUser">
+          Please wait... RDPS Data is being fetched.
+        </div> -->
+    </ng-template>
+</div>

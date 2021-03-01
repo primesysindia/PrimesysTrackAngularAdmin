@@ -1,0 +1,47 @@
+.content-section {
+    height: 93%;
+    padding-top: 7%;
+}
+
+.example-card {
+    margin: 0 auto;
+    margin-bottom: 5%;
+}
+
+.mat-card-header .mat-card-title {
+    font-size: 20px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    /* max-width: 1024px; */
+    /* overflow: auto; */
+}
+
+
+/* parentId studentId 'deviceName', 'deviceSimNo', 'activationDate', 'userName', 'deviceId' */
+
+th.mat-column-deviceName, th.mat-column-deviceSimNo, th.mat-column-activationDate, th.mat-column-deviceId, th.mat-column-parentId, th.mat-column-studentId,
+th.mat-column-userName {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    /* width: 10%; */
+    text-align: center;
+}
+
+td.mat-column-deviceName, td.mat-column-deviceSimNo, td.mat-column-activationDate, td.mat-column-deviceId, td.mat-column-parentId, td.mat-column-studentId,
+td.mat-column-userName {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}

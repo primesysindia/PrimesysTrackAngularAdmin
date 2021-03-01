@@ -1,0 +1,229 @@
+<div class="content-section">
+  <!-- <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon> -->
+ 
+  <mat-card-header class="col-md-12"> 
+    <mat-card-title>ADD ISSUE </mat-card-title>
+  </mat-card-header>
+  <!-- <h1><mat-card-title >ADD ISSUE </mat-card-title></h1> -->
+  <mat-card class="example-card">
+    <mat-card-content style="background: ghostwhite; ">
+      <form class="example-form" [formGroup]="addIssueForm">
+        <mat-card class="example-card">
+          <mat-card-content style="background: ghostwhite; ">
+          <div class="row">
+            <!-- <mat-form-field class="col-md-4 col-sm-6">
+              <mat-label>Select Issue</mat-label>
+              <mat-select formControlName="issue">
+                <mat-option *ngFor="let option of issue" [value]="option.isseMasterId">
+                  <div (click)="optionClicked($event, option)">
+                  {{option.issueTitle}}
+                  </div>  
+                  </mat-option>
+              </mat-select>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field class="example-full-width col-md-4 col-sm-6">
+              <mat-select placeholder="Select Issue" #singleSelect>
+                <mat-option>
+                  <mat-select-search [formControl]="issueFilterCtrl"></mat-select-search>
+                </mat-option>
+            
+                <mat-option *ngFor="let option of filteredIssueList | async" value={{option.isseMasterId}} >
+                  <div (click)="optionClicked($event, option)">
+                    {{option.issueTitle}}
+                    </div>
+                </mat-option>
+              </mat-select>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4 col-sm-6">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status">
+                <mat-option value="1">Open</mat-option>
+                <mat-option value="2">Close</mat-option>
+                <mat-option value="3">In Progress</mat-option>
+              </mat-select>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4 col-sm-6">
+              <mat-label>Priority</mat-label>
+              <mat-select formControlName="priority">
+                <mat-option value="1">Critical</mat-option>
+                <mat-option value="2">High</mat-option>
+                <mat-option value="3">Low</mat-option>
+              </mat-select>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+        
+          <div class="row">
+            <div class="col-md-12">
+              <strong *ngIf="showDescription">STEPS TO FOLLOW : 
+              {{this.description}}</strong>
+            </div>  
+          </div>
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>Caller Name/Contact Person</mat-label>
+              <input type="text" matInput placeholder="Caller Name" name="caller_name" formControlName="caller_name">
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <mat-label>Contact Number</mat-label>
+              <input type="number" matInput placeholder="Contact Number" name="contact" formControlName="contact">
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-md-12">
+              <mat-label>Issue Description</mat-label>
+              <textarea matInput placeholder="Description" name="description" formControlName="description"></textarea>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <button matTooltip="Refresh">
+            <mat-icon class="icon">refresh</mat-icon>
+          </button>&nbsp;&nbsp;
+          <input id="upload" type="file" (change)="onSelectFile($event)" multiple>
+          <br>
+          <div class="table-responsive" style="margin-top: 10px;">
+            <table class="table table-bordered" style="width: 50%">
+              <tr *ngFor="let fileList of fileArray">
+                <td>{{fileList.fileName}}</td>
+                <td> 
+                <button style="color: #ff0000af; border: none;" matTooltip="Delete" (click)="delete(fileList.fileId)" >
+                  <mat-icon class="icon1">delete</mat-icon>
+                </button> 
+              </td>
+              </tr>
+            </table>
+          </div> -->
+          </mat-card-content> 
+        </mat-card>
+      
+
+      <mat-card>
+        <mat-card-content style="background: ghostwhite; ">
+          <!-- <div class="button-wrap"> -->
+          <!-- <label class ="new-button" for="upload">  -->
+          <!-- <input id="upload" type="file" (change)="onSelectFile($event)" multiple> -->
+
+          <input type="file" (change)="fileChange($event)" placeholder="Upload file">
+
+          <!-- <div>
+        </div> -->
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-checkbox [checked]="addIssueForm.get('isDeviceOn').value=='1'? true:false"
+            (change)="addIssueForm.get('isDeviceOn').setValue($event.checked? '1':'0')">Verify Device ON/OFF Status</mat-checkbox>
+            <!-- <mat-checkbox formControlName="isDeviceOn">Verify Device ON/OFF Status</mat-checkbox> -->
+          </div>
+          <div class="col-md-6">
+            <mat-checkbox [checked]="addIssueForm.get('isDeviceButtonOn').value=='1'? true:false"
+            (change)="addIssueForm.get('isDeviceButtonOn').setValue($event.checked? '1':'0')">Check the physical ON/OFF button of device</mat-checkbox>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-checkbox [checked]="addIssueForm.get('isBatteryOn').value=='1'? true:false"
+            (change)="addIssueForm.get('isBatteryOn').setValue($event.checked? '1':'0')" >Check the Battery Status</mat-checkbox>
+          </div>
+          <div class="col-md-6">
+            <mat-checkbox [checked]="addIssueForm.get('IsImeiSIMCorrect').value=='1'? true:false"
+            (change)="addIssueForm.get('IsImeiSIMCorrect').setValue($event.checked? '1':'0')" >Verify the IMEI and SIM Number</mat-checkbox>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-checkbox [checked]="addIssueForm.get('IsGSMOn').value=='1'? true:false"
+            (change)="addIssueForm.get('IsGSMOn').setValue($event.checked? '1':'0')">Check SIM network of GSM & GPRS Internet</mat-checkbox>
+          </div>
+          <div class="col-md-6">
+            <mat-checkbox [checked]="addIssueForm.get('isGpsOn').value=='1'? true:false"
+            (change)="addIssueForm.get('isGpsOn').setValue($event.checked? '1':'0')">Check GPS ON/OFF Status</mat-checkbox>
+          </div>
+        </div>
+        
+        
+        <!-- command sending code starts -->
+        <div class="col-md-12 col-sm-12">
+          <fieldset id="configuration">
+            <legend>Configuration Command</legend>
+              <div class="row">
+                <div class="col-md-12 col-sm-6">
+                  <mat-form-field style="width: 100%;">
+                  <mat-label>Select Command</mat-label>
+                    <mat-select>
+                      <mat-option *ngFor="let command of commandData" [value]="command.command">
+                        <div (click)="onOptionClicked($event, command)">
+                          {{command.title}}
+                        </div>  
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="row">
+                  <div class="col-md-6">
+                    <strong *ngIf="showDescription">Command Description : 
+                    {{this.commands}}</strong>
+                  </div> 
+                </div>
+                </div>
+                
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6">
+                  <button mat-raised-button (click)="sendCommand()" style="background: #09a0a0; color: white;">
+                    SEND COMMAND
+                  </button>&nbsp;&nbsp;
+                  <button mat-raised-button style="background: #09a0a0; color: white;"> Get Response</button>
+                </div> 
+              </div>
+              <br>
+
+              <div class="row">
+                <div class="col-md-12"><strong>Command Status: </strong>{{this.message}}</div>
+                <div class="col-md-12"><strong>Response Message: </strong>{{this.secondMsg}}</div>
+              </div>
+          </fieldset>
+        </div>
+        
+        <br>
+        <div class="row">
+          <div class="col-md-6">
+            <button style="background-color: #205c69; color: white" class="btn" (click)="saveIssue()" mat-button mat-raised-button  class="list-group-item list-group-item-action">SAVE</button> 
+          </div>
+          <div class="col-md-6">
+            <button style="background-color: #E80000; color: white" mat-button mat-raised-button (click)="reset()"  class="list-group-item list-group-item-action">CANCEL</button>
+          </div>
+        </div>
+        </mat-card-content>
+      </mat-card>
+      </form>
+    </mat-card-content>
+  </mat-card>
+     
+    <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>
+     
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

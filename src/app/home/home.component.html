@@ -1,0 +1,174 @@
+<div class="section-content">
+    <mat-card class="device-card" [ngStyle]="getStyle()" *ngIf="showDeviceList" [@slideInOut]>
+        <div class="inputDev">
+            <mat-form-field appearance="standard" *ngIf='showSearchText'>
+                <mat-label>Search device</mat-label>
+                <input matInput [(ngModel)]="searchText">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div *ngIf="showSortByType">
+            <mat-radio-group [(ngModel)]="sortBy" (change)="sortByType()">
+                <mat-radio-button *ngFor="let type of sortType" [value]="type">
+                    {{type}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="list-scroll" [ngStyle]="setStyle()">
+            <ng-scrollbar>
+                <div id="device-list">
+                    <div class="list-group" *ngFor="let devices of devList | findDevice: searchText">
+                        <button type="button" class="list-group-item list-group-item-action" [ngClass]="{'active': selectedItem == devices.name}"
+                             (click)="sendInfo(devices.name,devices.student_id,devices.remaining_days_to_expire,devices.type,devices.ShowGoogleAddress)">
+                            <img src="{{devices.liveStatusImg}}" *ngIf="devices.liveStatusImg">
+                            {{devices.name}}
+                        </button>
+                        <div class="msg-div" *ngIf="(devList | findDevice: searchText)?.length==0">
+                            <p>No Device Found</p>
+                        </div>
+                    </div>
+                </div>
+            </ng-scrollbar>
+        </div>
+    </mat-card>
+    <div class="hide-dev-list" *ngIf="showDeviceList; else forward">
+        <span><img src="assets/chevron-left.png" width="30px" height="30px" (click)="hideSeekDevList()"></span>
+    </div>
+    <ng-template #forward>
+        <img src="assets/chevron-right.png" width="30px" height="30px" (click)="hideSeekDevList()" class="show-dev-list">
+    </ng-template>
+    <mat-card class="home-info-card" *ngIf="showInfoCard">
+        <mat-card-content>
+            <strong class="dev-name">Devices Status</strong>&nbsp;&nbsp;
+            <mat-radio-group [(ngModel)]="SortForAllLocation" (change)="sortForAllLocation()">
+                <mat-radio-button value="all" checked="true">All</mat-radio-button>
+                <mat-radio-button value="on"><b style="color:green;">ON: </b> {{ onDeviceCnt }}</mat-radio-button>
+                <mat-radio-button value="off"><b style="color: red;">OFF: </b>{{ offDeviceCnt }}</mat-radio-button>
+                <mat-radio-button *ngIf="showStoppageDevices" value="stoppage"><b style="color:blue;">Stoppage: </b>{{ stoppageDevCnt }}</mat-radio-button>
+            </mat-radio-group>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="location-info-card" *ngIf="showLiveLocation" [@slideVerticle]>
+        <mat-card-content>
+            <strong class="dev-name">{{ selectedDevice }}</strong>&nbsp;&nbsp;
+            <b>Speed: </b> {{ currSpeed }} <span *ngIf="USAUser;else IndiaUser">miles/hr,</span>
+            <ng-template #IndiaUser>Km/hr,</ng-template>&nbsp;
+            <b>Date & Time: </b>{{ currDate |  date : "MMM d, y h:mm:ss a" }},&nbsp;
+            <b>Address: </b>{{ currAddress }}&nbsp;
+            <span *ngIf="batteryLevel !== ''">
+                <br/><b>Battery Status:</b>
+                <span matTooltip="{{batteryLevel}}">
+                    <img src="{{batteryImage}}">
+                </span>
+            </span>&nbsp;&nbsp;
+            <span *ngIf="gsmSignalLevel !== ''">
+                <b>GSM Signal Strength: </b>
+                <span matTooltip="{{gsmSignalLevel}}">
+                    <img src="{{gsmSignalImage}}">
+                </span>
+            </span>
+        </mat-card-content>
+    </mat-card>
+    <div class="all-device-btn" *ngIf="showAllbtn">
+        <button mat-fab (click)="getAllDeviceLocation()" matTooltip="Click on All button to refresh ON/OFF status in device list.">All</button>
+    </div>
+    <div class="info-message" *ngIf="showInfoMsg && showAllbtn">
+        Click on All button to refresh ON/OFF status in device list.
+    </div>
+    <agm-map (mapReady)="mapReady($event)" [zoom]="zoomLevel">
+        <!-- All device location markers-->
+        <!-- <agm-marker-cluster [imagePath]="'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'" *ngIf="showCluster;else allLocation">
+            <agm-marker 
+                *ngFor="let track of markers"
+                [latitude]="track.lat"
+                [longitude]="track.lng"
+                [iconUrl]='{"url": track.icon}' (markerClick)="fetchAddress(track.lat, track.lng)">
+                iconUrl sets custom icon for marker
+                <agm-snazzy-info-window [maxWidth]="450" [closeWhenOthersOpen]="true">
+                    <ng-template>
+                    <b>Name:</b> {{ track.devName }}
+                    <b>Speed:</b> {{ track.speed }} Km/hr,
+                    <b>Date & Time:</b> {{ track.dateTimestamp*1000 |  date : "MMM d, y h:mm:ss a" }},
+                    <b>Address: </b>{{ address }}
+                    </ng-template>
+                </agm-snazzy-info-window>
+            </agm-marker>
+        </agm-marker-cluster>
+        <ng-template #allLocation> -->
+            <agm-marker *ngFor="let track of allLocations"
+                [latitude]="track.lat"
+                [longitude]="track.lng"
+                [iconUrl]="track.icon" (markerClick)="fetchAddress(track.lat, track.lng)">
+                <!-- iconUrl sets custom icon for marker -->
+                <agm-snazzy-info-window [maxWidth]="450" [closeWhenOthersOpen]="true">
+                    <ng-template>
+                    <b>Name:</b> {{ track.devName }}
+                    <b>Speed:</b> {{ track.speed }} <span *ngIf="USAUser;else IndiaUser">miles/hr,</span>
+                    <ng-template #IndiaUser>Km/hr,</ng-template>&nbsp;
+                    <b>Date & Time:</b> {{ track.dateTimestamp*1000 |  date : "MMM d, y h:mm:ss a" }},
+                    <b>Address: </b>{{ address }}
+                    </ng-template>
+                </agm-snazzy-info-window>
+            </agm-marker>
+       <!--  </ng-template> -->
+        <!-- RDPS data shown on map -->
+        <div *ngIf="showFeatureAddress">
+            <agm-marker *ngFor="let feature of sortedFeatureAdrs"
+                [latitude]="feature.latitude"
+                [longitude]="feature.longitude"
+                [iconUrl]='{"url": "http://www.mykiddytracker.com:81"+feature.feature_image}'>
+                <!-- iconUrl sets custom icon for marker -->
+                <agm-snazzy-info-window [maxWidth]="300">
+                    <ng-template>
+                    <b>Section:</b> {{ feature.section }}
+                    <b>Location:</b> {{ getKmLocation(feature) }} Km,
+                    <b>Feature Detail:</b> {{ feature.featureDetail }}
+                    <b>Block Section:</b> {{ feature.blockSection }}
+                    </ng-template>
+                </agm-snazzy-info-window>
+            </agm-marker>
+        </div>
+        <!-- Live location markers & Polyline -->
+        <agm-marker *ngFor="let location of currLocation" class="live-marker"
+            [latitude]="location.lat"
+            [longitude]="location.lng"
+            [iconUrl]='location.icon' (markerClick)="fetchAddress(location.lat,location.lng)" #liveLocMarker>
+            <!-- iconUrl sets custom icon for marker -->
+            <agm-snazzy-info-window [maxWidth]="450" [closeWhenOthersOpen]="true">
+                <ng-template>
+                    <b>Name:</b> {{ selDevice }}
+                    <b>Speed:</b> {{ location.speed }} <span *ngIf="USAUser;else IndiaUser">miles/hr,</span>
+                    <ng-template #IndiaUser>Km/hr,</ng-template>&nbsp;
+                    <b>Date & Time:</b> {{ location.timestamp*1000 |  date : "MMM d, y h:mm:ss a" }},
+                    <b>Address: </b>{{ address }}
+                </ng-template>
+            </agm-snazzy-info-window>
+        </agm-marker>
+        <div *ngIf="!railwayUser">
+            <agm-polyline *ngFor="let point of currLocation;let i = index;"  [strokeColor]="point.speed < overspeedLimit ? 'blue': 'red'">
+                <agm-polyline-point [latitude]="point.lat" [longitude]="point.lng">
+                </agm-polyline-point>
+                <ng-container *ngIf="currLocation[i+1]">
+                    <agm-polyline-point [latitude]="currLocation[i+1].lat" [longitude]="currLocation[i+1].lng">
+                    </agm-polyline-point>`
+                </ng-container>
+            </agm-polyline>
+        </div>
+    </agm-map>
+    <div *ngIf="RoadmapView; else satelliteView">
+        <img src="../assets/india-satellite.jpg" alt="Satellite imagery" width="38px" height="38px" (click)="setMapType()" class="map-type-btn">
+    </div>
+    <ng-template #satelliteView>
+        <img src="../assets/roadmap-india.png" alt="Roadmap imagery" width="38px" height="38px" (click)="setMapType()" class="map-type-btn">
+    </ng-template>
+    <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+    <ng-template #customLoadingTemplate>
+        <div class="loader">
+            <img [src]="'../assets/PTLogo.png'">
+        </div>
+
+        <div class="loader-msg" *ngIf="railwayUser && showRdpsMsg">
+            Please wait... RDPS Data is being fetched.
+        </div>
+    </ng-template>
+</div>

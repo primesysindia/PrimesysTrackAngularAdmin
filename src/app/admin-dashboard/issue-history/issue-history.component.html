@@ -1,0 +1,197 @@
+<div class="content-section">
+  <mat-card-header class="col-md-12"> 
+    <mat-card-title>ISSUE LOGGING HISTORY</mat-card-title>
+  </mat-card-header>
+  <mat-card class="example-card">
+    <mat-card-content style="background: ghostwhite; ">
+      <form [formGroup]="getDateRangeForm">
+        <div class="row">
+        <div class="col-md-3">
+          <mat-form-field style="width: 100%">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+          </mat-form-field>
+        </div>
+        
+        <div class="col-md-3">
+          <mat-form-field  style="width: 100%"> 
+            <input matInput formControlName="startDate" [max]="todayMaxDate" [matDatepicker]="startPicker" placeholder="Choose start date">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+              <mat-error>Please choose start date</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-3" >
+          <mat-form-field style="width: 100%">
+            <input matInput formControlName="endDate" [max]="todayMaxDate" [matDatepicker]="endPicker" placeholder="Choose end date">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+              <mat-error>Please choose end date</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-2" style="margin-top: 5px;">
+          <button (click)="getIssueByDate()" [disabled]="!getDateRangeForm.valid" style="background: cadetblue;color: white;" class="submit-btn" mat-button mat-raised-button >Get History</button>
+        </div>
+
+        <div class="col-md-1" style="margin-top: 5px;">
+          <span class="btn-download">
+            <button  matTooltip="Download in Excel" (click)="downloadFile()">
+              <i class="material-icons">cloud_download</i>
+            </button>
+          </span>
+        </div>
+        </div>   
+      </form>
+     
+      <div>
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8"
+        style="margin-top: 15px;" matSort> 
+        
+          <ng-container matColumnDef="issueTicketId">
+            <th mat-header-cell *matHeaderCellDef> Ticket Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.issueTicketId}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="issueTitle">
+            <th mat-header-cell *matHeaderCellDef> Issue Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.issueTitle}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="deviceName">
+            <th mat-header-cell *matHeaderCellDef> Device Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.deviceName}} </td>
+          </ng-container>
+            
+          <ng-container matColumnDef="contactPerson">
+            <th mat-header-cell *matHeaderCellDef>Contact Person</th>
+            <td mat-cell *matCellDef="let element"> {{element.contactPerson}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="contactPersonMobNo">
+              <th mat-header-cell *matHeaderCellDef>Contact Number</th>
+              <td mat-cell *matCellDef="let element"> {{element.contactPersonMobNo}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="issueStatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let element"> 
+              <span *ngIf="element.issueStatus == 1;else close" style="color: red">Open</span>
+              <ng-template #close>
+                <span style="color: green" *ngIf="element.issueStatus == 2;else progress">Close</span>
+              </ng-template>
+              <ng-template #progress>
+                <span style="color: orange">In Progress</span>
+              </ng-template>
+            </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="priority">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
+            <td mat-cell *matCellDef="let element"> 
+              <span style="color: red" *ngIf="element.priority == 1;else high">Critical</span>
+              <ng-template #high>
+                <span style="color: orange" *ngIf="element.priority == 2;else low">High</span>
+              </ng-template>
+              <ng-template #low>
+                <span style="color: green">Low</span>
+              </ng-template>
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="divisionName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Division Name</th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.issueFileList.length > 0"><mat-icon style="font-size: 17px">insert_drive_file</mat-icon></span>
+              {{element.divisionName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header >Created At</th>
+            <td mat-cell *matCellDef="let element">{{element.createdAt | date: "MMM d, y HH:mm" }} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="issueOwner">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header >Logged By</th>
+            <td mat-cell *matCellDef="let element"> {{element.issueOwner}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element">
+            <button style=" background-color: #17a2b8; border-radius: 20px; color: white; text-align: center;" mat-icon-button matTooltip="Edit"(click)=" openEditDialog(element.issueId)" >
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="mail">
+            <th mat-header-cell *matHeaderCellDef> Send Mail </th>
+            <td mat-cell *matCellDef="let element">
+              <button style=" background-color: #17a2b8; border-radius: 20px; color: white;" mat-icon-button matTooltip="Send Mail"(click)=" openMailDialog()" >
+                <mat-icon>email</mat-icon>
+              </button>
+            </td>
+            </ng-container> -->
+      
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="tableHeader.length">
+              <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="row example-element-description">
+                  <div class="col-md-12" style="text-align: left;"><strong>Issue Comment: </strong> {{element.issueComment}}</div>
+                </div>
+                <hr>
+                <div class="row example-element-description float-left">
+                  <!-- <div class="col-md-3"><strong>Issue Logged By: </strong>{{element.issueOwner}}</div> -->
+                  <div class="col-md-3"><strong>Send Mail: </strong>
+                    <button style=" background-color: #17a2b8; border-radius: 20px; color: white;" mat-icon-button matTooltip="Send Mail"(click)=" openMailDialog()" >
+                      <mat-icon>email</mat-icon>
+                    </button>
+                  </div>
+                  <div class="col-md-3"><strong>Issue Updated At: </strong> {{element.updatedAt | date:'medium'}}</div>
+                  <div class="col-md-3"><strong>Issue Updated By: </strong> {{element.updatedByName}}</div>
+                </div>
+                <div class="row example-element-description float-left">
+                
+                  <table class="col-md-12 table table-bordered" #innerTables mat-table [dataSource]="element.issueFileList" >
+                    <ng-container matColumnDef="fileName">
+                      <th mat-header-cell *matHeaderCellDef>File name </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element.fileName}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="download">
+                      <th mat-header-cell *matHeaderCellDef>Download</th>
+                      <td mat-cell *matCellDef="let element">
+                       
+                      <a [attr.href]="fileAttachmentUrl+element.fileName" role="button">
+                        Download
+                      </a>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="innerDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let element; columns: innerDisplayedColumns;"></tr>
+                  </table>
+                  <!-- <div class="col-md-12" style="text-align: left;" *ngFor="let element of issueFileList">
+                    <strong>Files: </strong> {{element.fileId}}
+                  </div> -->
+                  <!-- <div class="col-md-12" style="text-align: left;" ><strong>Files list: </strong> {{element.fileId[i]}}</div> -->
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="tableHeader"></tr>
+          <tr mat-row *matRowDef="let element; columns: tableHeader;"[ngClass]="{ 'highlight': element.issueStatus == '1'}" class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element" 
+            (click)="expandedElement === element? expandedElement = null : expandedElement = element">
+          </tr>
+          <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row">
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[30,25,50,100,500]"></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>
+  </div>

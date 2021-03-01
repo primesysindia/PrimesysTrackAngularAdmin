@@ -1,0 +1,70 @@
+.content-section{
+    height: 93%;
+    padding-top: 9%;
+}
+
+.report-card{
+    width: 95%;
+    margin: 0 auto;
+    padding: 10px 10px 0px;
+}
+.mat-card-content{
+    margin-bottom: 0;
+}
+.report-card-content{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+mat-card-title{
+    padding-left: 40%;
+}
+mat-toolbar{
+    height: 40px;
+    border-radius: 21px;
+    padding-top: 15px;
+    margin: 0 auto;
+    width:52%;
+    background-color: #bbb6b6;
+}
+@media screen and (max-width:1399px){
+    .content-section{
+        padding-top: 6%;
+    }
+}
+@media screen and (max-width:1199px){
+    .content-section{
+        padding-top: 8%;
+    }
+  
+}
+@media screen and (max-width:1140px){
+    .content-section{
+        padding-top: 9%;
+    }
+}
+@media screen and (max-width:690px){
+    .content-section{
+        padding-top: 13%;
+    }
+    .report-card-content{
+        display: inherit;
+    }
+    .report-card{
+        padding: 24px 10px 0px;
+    }
+}
+@media screen and (max-width:500px){
+    .show-card{
+        margin-top: 1rem;
+    }
+}
+@media screen and (max-width:414px){
+    .content-section{
+        padding-top: 17%;
+    }
+    mat-card-title{
+        padding-left: 10%!important;
+    }
+}

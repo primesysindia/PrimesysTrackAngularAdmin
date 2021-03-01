@@ -1,0 +1,23 @@
+<mat-accordion>
+<mat-expansion-panel [expanded]="panelOpenState" (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ onStatusData.Name }}
+    </mat-panel-title>
+    <mat-panel-description>
+      {{ onStatusData.time*1000 | date: "MMM d, y h:mm:ss a" }}
+      <span class="off-hrs">{{ offHrs }}</span>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <p>
+    {{ onStatusData.address }}
+    <span class="section-name" *ngIf="showLocation && onStatusData.showSection">
+      <b>Section:</b> {{ onStatusData.section }}
+    </span>
+  </p>
+  <div *ngIf="showLocation">
+    <p [style.color]="onStatusData.showSection ? 'green' : '#500af3f7'" *ngIf="onStatusData.location">Location: {{ onStatusData.location }}</p>
+  </div>
+</mat-expansion-panel>
+</mat-accordion>

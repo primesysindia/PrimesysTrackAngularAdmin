@@ -1,0 +1,86 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+  <mat-card-title style="text-align: center;">ADD HIERARCHY </mat-card-title>
+    <mat-card class="example-card">
+      <mat-card-content>
+        <form class="example-form" [formGroup]="addHierarchyForm"  (ngSubmit)="saveHierarchyForm(addHierarchyForm.value)">
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>Name</mat-label>
+              <input type="text" matInput placeholder="Name" name="deptName" formControlName="deptName">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <mat-label>Email</mat-label>
+              <input type="text" matInput placeholder="Email" name="emailId" formControlName="emailId">
+              <mat-error *ngIf="hasError('emailId', 'required')">This field is mandatory.</mat-error>
+              <mat-error *ngIf="hasError('emailId', 'pattern')">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-md-8">
+              <mat-label style="font-size: 14px">Department ID</mat-label>
+              <mat-select formControlName="deptId">
+                <mat-option *ngFor="let option of dept" value={{option.deptId}}>{{option.name}}</mat-option>
+              </mat-select>
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>Mobile No.</mat-label>
+              <input type="number" matInput placeholder="Mobile Number" name="mobile" formControlName="mobileNo">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-6">
+              <mat-label style="font-size: 14px">Department Parent ID</mat-label>
+              <mat-select formControlName="deptParentId">
+                <mat-option *ngFor="let option of hierarchyData" value={{option.hirachyId}}>{{option.deptName}}</mat-option>
+              </mat-select>
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="command-list">
+            <fieldset id="configuration">
+              <legend>Student List</legend>
+                <div class="row">
+                  <div class="col-md-1 checkbox" *ngFor="let devLists of devList">
+                    <label class="checkbox-label">
+                      <input  type="checkbox" value="{{devLists.name | slice:-3}}" [checked]="devLists.selected" (change)="changeDeviceByCategory($event)">{{devLists.name | slice:-3}}
+                    </label>
+                  </div>
+                </div>
+            </fieldset>
+          </div>
+        
+          <br>
+          <div>
+            <button style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button>Save</button> &nbsp;&nbsp;
+            <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="resetForm()">Reset</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

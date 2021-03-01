@@ -1,0 +1,15 @@
+.content-section{
+    height: 93%;
+    padding-top: 9%;
+    /* width: 42%;
+    margin-left: 30%; */
+}
+  .main_content {
+    width:100%; 
+    height: calc(100vh - 130px); 
+    /* background: #efefef; */
+  }
+
+  .mat-form-field{
+    width:100%; 
+  }

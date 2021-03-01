@@ -1,0 +1,71 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid #d3d3d3;" (click)="onNoClick()">close</mat-icon>
+    <h1><mat-card-title style="text-align: center;">EDIT DEVICE DETAIL</mat-card-title></h1>
+    <mat-card class="example-card">
+      <mat-card-content>
+        <form class="example-form" [formGroup]="updateDeviceForm">
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>User Name</mat-label>
+              <input type="text" matInput placeholder="user Name" name="uname" formControlName="uname"
+              readonly>
+              
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <mat-label>IMEI Number</mat-label>
+              <input type="text" matInput placeholder="Enter IMEI Number" name="imei" formControlName="imei">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>First Name</mat-label>
+              <input type="text" matInput placeholder="Enter Firstname" name="fname" formControlName="fname"
+              >
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <mat-label>Last Name</mat-label>
+              <input type="text" matInput placeholder="Enter Last Name" name="lname" formControlName="lname">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>Mobile Number</mat-label>
+              <input type="number" matInput placeholder="Enter Mobile Number" name="mobile_no" formControlName="mobile_no">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <mat-label>Sim Number</mat-label>
+              <input type="number" matInput placeholder="Enter Sim Number" name="sim_no" formControlName="sim_no">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <br>
+          <button class="btn" style="background-color: #205c69; color: white" mat-button mat-raised-button (click)="updateDevInfo()">Update</button>&nbsp; &nbsp;
+          <button class="btn btn-danger" style="color: white" mat-button mat-raised-button (click)="resetForm()">Cancel</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  <!-- </div> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

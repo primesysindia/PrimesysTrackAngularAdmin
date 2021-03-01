@@ -1,0 +1,69 @@
+<div class="payment-section">
+  <div class="payment-header">
+    <mat-toolbar>Payment Details
+        <mat-form-field [hidden]="showPagination">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search device">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </mat-toolbar>
+  </div>
+  <ng-scrollbar>
+  <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="paymentDetails">
+          <ng-container matColumnDef="Device_name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Device Name</th>
+              <td mat-cell *matCellDef="let row"> {{row.FullName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="IMEI_No">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>IMEI No</th>
+              <td mat-cell *matCellDef="let row"> {{row.DeviceID}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Device_SimNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Device SIM No</th>
+              <td mat-cell *matCellDef="let row"> {{row.MobileNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Plan_Type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan Type</th>
+              <td mat-cell *matCellDef="let row"> {{row.PlanType}} </td>
+          </ng-container>
+          <ng-container matColumnDef="LastPaymentDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Payment Date</th>
+              <td mat-cell *matCellDef="let row"> {{row.PayRenDate}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ExpiryDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Expiry Date</th>
+              <td mat-cell *matCellDef="let row"> {{row.ExpiryDate}} </td>
+          </ng-container>
+          <ng-container matColumnDef="DeviceStatus">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Device Status</th>
+              <td mat-cell *matCellDef="let row">
+                <span *ngIf="row.DiffDate > 0;else showInactive" class="active-class">
+                    Active
+                </span>
+              </td>
+              <ng-template #showInactive>
+                <td class="inactive-class">
+                    Inactive
+                </td>
+            </ng-template>
+          </ng-container>
+          <ng-container matColumnDef="RemainingDays">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Remaining Days</th>
+              <td mat-cell *matCellDef="let row"> {{row.DiffDate}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="tableHeader; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+      </table>
+      <span [hidden]="showPagination">
+        <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+      </span>
+    </div>
+    </ng-scrollbar>
+    <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+    <ng-template #customLoadingTemplate>
+        <div class="loader">
+            <img [src]="'../assets/PTLogo.png'">
+        </div>
+    </ng-template>
+</div>

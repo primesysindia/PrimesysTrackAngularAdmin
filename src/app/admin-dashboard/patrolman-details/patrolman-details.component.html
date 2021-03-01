@@ -1,0 +1,206 @@
+<div class="content-section">
+  <!-- <app-select-example></app-select-example> -->
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 20px">
+          <mat-card-header> 
+              <mat-card-title>PATROLMAN BEAT MODULE</mat-card-title>
+            </mat-card-header>
+          <mat-card>
+            <mat-card-content style="background: ghostwhite;">
+              <div class="row" *ngIf="showMasterTripButton">
+                <div class="col-md-12 search-div">
+                  <button mat-raised-button (click)="openMasterDialog()" style="background: #09a0a0; color: white;" class="float-right">
+                    <mat-icon>add</mat-icon>Add Master Trip
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <mat-form-field class="example-full-width col-md-6 col-sm-6">
+                    <input #autocompleteInput type="text" placeholder="Enter Name" aria-label="Number" matInput [formControl]="parentlist"
+                      [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                        <div (click)="optionClicked($event, option)">
+                        {{option.Name}}
+                        </div>
+                      </mat-option>
+                    </mat-autocomplete>
+                    <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(option)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+
+              <mat-form-field class="example-full-width col-md-6 col-sm-6">
+                <mat-select placeholder="Select Student" #singleSelect>
+                  <mat-option>
+                    <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}  >
+                    <div (click)="onSelection(devices)">
+                      {{devices.name}}
+                    </div>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+           
+            <div class="row" *ngIf="showAddButton">
+              <!-- <div class="col-md-6 search-div">
+                <mat-label>Device ID: {{deviceID}}</mat-label>
+              </div> -->
+
+              <!-- <div class="row" *ngIf="showAddButton"> -->
+                <div class="col-md-2">
+                  <button mat-raised-button (click)="sendCommand()" style="background: #09a0a0; color: white;">
+                    <mat-icon>done</mat-icon>Check Period
+                  </button>
+                </div>
+                <div class="col-md-8">
+                  <div class="row"><strong>Command Status: </strong> {{this.message}}</div>
+                  <div class="row"><strong>Response: </strong> {{this.secondMsg}}</div>
+                </div>
+              <!-- </div> -->
+            <br>
+
+              <div class="col-md-2 search-div">
+                <button mat-raised-button (click)="openDialog()" style="background: #09a0a0; color: white;" class="float-right">
+                  <mat-icon>add</mat-icon>Add Beat
+                </button>
+              </div>
+            </div>
+           <br>
+            <div class="example-container mat-elevation-z8">
+              <table mat-table [dataSource]="dataSource" matSort>
+          
+                <!-- Km start Column -->
+                <ng-container matColumnDef="kmStart">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Km Start </th>
+                  <td mat-cell *matCellDef="let row"> {{row.kmStart}} </td>
+                </ng-container>
+              
+                <!-- Km end column -->
+                <ng-container matColumnDef="kmEnd">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Km End</th>
+                  <td mat-cell *matCellDef="let row"> {{row.kmEnd}} </td>
+                </ng-container>
+                <!-- section name column -->
+                <ng-container matColumnDef="sectionName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header >Section-Name</th>
+                    <td mat-cell *matCellDef="let row"> {{row.sectionName}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="seasonId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header >Season</th>
+                  <td mat-cell *matCellDef="let row"> 
+                    <span *ngIf="row.seasonId == 1;else rainy">Summer</span>
+                    <ng-template #rainy>
+                      <span *ngIf="row.seasonId == 2;else winter">Rainy</span>
+                    </ng-template>
+                    <ng-template #winter>
+                      <span *ngIf="row.seasonId == 3">Winter</span>
+                    </ng-template>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="kmFromTo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>KmFromTo</th>
+                  <td mat-cell *matCellDef="let row"> {{row.kmFromTo}} </td>
+                </ng-container>
+          
+                <ng-container matColumnDef="tripName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Trip Name</th>
+                  <td mat-cell *matCellDef="let row"> {{row.tripName}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="tripStartTime">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Trip StartTime</th>
+                  <td mat-cell *matCellDef="let row"> {{row.tripStartTime}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="tripEndTime">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Trip EndTime</th>
+                  <td mat-cell *matCellDef="let row"> {{row.tripEndTime}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="totalKmCover">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Km Covered </th>
+                  <td mat-cell *matCellDef="let row"> {{row.totalKmCover}} </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let row">
+                      <button style=" background-color: #17a2b8; border-radius: 20px; color: white;" mat-icon-button matTooltip="Edit"(click)=" openEditDialog(row.beatId)" >
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <!-- <button style=" background-color: green; border-radius: 20px;" mat-icon-button matTooltip="Approve" (click)="confirmDialog(row.beatId)">
+                        <mat-icon style="color: white;">done</mat-icon>
+                      </button> -->
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef> Delete </th>
+                      <td mat-cell *matCellDef="let row">
+                        <button style=" background-color: #ff0000af; border-radius: 20px; color: white;" mat-icon-button matTooltip="Delete" (click)="delete(row.beatId)" ><mat-icon class="icon1">delete
+  
+                        </mat-icon></button>
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> Approve-Status </th>
+                      <td mat-cell *matCellDef="let row">
+                        <button *ngIf="row.isApprove==false && showApprove; else Approved" style=" background-color: red; border-radius: 20px; color: white;" matTooltip="Not Approved" (click)="confirmDialog(row.beatId)">
+                          Not Approved
+                        </button>
+                          <ng-template #Approved>
+                            <ng-container *ngIf="row.isApprove==true && showApprove">
+                            <span matTooltip="Approved" style="color: darkgreen; font-weight: 500;">
+                              Approved
+                            </span>
+                            </ng-container>
+                          </ng-template>
+                          <span *ngIf="row.isApprove == true && approved == true; else notApproved" matTooltip="Approved"
+                          style="color: darkgreen; font-weight: 500;" >
+                            Approved
+                          </span>
+                           <ng-template #notApproved>
+                            <ng-container  *ngIf="row.isApprove == false && approved == true" >
+                            <button style=" background-color:red; border-radius: 20px; color: white;" matTooltip="Approved">
+                              Not Approved
+                            </button>
+                            </ng-container>
+                          </ng-template>
+                      </td>
+                  </ng-container>
+          
+                <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+                <div *ngIf="dataSource.length === 0">No records found</div>
+              </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
+            </div>
+            </mat-card-content>
+          </mat-card>
+          <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading> 
+          <ng-template #customLoadingTemplate>
+              <!-- <div class="loader">
+                  <img [src]="'../assets/PTLogo.png'">
+              </div> -->
+         </ng-template>
+        
+    
+  
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+        
+  
+</div>

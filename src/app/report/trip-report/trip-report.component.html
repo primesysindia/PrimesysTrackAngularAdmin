@@ -1,0 +1,37 @@
+<ng-template [ngIf]="tripRepo">
+    <td>{{ index + 1 }}</td>
+    <td>{{ trpRepoData.srctimestamp*1000 | date : "MMM d, y h:mm:ss a" }}</td>
+    <td>{{ trpRepoData.src_adress }}</td>
+    <td>{{ trpRepoData.desttimestamp*1000 | date : "MMM d, y h:mm:ss a" }}</td>
+    <td>{{ trpRepoData.dest_address }}</td>
+    <td>{{ getStoppageMins() | number }}</td>
+    <td>{{ trpRepoData.avgspeed }}</td>
+    <td>{{ trpRepoData.maxspeed }}</td>
+    <td>{{ trpRepoData.totalkm | number }}</td>
+</ng-template>
+
+<ng-template [ngIf]="monitorRepo">
+    <td>{{ index + 1}}</td>
+    <td>{{ trpRepoData.gpsDeviceName }}</td>
+    <td>{{ trpRepoData.address }}</td>
+    <td>{{ trpRepoData.time*1000 | date : "MMM d, y h:mm:ss a" }}</td>
+    <td>{{ trpRepoData.gsm_signal_strength }}</td>
+    <td>{{ trpRepoData.speed }}</td>
+    <td>{{ trpRepoData.voltage_level }}</td>
+</ng-template>
+
+
+<ng-template [ngIf]="batteryStatRepo">
+    <td>{{ index + 1}}</td>
+    <td>{{ trpRepoData.gpsDeviceName }}</td>
+    <td>{{ trpRepoData.time*1000 | date : "MMM d, y h:mm:ss a" }}</td>
+    <td>{{ trpRepoData.gsm_signal_strength }}</td>
+    <td>{{ trpRepoData.voltage_level }}</td>
+</ng-template>
+
+<ng-template [ngIf]="dateRangeExceptionRepo">
+    <ng-container *ngFor="let data of trpRepoData">
+        <td>{{ data }}</td>
+    </ng-container>
+</ng-template>
+

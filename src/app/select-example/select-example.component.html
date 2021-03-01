@@ -1,0 +1,64 @@
+<div class="sidenav_container"  [@onSideNavChange]="sideNavState ? 'open' : 'close'">
+  <div fxLayout="column" fxLayoutGap="10px" style="height: 100%;">
+<!-- 
+    <div class="user_menu">
+      <mat-nav-list>
+        <a mat-list-item>
+          <img class="jim" [src]="'../assets/admin.jpg'" width="41px" height="40px" alt="">
+          <span [@animateText]="linkText ? 'show' : 'hide'">{{ page?.name }} </span>
+        </a>
+      </mat-nav-list>
+      <mat-divider></mat-divider>
+    </div> -->
+
+    <div>
+      <mat-nav-list >
+        <a mat-list-item  [routerLink]="['/admin-dashboard']" ><mat-icon style="color: #205c69!important;">settings</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'"> Device Configuration</span>
+        </a>
+        <a mat-list-item  [routerLink]="['/beat-update']" ><mat-icon style="color: #205c69!important;">settings_cell</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'"> Keyman Details</span>
+        </a>
+        <a mat-list-item [routerLink]="['/patrolman-detail']" ><mat-icon style="color: #205c69!important;" >settings_cell</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'"> Patrolman Detail</span>
+        </a>
+        <a mat-list-item [routerLink]="['/hierarchy-module']" ><mat-icon style="color: #205c69!important;" >device_hub</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'"> hierarchy Module</span>
+        </a>
+        <a mat-list-item [routerLink]="['/issue-tracking']" ><mat-icon style="color: #205c69!important;" >gps_fixed</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'"> Issue Tracking</span>
+        </a>
+         <a mat-list-item [routerLink]="['/student-module']" ><mat-icon style="color: #205c69!important;" >settings_cell</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'"> Device Name Update</span>
+        </a> 
+        <a mat-list-item [routerLink]="['/exchange-student']" ><mat-icon style="color: #205c69!important;" >phonelink_setup</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'"> Device Exchange</span>
+        </a> 
+      
+        <a mat-list-item [routerLink]="['/server-statics']" ><mat-icon style="color: #205c69!important;" >equalizer</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'">Server Statics</span>
+        </a> 
+
+        <a mat-list-item [routerLink]="['/device-diagnose']" ><mat-icon style="color: #205c69!important;" >settings_cell</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'">Device Diagnose</span>
+        </a> 
+
+        <a *ngIf="showPayment" mat-list-item [routerLink]="['/device-payment']" ><mat-icon style="color: #205c69!important;" >payments</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'">Device Payment</span>
+        </a> 
+
+        <a *ngIf="showDeviceUnregister" mat-list-item [routerLink]="['/device-unregister']" ><mat-icon style="color: #205c69!important;" >add_to_home_screen</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'">Device Unregister & Remove</span>
+        </a>
+      </mat-nav-list>
+    </div>
+  </div>
+
+  <span class="spacer"></span>
+  <div fxLayout="row" fxLayoutAlign="end center" style="padding: 0px 10px;">
+    <button mat-icon-button (click)="onSinenavToggle()">
+      <mat-icon *ngIf="sideNavState">arrow_left</mat-icon>
+      <mat-icon *ngIf="!sideNavState">arrow_right</mat-icon>
+    </button>
+  </div>
+</div>

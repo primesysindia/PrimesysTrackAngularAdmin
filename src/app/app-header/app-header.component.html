@@ -1,0 +1,138 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" *ngIf="getLoginStatus()">
+  <div class="navbar-brand"><img [src]="'../assets/mainLogo.png'"></div>
+ 
+  <div class="collapse navbar-collapse" id="navbarsDefault" [ngClass]="{ 'show': navbarOpen }">
+      <div class="navbar-nav mr-auto">
+          <!-- <a *ngIf="showPortalTracker" class="btn" [routerLink]="['/device-track']" routerLinkActive="active">
+            <i class="material-icons">
+              gps_fixed
+            </i>
+            Track
+          </a> -->
+
+          <a class="btn" [routerLink]="['/home']" routerLinkActive="active">
+            <i class="material-icons icons">
+              person_pin_circle
+            </i>
+            
+            Tracking
+          </a>
+
+          <a class="btn" *ngIf="showHistory" [routerLink]="['/history']" routerLinkActive="active">
+            <i class="material-icons icons">
+              history
+            </i>
+           History
+          </a>
+          <a class="btn" *ngIf="showTrackHistory" [routerLink]="['/tracking-history']" routerLinkActive="active">
+            <i class="material-icons icons">
+              history
+            </i>
+            History
+          </a>
+          <a *ngIf="showReport" class="btn" [routerLink]="['/report']" routerLinkActive="active">
+            <i class="material-icons icons">
+              file_copy
+            </i>
+            Reports
+          </a>
+          <!-- Tasks Management -->
+          <div class="btn-group" ngbDropdown role="group" [hidden]="!USAUser">
+            <a class="btn" ngbDropdownToggle>
+                <i class="material-icons icons">
+                    toys
+                </i>
+              Task Management
+              </a>
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <a class="dropdown-item" [routerLink]="['/manage-employee']" routerLinkActive="active">
+                <i class="material-icons icons">
+                  group
+                </i>
+                Manage Employee
+              </a>
+              <a class="dropdown-item" [routerLink]="['/tasks']" routerLinkActive="active">
+                <i class="material-icons icons">
+                  view_week
+                </i>
+                Tasks
+              </a>
+              <a class="dropdown-item" [routerLink]="['/download-task']" routerLinkActive="active">
+                <i class="material-icons icons">
+                  cloud_download
+                </i>
+                Download Task
+              </a>
+            </div>
+          </div>
+          <!-- End Tasks Management -->
+          <div class="btn-group" ngbDropdown role="group">
+            <a class="btn" ngbDropdownToggle>
+                <i class="material-icons icons">
+                    person_pin
+                </i>
+              Profile
+              </a>
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <a class="dropdown-item" [routerLink]="['/payment']" routerLinkActive="active" [hidden]="!showPayment">
+                <i class="material-icons icons">
+                  payment
+                </i>
+                Payment Status
+              </a>
+              <a class="dropdown-item" [routerLink]="['/feedback']" routerLinkActive="active">
+                <i class="material-icons icons">
+                  feedback
+                </i>
+                Feedback
+              </a>
+              <a class="dropdown-item" [routerLink]="['']" (click)="doLogout()">
+                  <i class="material-icons icons">
+                    all_out
+                  </i>
+                Logout
+              </a>
+            </div>
+          </div>
+          <a class="btn" *ngIf="showAdmin" [routerLink]="['/admin-dashboard']" routerLinkActive="active">
+            <i class="material-icons icons">
+              supervisor_account
+            </i>
+            Admin
+          </a>
+
+          <div class="btn-group" ngbDropdown role="group">
+            <a class="btn" ngbDropdownToggle>
+                <!-- <i class="material-icons icons">
+                    person_pin
+                </i> -->
+              Utilities
+              </a>
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <a class="dropdown-item" [routerLink]="['/add-device']" routerLinkActive="active">
+                Add New Device
+              </a>
+              <a class="dropdown-item" [routerLink]="['/keymen-verification']" routerLinkActive="active">
+                Keymen Beat Verification
+              </a>
+            </div>
+          </div>
+          <!-- <a class="btn" [routerLink]="['/admin-dashboard']" routerLinkActive="active">
+            <i class="material-icons">
+              supervisor_account
+            </i>
+            Admin
+          </a> -->
+
+      </div> 
+  </div>
+  <div class="nav-header-data" [hidden]="loggedUserInfo == null">
+      Welcome {{ getCurrentUserName() }}
+  </div>
+  <div class="toggle-btn" data-target="#navbarsDefault">
+      <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+        <span class="navbar-toggler-icon"></span>
+      </button> 
+  </div>
+     
+</nav>

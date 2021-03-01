@@ -1,0 +1,169 @@
+<div class="content-section">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 10px">
+         <div class="row">
+            <mat-card-header class="col-md-6"> 
+              <mat-card-title>PAYMENT MODULE</mat-card-title>
+            </mat-card-header>
+            
+          </div>
+          <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite; ">
+              <form [formGroup]="devicePaymentForm" style="margin:auto; width: 100%;">
+                <div class="row" style="margin-top: 10px;">
+
+                <mat-form-field class="example-full-width col-md-4 col-sm-4">
+                  <input #autocompleteInput type="text" placeholder="Enter Name" aria-label="Number" matInput [formControl]="parentlist"
+                    [matAutocomplete]="auto" >
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                      <div (click)="optionClicked($event, option)">
+                      {{option.Name}}
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                  <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(option)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+              </mat-form-field>
+                  
+                <mat-form-field class="col-md-4" *ngIf="showPaymntType">
+                 <mat-label style="font-size: 14px">Select Payment Type</mat-label>
+                  <mat-select formControlName="paymentType">
+                      <mat-option *ngFor="let option of paymentData" value={{option.id}}>{{option.PaymentType}}</mat-option>
+                    </mat-select>
+                    <mat-error>This field is mandatory.</mat-error>                                               
+                </mat-form-field>
+
+                <mat-form-field class="col-md-4">
+                  <mat-label>Device Status</mat-label>
+                  <mat-select formControlName="currentStatus">
+                    <mat-option value="Active">Active</mat-option>
+                    <mat-option value="Deactive">Inactive</mat-option>
+                  </mat-select>
+                  <mat-error>This field is required.</mat-error>
+                </mat-form-field>
+                </div>
+
+                <div *ngIf="showAllFields" class="scrollbar scrollbar-primary device-list">
+                  <fieldset id="configuration" class="row">
+                    <legend>Student List</legend>
+                    <div class="col-md-12">
+                      <button (click)="checkAll()">Select All</button>&nbsp;&nbsp;
+                      <button (click)="deselectAll()">Unselect All</button>
+                    </div>
+                    <label class="col-md-1 checkbox" formArrayName="devlistsArr" *ngFor="let order of devlistsFormArr.controls; let i = index">
+                      <input type="checkbox" [formControlName]="i">
+                      {{devicessData[i]?.name | slice:-3}}
+                    </label>
+                  </fieldset>
+                </div>
+                
+                <br>
+                <div class="row ">
+                  <div class="col-md-6">
+                    <button type="submit" (click)="submit()" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action">
+                      SUBMIT
+                    </button>
+                  </div>
+                  <div class="col-md-6">
+                    <button (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                    color: white;" class="list-group-item list-group-item-action">
+                    CANCEL
+                    </button>
+                  </div>
+                </div>
+              </form>
+           
+              <div class="row">
+                <mat-form-field class="col-md-4" [hidden]="showPagination" style="margin-top: 10px; ">
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search device">
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource">
+                    <ng-container matColumnDef="Device_name">
+                        <th mat-header-cell *matHeaderCellDef>Device Name</th>
+                        <td mat-cell *matCellDef="let row"> {{row.FullName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="IMEI_No">
+                        <th mat-header-cell *matHeaderCellDef>IMEI No</th>
+                        <td mat-cell *matCellDef="let row"> {{row.DeviceID}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Device_SimNo">
+                        <th mat-header-cell *matHeaderCellDef>Device SIM No</th>
+                        <td mat-cell *matCellDef="let row"> {{row.MobileNo}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Plan_Type">
+                        <th mat-header-cell *matHeaderCellDef>Plan Type</th>
+                        <td mat-cell *matCellDef="let row"> {{row.PlanType}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="LastPaymentDate">
+                        <th mat-header-cell *matHeaderCellDef>Last Payment Date</th>
+                        <td mat-cell *matCellDef="let row"> {{row.PayRenDate}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ExpiryDate">
+                        <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                        <td mat-cell *matCellDef="let row"> {{row.ExpiryDate}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="DeviceStatus">
+                        <th mat-header-cell *matHeaderCellDef>Device Status</th>
+                        <td mat-cell *matCellDef="let row">
+                          <span *ngIf="row.DiffDate > 0;else showInactive" class="active-class">
+                              Active
+                          </span>
+                        </td>
+                        <ng-template #showInactive>
+                          <td class="inactive-class">
+                              Inactive
+                          </td>
+                      </ng-template>
+                    </ng-container>
+                    <ng-container matColumnDef="RemainingDays">
+                        <th mat-header-cell *matHeaderCellDef>Remaining Days</th>
+                        <td mat-cell *matCellDef="let row"> {{row.DiffDate}} </td>
+                    </ng-container>
+          
+                    <tr mat-header-row *matHeaderRowDef="tableHeader; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+                </table>
+                <span [hidden]="showPagination">
+                  <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+                </span>
+              </div>
+          </mat-card-content>
+          </mat-card>
+          <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+           </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+</div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+router-outlet{
+    height: 85%;
+}
+#mobileView{
+    background-color: black;
+    min-height: 100%;
+    padding-top: 30%;
+}
+#mobileView img{
+    width: 40%;
+}
+#mobileView .mobile-content img{
+    width: 50%;
+}

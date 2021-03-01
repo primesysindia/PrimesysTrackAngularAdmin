@@ -1,0 +1,45 @@
+.example-card {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 5%;
+  }
+  .example-container {
+    height: auto;
+    /* width: 660px; */
+    overflow: auto;
+  }
+
+  table {
+    max-width: 100%;
+    /* max-width: 1024px; */
+    /* overflow: auto; */
+  }
+  th.mat-column-beforeDeviceId1, th.mat-column-beforeDeviceId2, th.mat-column-afterDeviceId1, th.mat-column-afterDeviceId2,
+  th.mat-column-beforDeviceSimNo1, th.mat-column-beforDeviceSimNo2, th.mat-column-afterDeviceSimNo1, 
+  th.mat-column-afterDeviceSimNo2{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 10%;
+    text-align: center;
+  }
+  /* 'beforeDeviceId1','beforeDeviceId2','afterDeviceId1','afterDeviceId2',
+  'beforDeviceSimNo1','beforDeviceSimNo2', 'afterDeviceSimNo1','afterDeviceSimNo2' */
+  td.mat-column-beforeDeviceId1, td.mat-column-beforeDeviceId2, td.mat-column-afterDeviceId1, td.mat-column-afterDeviceId2,
+  td.mat-column-beforDeviceSimNo1, td.mat-column-beforDeviceSimNo2, td.mat-column-afterDeviceSimNo1 , td.mat-column-afterDeviceSimNo2 
+  {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+  }
+  th.mat-header-cell:last-of-type, td.mat-cell:last-of-type {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }
+
+  th.mat-header-cell:first-of-type {
+    padding-left: 10px !important;
+}

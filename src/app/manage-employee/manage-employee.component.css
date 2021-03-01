@@ -1,0 +1,28 @@
+#manage-emp-section{
+    height: 93%;
+    position: relative;
+    padding-top: 6%;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+table {
+    width: 100%;
+}
+.mat-row:hover {
+    background-color: rgb(230, 230, 230);
+}
+th.mat-header-cell {
+    color: black;
+}
+.emp-table{
+    height: 85%;
+}
+.add-emp-btn{
+    margin-left: 70%;
+}
+.emp-detail-header{
+    text-align: center;
+}
+.edit-icon mat-icon.mat-icon.material-icons {
+    color: #265656;
+}

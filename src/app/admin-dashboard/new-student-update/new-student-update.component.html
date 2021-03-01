@@ -1,0 +1,70 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+  <h1><mat-card-title style="text-align: center;">UPDATE NEW DEVICE</mat-card-title></h1>
+    <mat-card class="example-card">
+      <mat-card-content>
+        <form class="example-form" [formGroup]="updateNewStudent">
+          <div class="row">
+            <!-- <mat-form-field class="col-md-6 col-sm-6">
+              <mat-label>Select Device</mat-label>
+              <mat-select formControlName="studentId">
+                <mat-option *ngFor="let devLists of devList" value={{devLists.student_id}}>
+                  <div (click)="onSelection($event, devLists)">
+                    {{devLists.name}}, {{devLists.imei_no}}
+                  </div>
+                  </mat-option>
+              </mat-select>
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field class="col-md-6 col-sm-6">
+              <mat-label>Select Device</mat-label>
+              <mat-select formControlName="studentId" placeholder="Select Device" #singleSelect>
+                <mat-option>
+                  <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                  <div (click)="onSelection($event, devices)">
+                    {{devices.name}}, {{devices.imei_no}}
+                  </div>
+                </mat-option>
+              </mat-select>
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-6">
+              <mat-label>Name</mat-label>
+              <input type="text" matInput placeholder="Name" name="name" formControlName="name">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>IMEI No</mat-label>
+              <input type="text" formControlName="imei_no" matInput placeholder="IMEI No" name="imei_no">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div> -->
+
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>IMEI No</mat-label>
+              <input type="number" formControlName="imei_no" matInput placeholder="IMEI No" name="imei_no">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+              <mat-label>SIM Card No</mat-label>
+              <input type="number" matInput placeholder="SIM card No" name="simNo" formControlName="simNo">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <button style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button (click)="updateStudent()">Update</button> &nbsp;&nbsp;
+            <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="resetForm()">Reset</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+  <!-- </div> -->
+</div>

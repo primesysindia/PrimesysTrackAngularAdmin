@@ -1,0 +1,100 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+  <h1><mat-card-title style="text-align: center;">EDIT PATROLMAN BEAT</mat-card-title></h1>
+  <mat-card class="example-card">
+    <mat-card-content>
+      <form class="example-form" [formGroup]="editBeatForm" >
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Km: Start</mat-label>
+            <input type="number" matInput placeholder="Km Start" name="kmstart" formControlName="kmStart">
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-md-6">
+            <mat-label>Km: End</mat-label>
+            <input type="number" matInput placeholder="Km End" name="kmend" formControlName="kmEnd">
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+        </div> 
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Section Name</mat-label>
+            <!-- <input type="number" matInput placeholder="Km End" name="kmend" formControlName="kmEnd"> -->
+            <mat-select formControlName="sectionName">
+              <mat-option *ngFor="let option of section" value={{option}}>{{option}}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Trip Master ID</mat-label>
+            <!-- <input type="number" matInput placeholder="Km End" name="kmend" formControlName="kmEnd"> -->
+            <mat-select formControlName="fk_TripMasterId">
+              <mat-option *ngFor="let option of tripData" [value]="option.fk_TripMasterId">{{option.tripName}}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Season Name</mat-label>
+            <mat-select formControlName="seasonId">
+              <mat-option [value]="1">Summer</mat-option>
+              <mat-option [value]="2">Rainy</mat-option>
+              <mat-option [value]="3">Winter</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Start Time-1</mat-label>
+            <input type="text" matInput placeholder="Enter Start Time-1" name="startTime" formControlName="startTime">
+            <mat-error *ngIf="hasErrorInSetPeriod('startTime', 'required')">This field is required.</mat-error>
+            <mat-error *ngIf="hasErrorInSetPeriod('startTime', 'pattern')">
+              Enter Valid Time; e.g: 01:00,22:00(24-hour format)
+            </mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="col-md-6">
+            <mat-label>End Time-1</mat-label>
+            <input type="text" matInput placeholder="Enter End Time-1" name="endTime" formControlName="endTime">
+            <mat-error *ngIf="hasErrorInSetPeriod('endTime', 'required')">This field is required.</mat-error>
+            <mat-error *ngIf="hasErrorInSetPeriod('endTime', 'pattern')">
+              Enter Valid Time; e.g: 01:00,22:00(24-hour format)
+            </mat-error>
+          </mat-form-field>
+        </div>
+        
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Enter Start Time-2</mat-label>
+            <input type="text" matInput placeholder="Enter Start Time-2" name="startTime2" formControlName="startTime2">
+            <mat-error>
+              Enter Valid Time; e.g: 01:00,22:00(24-hour format)
+            </mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="col-md-6">
+            <mat-label>Enter End Time-2</mat-label>
+            <input type="text" matInput placeholder="Enter End Time-2" name="endTime2" formControlName="endTime2">
+            <mat-error>
+              Enter Valid Time; e.g: 01:00,22:00(24-hour format)
+            </mat-error>
+          </mat-form-field>
+        </div>
+       
+        <mat-error>
+          **Keep a gap of 30 minutes before the start time and after the end time
+        </mat-error>
+        <br>
+        <div>
+          <button style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button (click)="updateBeat()">Update</button> &nbsp;&nbsp;
+          <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="reset()">Reset</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>

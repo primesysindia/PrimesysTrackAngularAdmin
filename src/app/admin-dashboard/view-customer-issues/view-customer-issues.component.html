@@ -1,0 +1,78 @@
+<div class="row">
+  <mat-card-title style="text-align: center;">VIEW DEVICE ISSUE</mat-card-title>
+  <div class="col-md-12">
+    <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12">
+        <strong>IMEI No: </strong>{{response.imeiNo}}
+      </div>
+    </div>
+    <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12">
+        <strong>SIM No: </strong>{{response.simNo}}
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12" >
+        <strong>Battery Status: </strong><span *ngIf="response.deviceBatteryTime > 0; else showZero">{{response.deviceBattery}}  {{response.deviceBatteryTime*1000 |  date : "MMM d, y  h:mm:ss a"}}</span>
+      </div>
+    </div>
+    <ng-template #showZero>
+      {{response.deviceBattery}} {{response.deviceBatteryTime}}
+    </ng-template>
+    
+    <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12">
+        <strong>Network Strength: </strong>{{response.deviceRange}}
+      </div>
+    </div>
+    <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12" >
+        <strong>Location Time:</strong><span *ngIf="response.locationTime > 0; else showZeroLocation"> {{response.locationTime*1000  |  date : "MMM d, y h:mm:ss a"}}</span>
+      </div>
+        <ng-template #showZeroLocation>
+          {{response.locationTime}}
+        </ng-template>
+    </div>
+    <!-- <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12">
+        <strong>Payment Status: </strong>{{response.PaymentStatus}}
+      </div>
+    </div> -->
+    <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12">
+        <strong>Activation Date: </strong>{{activation | date: "MMM d, y  h:mm:ss a"}}
+        <span style="color: red" *ngIf="expiredWarranty">(warranty expired)</span>
+        <span style="color: green" *ngIf="warrantyMsg">(within warranty period) </span>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12">
+        <strong>Service Expiry: </strong> {{response.ExpiryDate}} <span *ngIf="response.PaymentStatus == 'Active'; else inactive;" style="color: green">({{response.PaymentStatus}})</span>
+        <ng-template #inactive>
+        <span style="color: red">({{response.PaymentStatus}})</span>
+        </ng-template>
+      </div>
+    </div>
+    
+    <div class="row" style="margin-bottom: 3px;">
+      <div class="col-md-12 table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <th>Section</th>
+            <th>Start Beat</th>
+            <th>End Beat</th>
+          </tr>
+          <tr *ngFor="let beatList of beatInfo">
+            <td>{{beatList.sectionName}}</td>
+            <td>{{beatList.kmStart}}</td>
+            <td>{{beatList.kmEnd}}</td>
+          </tr>
+        </table>
+        
+      </div>
+    </div>
+  </div>
+ 
+</div>

@@ -1,0 +1,61 @@
+#ViewTaskSection{
+    height: 93%;
+    position: relative;
+    padding-top: 6%;
+}
+.loader {
+    z-index: 2000;
+    position: absolute;
+    color: white;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: calc(47%);
+}
+.view-task-card{
+    width: 90%;
+    margin: 0 auto;
+}
+.viewtask-card-content{
+   text-align: center;
+   margin-top: 0.8rem;
+}
+.mat-form-field {
+    margin: 0 1rem;
+}
+button.mat-button.mat-raised-button{
+    border-radius:1rem;
+    padding: 0 2rem;
+    background-color: #205c69!important;
+    color:white!important;
+}
+.task-header{
+    background-color: #d0c8c8;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+    font-size: 18px;
+}
+.task-header button{
+    float: right;
+}
+.task-header button img{
+    width: 25px;
+}
+.tasks-table{
+    width: 90%;
+    height: 60%;
+    margin: 1rem auto;
+    font-size: 14px;
+}
+.driver-info{
+    height: 50px;
+    background-color: rgb(206, 206, 206);
+    text-align: center;
+    padding-top: 0.6rem;
+    font-weight: 600;
+    font-size: 17px;
+}
+.copy-task-btn {
+    float: right;
+}

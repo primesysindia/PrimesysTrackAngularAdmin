@@ -1,0 +1,55 @@
+<mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+<mat-card-header> 
+  <mat-card-title>DEVICE EXCHANGE HISTORY</mat-card-title>
+</mat-card-header>
+<div class="example-container mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!-- Km start Column -->
+    <ng-container matColumnDef="afterDeviceId1">
+      <th mat-header-cell *matHeaderCellDef> Device1 After Exchange</th>
+      <td mat-cell *matCellDef="let row"> {{row.afterDeviceId1}} </td>
+    </ng-container>
+  
+    <!-- Km end column -->
+    <ng-container matColumnDef="afterDeviceId2">
+      <th mat-header-cell *matHeaderCellDef > Device2 After Exchange</th>
+      <td mat-cell *matCellDef="let row"> {{row.afterDeviceId2}} </td>
+  </ng-container>
+    <!-- section name column -->
+    <ng-container matColumnDef="beforeDeviceId1">
+        <th mat-header-cell *matHeaderCellDef >Device1 Before Exchange</th>
+        <td mat-cell *matCellDef="let row"> {{row.beforeDeviceId1}} </td>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="beforeDeviceId2">
+      <th mat-header-cell *matHeaderCellDef>Device2 Before Exchange</th>
+      <td mat-cell *matCellDef="let row"> {{row.beforeDeviceId2}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="afterDeviceSimNo1">
+      <th mat-header-cell *matHeaderCellDef>SIM1 After Exchange</th>
+      <td mat-cell *matCellDef="let row"> {{row.afterDeviceSimNo1}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="afterDeviceSimNo2">
+      <th mat-header-cell *matHeaderCellDef>SIM2 After Exchange </th>
+      <td mat-cell *matCellDef="let row"> {{row.afterDeviceSimNo2}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="beforDeviceSimNo1">
+      <th mat-header-cell *matHeaderCellDef>SIM1 Before Exchange</th>
+      <td mat-cell *matCellDef="let row"> {{row.beforDeviceSimNo1}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="beforDeviceSimNo2">
+      <th mat-header-cell *matHeaderCellDef>SIM2 Before Exchange</th>
+      <td mat-cell *matCellDef="let row"> {{row.beforDeviceSimNo2}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
+    <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+    <!-- <div *ngIf="dataSource.length === 0">No records found</div> -->
+</table>
+<mat-paginator [pageSizeOptions]="[ 5, 10,25, 50, 100]"></mat-paginator>
+<ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>
+</div>

@@ -1,0 +1,18 @@
+table {
+    /* margin-top: 15px; */
+    width: 100%;
+  }
+  th.mat-column-status, th.mat-column-timestamp{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 13%;
+    text-align: center;
+  }
+  td.mat-column-status, td.mat-column-timestamp
+   {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }

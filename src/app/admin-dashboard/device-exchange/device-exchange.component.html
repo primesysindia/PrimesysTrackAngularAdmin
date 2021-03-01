@@ -1,0 +1,220 @@
+<div class="content-section">
+  
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 10px">
+          <mat-card-header> 
+            <mat-card-title>DEVICE EXCHANGE</mat-card-title>
+          </mat-card-header>
+          <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite; ">
+              <div class="row" style="margin-top: 10px;">
+                <mat-form-field class="col-md-12 col-sm-12">
+                  <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+                    [matAutocomplete]="auto" [(ngModel)]="options">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                      <div (click)="optionClicked($event, option)">
+                      {{option.Name}}
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                  <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              
+              </div>
+              <div class="row">
+                <div class="col-md-12" *ngIf="showButton">
+                  <button mat-raised-button (click)="openDialog()" style="background: #09a0a0; color: white;" class="float-right">
+                    <mat-icon>add</mat-icon>Replace New Device
+                  </button>
+                </div>
+              </div>
+              <form [formGroup]="studentExchangeForm" style="margin:auto; width: 100%;">
+                <div class="row">  
+                  <div class="col-md-6 col-sm-6">
+                    <mat-form-field >
+                      <mat-label>Select Device-1</mat-label>
+                      <mat-select formControlName="device1" placeholder="Select Device-1" #singleSelect>
+                        <mat-option>
+                          <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                          {{devices.name}}, {{devices.imei_no}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error>Select device</mat-error>
+                    </mat-form-field>
+                  </div>
+    
+                  <div class="col-md-6 col-sm-6">
+                    <!-- <mat-form-field>
+                      <mat-label>Select Device-2</mat-label>
+                      <mat-select formControlName="device2" type="number">
+                        <mat-option *ngFor="let devLists of devList" value={{devLists.student_id}}>
+                            {{devLists.name}}, {{devLists.imei_no}}
+                          </mat-option>
+                      </mat-select>
+                      <mat-error>Select device</mat-error>
+                    </mat-form-field> -->
+
+                    <mat-form-field>
+                      <mat-label>Select Device-2</mat-label>
+                      <mat-select formControlName="device2" placeholder="Select Device-2" #singleSelect>
+                        <mat-option>
+                          <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                          {{devices.name}}, {{devices.imei_no}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error>Select device </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-checkbox formControlName="checked">Exchange SIM card</mat-checkbox>
+                  </div>
+                </div>
+                <br>
+                <div class="row"> 
+                  <div class="col-md-4">
+                    <button (click)="onSubmit()" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action">
+                      EXCHANGE DEVICE 
+                    </button>
+                  </div>
+                  
+                  <div class="col-md-4">
+                    <button (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                    color: white;" class="list-group-item list-group-item-action">
+                    CANCEL
+                    </button>
+                  </div>
+
+                  <div class="col-md-4">
+                    <button (click)="exchangeBeatAndName()" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action">
+                      EXCHANGE NAME & BEAT
+                    </button>
+                  </div>
+                </div>
+              </form>
+<br>
+              <!-- <div class="row">
+                <div class="col-md-12">
+                  <button mat-raised-button (click)="getTable()" style="background: #09a0a0; color: white;" class="float-right">
+                    Get Exchanged Device
+                  </button>
+                </div>
+              </div> -->
+              <br>
+              <div class="example-container mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+                  <ng-container matColumnDef="name1">
+                    <th mat-header-cell *matHeaderCellDef> Device-1 Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.name1}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="name2">
+                    <th mat-header-cell *matHeaderCellDef> Device-2 Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.name2}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="afterDeviceId1">
+                    <th mat-header-cell *matHeaderCellDef> Device1 After Exchange</th>
+                    <td mat-cell *matCellDef="let element"> {{element.afterDeviceId1}} </td>
+                  </ng-container>
+                
+                  <ng-container matColumnDef="afterDeviceId2">
+                    <th mat-header-cell *matHeaderCellDef > Device2 After Exchange</th>
+                    <td mat-cell *matCellDef="let element"> {{element.afterDeviceId2}} </td>
+                 </ng-container>
+
+                  <ng-container matColumnDef="beforeDeviceId1">
+                      <th mat-header-cell *matHeaderCellDef >Device1 Before Exchange</th>
+                      <td mat-cell *matCellDef="let element"> {{element.beforeDeviceId1}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="beforeDeviceId2">
+                    <th mat-header-cell *matHeaderCellDef>Device2 Before Exchange</th>
+                    <td mat-cell *matCellDef="let element"> {{element.beforeDeviceId2}} </td>
+                  </ng-container>
+                
+                  <ng-container matColumnDef="afterDeviceSimNo1">
+                    <th mat-header-cell *matHeaderCellDef>SIM1 After Exchange</th>
+                    <td mat-cell *matCellDef="let element"> {{element.afterDeviceSimNo1}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="beforDeviceSimNo1">
+                    <th mat-header-cell *matHeaderCellDef>SIM1 Before Exchange</th>
+                    <td mat-cell *matCellDef="let element"> {{element.beforDeviceSimNo1}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="expandedDetail">
+                  <td mat-cell *matCellDef="let element" [attr.colspan]="tableHeader.length">
+                    <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                      <div class="example-element-description">
+                        <div><strong>SIM2 Before Exchange: </strong>{{element.beforDeviceSimNo2}}</div>
+                      </div><br>
+                      <div class="example-element-description">
+                        <div><strong>SIM2 After Exchange: </strong>{{element.afterDeviceSimNo2}}</div>
+                      </div><br>
+                      <div class="example-element-description">
+                        <div><strong>Exchanged Date: </strong> {{element.createdAt | date:'medium'}}</div>
+                      </div>
+                    </div>
+                  </td>
+                  </ng-container>
+          
+                  <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
+                  <!-- <tr mat-row *matRowDef="let element; columns: tableHeader;"></tr> -->
+                  <tr mat-row *matRowDef="let element; columns: tableHeader;" class="example-element-row"
+                  [class.example-expanded-row]="expandedElement === element" 
+                  (click)="expandedElement === element? expandedElement = null : expandedElement = element">
+                </tr>
+                <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row">
+                </tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[10, 5, 25, 50, 100]"></mat-paginator>
+              </div>
+         
+              <!-- <div class="row" style="margin-bottom: 3px;">
+                <div class="col-md-12 table-responsive">
+                  <table class="table table-bordered">
+                    <tr>
+                      <th>Device-1 Info</th>
+                      <th>Device-2 Info</th>
+                     
+                    </tr>
+                    <tr *ngFor="let data of dataSource">
+                      <td>{{data.beforDeviceSimNo1}} {{data.name1}}</td>
+                      <td>{{data.beforDeviceSimNo2}} {{data.name2}}</td>
+                    </tr>
+                  </table>
+                  
+                </div>
+              </div> -->
+            </mat-card-content>
+          </mat-card>
+
+          <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>
+          <!-- <ng-template #customLoadingTemplate>
+             <div class="loader">
+                  <img [src]="'../assets/PTLogo.png'">
+              </div> 
+           </ng-template> -->
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+</div>

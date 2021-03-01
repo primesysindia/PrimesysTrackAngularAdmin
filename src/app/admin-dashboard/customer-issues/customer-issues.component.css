@@ -1,0 +1,90 @@
+.content-section{
+    height: 93%;
+    padding-top: 9%;
+  }
+  .highlight{
+    background: cadetblue /* green */
+  }
+  .example-card {
+      margin: 0 auto;
+      margin-bottom: 5%;
+  }
+  table {
+      width: 100%;
+  }
+  .mat-card-header .mat-card-title {
+    font-size: 20px;
+    text-align: center;
+  }
+  th.mat-column-issueTicketId, th.mat-column-issueTitle, th.mat-column-contactPerson, th.mat-column-contactPersonMobNo, th.mat-column-divisionName,
+th.mat-column-issueStatus, th.mat-column-priority, th.mat-column-deviceName , th.mat-column-view
+  {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 20px;
+    padding-right: 20px;
+    /* width: 15%; */
+    text-align: center;
+  }
+  td.mat-column-issueTicketId,td.mat-column-issueTitle, td.mat-column-contactPerson, td.mat-column-contactPersonMobNo, td.mat-column-divisionName,
+  td.mat-column-issueStatus, td.mat-column-priority,  td.mat-column-deviceName, td.mat-column-view
+   {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }
+
+  td.mat-cell:first-of-type {
+    padding-left: 10px !important;
+    /* padding-right: 24px;  */
+  }
+  th.mat-header-cell:last-of-type, td.mat-cell:last-of-type {
+    border-right: 1px solid #e0e0e0;
+    padding-right: 10px;
+    padding-left: 10px !important;
+    /* width:100%; */
+    text-align: center;
+  }
+
+  .row-row {
+    position: relative;
+    border-right: 1px solid black
+  }
+
+  table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    border-bottom-width: 100%;
+    border-top-width: 100%;
+  }
+  
+  /* tr.example-element-row:not(.example-expanded-row):hover {
+    background: #f5f5f5;
+  } */
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+
+  .example-element-description {
+    padding: 10px;
+  }
+
+  .example-element-detail {
+    overflow: hidden;
+    /* display: flex; */
+  }
+  
+  /* .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  } */

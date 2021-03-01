@@ -1,0 +1,287 @@
+<div class="content-section">
+<mat-card-header class="col-md-12"> 
+  <mat-card-title>DEVICE INFORMATION</mat-card-title>
+</mat-card-header>
+
+<!-- <mat-card class="example-card">
+  <mat-card-content style="background: ghostwhite; "> -->
+  
+    <mat-card class="example-card">
+      <mat-card-content style="background: rgba(0,0,0,.04); ">  
+        <form [formGroup]="addSingleDeviceForm">
+         <div class="row">
+          <div class="col-md-6"><strong> ADD SINGLE DEVICE </strong></div>
+        </div>
+        <div class="row">
+          <mat-form-field class="col-md-3">
+            <mat-label>Device Type</mat-label>
+            <mat-select required formControlName="DeviceType">
+              <mat-option *ngFor="let devType of deviceType" [value]="devType.id">
+                {{devType.type}}
+              </mat-option>
+            </mat-select>
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+          
+          <mat-form-field class="col-md-3">
+            <mat-label>Add Device For</mat-label>
+            <mat-select required formControlName="Type">
+              <mat-option *ngFor="let devType of deviceType" [value]="devType.typeDesc">
+                {{devType.typeDesc}}
+              </mat-option>
+            </mat-select>
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+            <mat-form-field class="example-full-width col-md-3 col-sm-6">
+              <mat-select placeholder="Select User" #singleSelect formControlName="parentId">
+                <mat-option>
+                  <mat-select-search [formControl]="userFilterCtrl"></mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let users of filteredUsers | async" value={{users.parentId}}>
+                  <div (click)="onSelection($event, users)">
+                    {{users.Name}}
+                  </div>
+                </mat-option>
+              </mat-select>
+          <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-3">
+            <mat-label>Device IMEI</mat-label>
+            <input type="text" matInput placeholder="DeviceID" name="activationDate" formControlName="DeviceID">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col-md-3">
+            <mat-label>First Name</mat-label>
+            <input type="text" matInput placeholder="First Name" name="firstName" formControlName="FirstName">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-3">
+            <mat-label>Last Name</mat-label>
+            <input type="text" matInput placeholder="Last Name" name="lastName" formControlName="LastName">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>   
+
+          <mat-form-field class="col-md-3">
+            <mat-label>Device SIM No.</mat-label>
+            <input type="text" matInput placeholder="Enter SIM Number" name="simNo" formControlName="DeviceSimNumber">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-3">
+            <mat-label>SIM IMEI No</mat-label>
+            <input type="text" matInput placeholder="Activation Date" name="simImeiNo" formControlName="simImeiNo"  minlength="20" maxlength="20">
+            <mat-error>This field is required.</mat-error>
+            <!-- <div *ngIf="simImeiNo.errors.minlength"> 
+              City must be at least 3 characters long.
+            </div>	
+            <div *ngIf="simImeiNo.errors.maxlength"> 
+              City can be max 8 characters long.
+            </div>	 -->
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col-md-2">
+            <mat-label>Activation Date</mat-label>
+            <!-- <input type="text" matInput placeholder="Activation Date" name="activationDate" formControlName="ActivationDate"> -->
+            <input matInput formControlName="ActivationDate" [matDatepicker]="activationPicker" placeholder="Choose date">
+            <mat-datepicker-toggle matSuffix [for]="activationPicker
+            "></mat-datepicker-toggle>
+            <mat-datepicker #activationPicker></mat-datepicker>
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-2">
+            <mat-label>Payment Date</mat-label>
+            <!-- <input type="text" matInput placeholder="Payment Date" name="paymentDate" formControlName="PaymentDate"> -->
+            <input matInput formControlName="PaymentDate" [matDatepicker]="paymentPicker" placeholder="Choose date">
+            <mat-datepicker-toggle matSuffix [for]="paymentPicker
+            "></mat-datepicker-toggle>
+            <mat-datepicker #paymentPicker></mat-datepicker>
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-2">
+            <mat-label>Plan Type</mat-label>
+            <mat-select required formControlName="PlanTypeID">
+              <mat-option *ngFor="let plan of paymentPlanList" [value]="plan.id">
+                {{plan.PlanName}}
+              </mat-option>
+            </mat-select>
+          <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-2">
+            <mat-label>Payment Mode</mat-label>
+            <mat-select required formControlName="PaymentMode">
+              <mat-option *ngFor="let payment of paymentModeList" [value]="payment.id">
+                {{payment.PaymentMode}}
+              </mat-option>
+            </mat-select>
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-2">
+            <mat-label>Trasaction ID/Credit Name</mat-label>
+            <input type="text" matInput placeholder="Transaction Id" name="transaction" formControlName="TransactionID">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-2">
+            <mat-label>Amount</mat-label>
+            <input type="number" matInput placeholder="Amount" name="amount" formControlName="PayAmount">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <mat-checkbox formControlName="isRailwayUser">Is Railway User</mat-checkbox>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <!-- <div class="col-md-4"></div> -->
+          <div class="col-md-12" style="align-items: center;justify-content: center;text-align: center;">
+            <button style="background-color: #205c69; color: white" (click)="saveSingleDevice()" mat-button mat-raised-button [disabled]="!addSingleDeviceForm.valid">SUBMIT</button> 
+          <!-- </div>
+          <div class="col-md-6"> -->&nbsp;&nbsp;
+            <button style="background-color: #E80000; color: white" mat-button mat-raised-button (click)="cancel()">CANCEL</button>
+          </div>
+        </div>
+      </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="example-card">
+      <mat-card-content style="background: rgba(0,0,0,.04);">  
+        <div class="row">
+          <div class="col-md-6"><strong> ADD MULTIPLE DEVICE </strong></div>
+          <div class="col-md-6">
+            <!-- <button style="background-color: #205c69; color: white" mat-button mat-raised-button (click)="downloadTemplate()" class="float-right">Download</button> -->
+            <a [attr.href]="excelUrl" role="button" class="float-right">
+              Download the template for bulk devices addition
+            </a>
+          </div>
+        </div>
+        <form [formGroup]="bulkDeviceAddition">
+          <div class="row">
+            <mat-form-field class="col-md-4">
+              <mat-label>Device Type</mat-label>
+              <mat-select required formControlName="DeviceType">
+                <mat-option *ngFor="let devType of deviceType" [value]="devType.id">
+                  {{devType.type}}
+                </mat-option>
+              </mat-select>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="col-md-4">
+              <mat-label>Add Device For</mat-label>
+              <mat-select required formControlName="Type">
+                <mat-option *ngFor="let devType of deviceType" [value]="devType.typeDesc">
+                  {{devType.typeDesc}}
+                </mat-option>
+              </mat-select>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+
+              <mat-form-field class="example-full-width col-md-4 col-sm-6">
+                <mat-select placeholder="Select User" #singleSelect formControlName="parentId">
+                  <mat-option>
+                    <mat-select-search [formControl]="userFilterCtrl"></mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let users of filteredUsers | async" value={{users.parentId}}>
+                    <div (click)="onSelection($event, users)">
+                      {{users.Name}}
+                    </div>
+                  </mat-option>
+                </mat-select>
+            <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field class="col-md-4">
+              <mat-label>Plan Type</mat-label>
+              <mat-select required formControlName="PlanTypeID">
+                <mat-option *ngFor="let plan of paymentPlanList" [value]="plan.id">
+                  {{plan.PlanName}}
+                </mat-option>
+              </mat-select>
+            <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4">
+              <mat-label>Payment Mode</mat-label>
+              <mat-select required formControlName="PaymentMode">
+                <mat-option *ngFor="let payment of paymentModeList" [value]="payment.id">
+                  {{payment.PaymentMode}}
+                </mat-option>
+              </mat-select>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4">
+              <mat-label>Transaction ID</mat-label>
+              <input type="text" matInput placeholder="First Name" name="firstName" formControlName="TransactionID">
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+        
+          <div class="row">
+            <mat-form-field class="col-md-4">
+              <mat-label>Activation Date</mat-label>
+              <input matInput formControlName="ActivationDate" [matDatepicker]="activationDatePicker" placeholder="Choose date">
+              <mat-datepicker-toggle matSuffix [for]="activationDatePicker
+              "></mat-datepicker-toggle>
+              <mat-datepicker #activationDatePicker></mat-datepicker>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4">
+              <mat-label>Payment Date</mat-label>
+              <input matInput formControlName="PaymentDate" [matDatepicker]="paymentDatePicker" placeholder="Choose date">
+              <mat-datepicker-toggle matSuffix [for]="paymentDatePicker
+              "></mat-datepicker-toggle>
+              <mat-datepicker #paymentDatePicker></mat-datepicker>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-4">
+              <mat-label>Amount</mat-label>
+              <input type="number" matInput placeholder="Amount" name="amount" formControlName="PayAmount">
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+        
+          <div class="row">
+            <!-- <div class="col-md-2">
+              <mat-checkbox formControlName="isRailwayUser">Is Railway User</mat-checkbox>
+            </div> -->
+            <div class="col-md-12" style="align-items: center;justify-content: center;text-align: center;">   
+              <mat-label>Choose file to upload: &nbsp;&nbsp;</mat-label>     
+              <input type="file" (change)="addfile($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" formControlName="file">        
+            </div> 
+          </div> 
+
+          <div class="row" style="margin-top: 20px; margin-bottom:30px;">
+              <div class="col-md-12" style="align-items: center;justify-content: center;text-align: center;">
+                <button style="background-color: #205c69; color: white" (click)="saveMultipleDevice()" mat-button mat-raised-button [disabled]="!bulkDeviceAddition.valid">SUBMIT</button> 
+                &nbsp;&nbsp;
+                <button style="background-color: #E80000; color: white" mat-button mat-raised-button (click)="reset()">CANCEL</button>
+              </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+<!-- </mat-card-content>
+</mat-card> -->
+
+</div>

@@ -1,0 +1,37 @@
+<form [formGroup]="updateTaskForm" (ngSubmit)="updateTask(updateTaskForm)">
+  <h1 mat-dialog-title>Update Task</h1>
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-select formControlName="deviceName" placeholder="Select Vehicle" required>
+        <mat-option *ngFor="let dev of deviceList" [value]="dev">{{dev.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="f.deviceName.hasError('required')">Please Select Vehicle Name</mat-error>
+    </mat-form-field><br/>
+    <mat-form-field>
+      <input matInput [owlDateTimeTrigger]="stDt" formControlName="startTime" [min]="minDate" [owlDateTime]="stDt" placeholder="Select start Date & Time">
+      <owl-date-time [hour12Timer]="'true'" #stDt></owl-date-time>
+      <mat-error *ngIf="f.startTime.hasError('required')">Start Date & Time required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="startAddress" placeholder="Select Start Address" required>
+        <mat-option *ngFor="let stAdrs of startAdress" [value]="stAdrs">{{stAdrs}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="f.startAddress.hasError('required')">Please Select Start Address</mat-error>
+    </mat-form-field><br/>
+    <mat-form-field>
+      <input matInput [owlDateTimeTrigger]="edDt" formControlName="endTime" [min]="minDate" [owlDateTime]="edDt" placeholder="Select End Date & Time">
+      <owl-date-time [hour12Timer]="'true'" #edDt></owl-date-time>
+      <mat-error *ngIf="f.endTime.hasError('required')">End Date & Time required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="endAddress" placeholder="Select End Address" required>
+        <mat-option *ngFor="let edAdrs of endAdress" [value]="edAdrs">{{edAdrs}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="f.endAddress.hasError('required')">Please Select End Address</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button type="submit">Update</button>
+    <button mat-button type="button" mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</form>

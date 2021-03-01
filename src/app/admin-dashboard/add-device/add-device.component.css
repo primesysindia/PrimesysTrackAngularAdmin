@@ -1,0 +1,55 @@
+.content-section{
+    height: 93%;
+    padding-top: 7%;
+}
+
+.mat-card-header .mat-card-title {
+    font-size: 20px;
+    text-align: center;
+}
+.example-card {
+    margin: 0 auto;
+    margin-bottom: 2%;
+}
+@media screen and (max-width: 1260px) {
+    .content-section{
+        height: 93%;
+        padding-top: 9%;
+    }
+}
+@media screen and (max-width: 768px) {
+    .content-section{
+        height: 93%;
+        padding-top: 11%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .content-section{
+        height: 93%;
+        padding-top: 22%;
+    }
+}
+@media screen and (max-width: 1150px) {
+    .content-section{
+        height: 93%;
+        padding-top: 8%;
+    }
+}
+@media screen and (max-width: 1050px) {
+    .content-section{
+        height: 93%;
+        padding-top: 10%;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .content-section{
+        height: 93%;
+        padding-top: 10%;
+    }
+}
+button.mat-button.mat-raised-button[disabled]{
+    background-color: #696969 !important;
+    color: whitesmoke !important;
+}

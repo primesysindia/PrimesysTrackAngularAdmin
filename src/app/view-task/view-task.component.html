@@ -1,0 +1,65 @@
+<div id="ViewTaskSection">
+  <mat-card class="view-task-card">
+    <mat-card-header>
+      <div class="task-header">
+        <span>View Tasks</span>
+        <button mat-button color="primary"><img src="../../assets/images/map.svg">Add New Address</button>
+        <button mat-button color="primary" [routerLink]="['/add-task']"><i class="material-icons">add</i>Add New Task</button>
+      </div>
+    </mat-card-header>
+    <form [formGroup]="viewTaskForm" (ngSubmit)="viewTask()">
+      <mat-card-content class="viewtask-card-content">
+        <mat-form-field>
+          <mat-select formControlName="empName" placeholder="Select Driver Name" required>
+            <mat-option *ngFor="let emp of empDetails" [value]="emp">{{emp.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.empName.hasError('required')">Please Select Driver Name</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [min]="minDate" formControlName="startDate" [matDatepicker]="startPicker" placeholder="Choose start date">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+          <mat-error *ngIf="f.startDate.hasError('required') && f.startDate.touched">
+            Please choose start date</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [min]="minDate" formControlName="endDate" [matDatepicker]="endPicker" placeholder="Choose end date">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+          <mat-error *ngIf="f.endDate.hasError('required') && f.endDate.touched">
+            Please choose end date</mat-error>
+        </mat-form-field>
+        <button mat-button mat-raised-button>View Task</button>
+      </mat-card-content>
+    </form>
+  </mat-card>
+  <div class="tasks-table table-responsive">
+      <div class="driver-info" [hidden]="!taskData">
+        <span style="color:#240ab5;">{{driverName}}</span>&nbsp;Mobile No. {{driverContact}}
+        <div class="copy-task-btn">
+            <button mat-button color="primary" (click)="copyTasks()"><i class="material-icons">file_copy</i>Copy Tasks</button>
+        </div>
+      </div>
+      <table class="table table-bordered table-hover">
+        <tr>
+          <th *ngFor="let thead of tableHead">{{thead}}</th>
+        </tr>
+        <tr *ngFor="let task of taskData; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{task.deviceName}}</td>
+          <td>{{task.stTime*1000 | date : "MM/dd/yyyy, h:mm a"}}</td>
+          <td>{{task.stAdrs}}</td>
+          <td>{{task.edTime*1000 | date : "MM/dd/yyyy, h:mm a"}}</td>
+          <td>{{task.edAdrs}}</td>
+          <td><mat-icon (click)="updateTask(i)">edit</mat-icon></td>
+          <td><mat-icon (click)="deleteTask(i)">delete</mat-icon></td>
+        </tr>
+      </table>
+  </div>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+  <ng-template #customLoadingTemplate>
+      <div class="loader">
+          <img [src]="'../assets/PTLogo.png'">
+      </div>
+  </ng-template>
+</div>

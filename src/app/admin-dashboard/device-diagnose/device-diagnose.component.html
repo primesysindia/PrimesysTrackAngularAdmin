@@ -1,0 +1,96 @@
+<div class="content-section">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 10px">
+         <div class="row">
+            <mat-card-header class="col-md-6"> 
+              <mat-card-title>DEVICE DIAGNOSIS</mat-card-title>
+            </mat-card-header>
+          </div>
+          <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite; ">
+              <form [formGroup]="devDiagnoseForm" style="margin:auto; width: 100%;" (ngSubmit)="submit(devDiagnoseForm.value)">
+                <div class="row" style="margin-top: 10px;">
+                  <mat-form-field class="col-md-6 col-sm-6">
+                    <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+                      [matAutocomplete]="auto" [(ngModel)]="options">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                        <div (click)="optionClicked($event, option)">
+                        {{option.Name}}
+                        </div>
+                      </mat-option>
+                    </mat-autocomplete>
+                    <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width col-md-6 col-sm-6">
+                  <mat-select placeholder="Select Student" #singleSelect>
+                    <mat-option>
+                      <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                    </mat-option>
+                
+                    <mat-option (onSelectionChange)="onSelection($event, devices)" *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                      {{devices.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                </div>
+
+                <div class="row">
+                  <mat-form-field class="col-md-6 col-sm-6">
+                    <mat-label>Command</mat-label>
+                    <input type="text" matInput placeholder="Enter Command" name="inputCommand" formControlName="inputCommand">
+                    <mat-error>This field is mandatory.</mat-error>
+                  </mat-form-field>
+               
+                  <div class="col-md-6">
+                    <table *ngIf="showTable" class="responsive" style=" border: 1px solid #dee2e6; width: 100%">
+                      <th style="text-align: center; border: 1px solid #dee2e6; padding: 5px;"> Command Status</th>
+                      <th style="text-align: center; border: 1px solid #dee2e6; padding: 5px;">Device Response</th>
+                      <tr>
+                        <td style="border: 1px solid #dee2e6; padding: 5px;">{{this.cmdSuccessMsg}}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 5px;">{{this.deviceResponseMsg}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <br>
+                <div class="row ">
+                  <div class="col-md-6">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action">
+                      SUBMIT
+                    </button>
+                  </div>
+                  <div class="col-md-6">
+                    <button (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                    color: white;" class="list-group-item list-group-item-action">
+                    CANCEL
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <br>
+              <div *ngFor="let myArr of respMsg">
+                <strong> Device/Server Response:</strong> {{myArr.msg}}
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+          <ng-template #customLoadingTemplate>
+              <!-- <div class="loader">
+                  <img [src]="'../assets/PTLogo.png'">
+              </div> -->
+          </ng-template>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,46 @@
+<div class="content-section">
+  <mat-card class="report-card">
+    <mat-card-header>
+      <mat-toolbar>
+        <mat-card-title style="font-size:17px">Generate Reports</mat-card-title>
+      </mat-toolbar>
+    </mat-card-header>
+    <form [formGroup]="reportForm" (ngSubmit)="onConfirm()">
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-3 col-sm-3"></div>
+          <mat-form-field class="col-md-3 col-sm-3">
+            <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+              [matAutocomplete]="auto" [(ngModel)]="options">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                <div (click)="optionClicked($event, option)">
+                {{option.Name}}
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+            <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-3 col-sm-3">
+            <mat-select  formControlName="reportType" panelClass="repo-list" placeholder="Select Report Type" (selectionChange)="reportRequirement()" required>
+              <mat-option [value]="Keymen">Keymen Exception Report</mat-option>
+              <mat-option [value]="Patrolmen">Patrolmen Exception Report</mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="f.reportType.hasError('required')">Please Choose Report Type</mat-error> -->
+          </mat-form-field>
+          <div class="col-md-3 col-sm-3"></div>
+        </div>
+
+        
+        <div class="row" style="text-align: center; padding-bottom: 20px;">
+          <div class="col-md-12 col-sm-12">
+            <button class="submit-btn" mat-button mat-raised-button style="background-color: #205c69!important;color:white!important;">Generate Report</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </form>
+  </mat-card>
+</div>

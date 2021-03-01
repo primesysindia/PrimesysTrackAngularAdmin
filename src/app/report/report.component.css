@@ -1,0 +1,242 @@
+.content-section{
+    height: 93%;
+    padding-top: 5%;
+}
+
+.report-card{
+    width: 95%;
+    margin: 0 auto;
+    padding: 10px 10px 0px;
+}
+.mat-card-content{
+    margin-bottom: 0;
+}
+.report-card-content{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hide-card{
+    cursor: pointer;
+    text-align: center;
+}
+.show-card{
+    cursor: pointer;
+    text-align: center;
+}
+
+kendo-pdf-export{
+    font-family: "DejaVu Sans", "Arial", sans-serif;
+    font-size: 12px;
+    display: none;
+}
+mat-toolbar{
+    height: 40px;
+    border-radius: 21px;
+    padding-top: 15px;
+    margin: 0 auto;
+    width:30%;
+    background-color: #bbb6b6;
+}
+.submit-btn{
+    text-align: center;
+}
+.show-msg{
+    color: rgb(32, 8, 245);
+    font-size: 13px;
+    text-align: center;
+    font-weight: 500;
+}
+button.mat-button.mat-raised-button{
+    border-radius:1rem;
+    padding: 0 2rem;
+    background-color: #205c69!important;
+    color:white!important;
+}
+button.mat-button.mat-raised-button[disabled]{
+    border-radius:1rem;
+    padding: 0 2rem;
+    background-color: #e6e8e9!important;
+    color:rgb(90, 88, 88)!important;
+}
+mat-form-field{
+    padding-right: 15px; 
+    color: black;
+}
+.show-div{
+    display: inline-block;
+}
+.generated-date{
+    font-size: 12px;
+    margin-left: 0.5rem;
+    color: black;
+    font-weight: 500;
+}
+mat-card-title{
+    padding-left: 40%;
+}
+mat-card-header{
+    margin-bottom: 10px;
+}
+.mat-select-placeholder{
+    font-size: 20px;
+}
+.table-responsive{
+    height: 70%;
+    width: 95%;
+    margin: 0 auto;
+}
+.table-responsive th{
+    position: sticky;
+    top:0;
+}
+.status-report{
+    height: 52%;
+    width: 95%;
+    margin: 0 auto;
+}
+.table{
+    font-size: 14px;
+}
+.table-div{
+    height: 50%;
+}
+th{
+    background-color: #cdd3d8;
+}
+.table-caption{
+    background-color: #cdd3d8;
+    position: relative;
+}
+.table-header{
+    background-color: #cdd3d8;
+    text-align: center;
+    position: relative;
+    padding: 0.3% 0;
+}
+.col-md-10{
+    text-align: center;
+}
+.col-md-2{
+    text-align: center;
+}
+.col-md-2 mat-form-field{
+    width: 150px;
+}
+.search-bar{
+    margin-left: 8%;
+}
+.tableTitle{
+    font-size: 17px;
+    font-weight: 600;
+    color: black;
+    padding-left: 10%;
+}
+.list-group{
+    padding-left: 15px !important;
+}
+.sideInfo{
+    color: rgb(7, 20, 139);
+    font-size: 15px;
+    font-weight: 500;
+    padding-left: 1%;
+}
+.km-show{
+    text-align: end;
+    padding-right: 3%;
+    font-weight: 500;
+}
+.btn-download{
+    padding-left: 1%;
+}
+.show-arrow .material-icons{
+    font-size: 15px;
+}
+.row {
+    height: 100% !important;
+    padding: 0 1%;
+}
+.col-md-4{
+    padding: 0 0;
+    max-height: 100%;
+}
+.col-md-8{
+    padding: 0 0;
+    max-height: 100%;
+}
+.off-device-header{
+    text-align: center;
+    background-color: #c51313;
+    color: white;
+    padding: 2.8% 0% !important;
+    border-radius: 7px;
+    margin: 0 auto;
+}
+.off-status-report{
+    width: 30%;
+    height: 90%;
+    display: inline-block;
+}
+.on-device-header{
+    text-align: center;
+    background-color: forestgreen;
+    color: white;
+    padding: 1.5% 0% !important;
+    border-radius: 7px;
+    margin: 0 auto;
+}
+.on-status-report{
+    width: 70%;
+    height: 90%;
+    display: inline-block;
+}
+.loader {
+    z-index: 2000;
+    position: absolute;
+    color: white;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: calc(47%);
+}
+@media screen and (max-width:1399px){
+    .content-section{
+        padding-top: 6%;
+    }
+}
+@media screen and (max-width:1199px){
+    .content-section{
+        padding-top: 8%;
+    }
+  
+}
+@media screen and (max-width:1140px){
+    .content-section{
+        padding-top: 9%;
+    }
+}
+@media screen and (max-width:690px){
+    .content-section{
+        padding-top: 13%;
+    }
+    .report-card-content{
+        display: inherit;
+    }
+    .report-card{
+        padding: 24px 10px 0px;
+    }
+}
+@media screen and (max-width:500px){
+    .show-card{
+        margin-top: 1rem;
+    }
+}
+@media screen and (max-width:414px){
+    .content-section{
+        padding-top: 17%;
+    }
+    mat-card-title{
+        padding-left: 10%!important;
+    }
+}

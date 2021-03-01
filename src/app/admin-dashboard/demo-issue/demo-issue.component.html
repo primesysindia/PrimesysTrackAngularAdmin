@@ -1,0 +1,51 @@
+<p>
+  demo-issue works!
+</p>
+<p>
+  demo-issue works!
+</p>
+<p>
+  demo-issue works!
+</p>
+<p>
+  demo-issue works!
+</p>
+<p>
+  demo-issue works!
+</p>
+<p>
+  demo-issue works!
+</p>
+<p>
+  demo-issue works!
+</p>
+
+    <div class="row">
+      <mat-form-field class="example-full-width col-md-6 col-sm-6">
+          <input #autocompleteInput type="text" placeholder="Enter Name" aria-label="Number" matInput [formControl]="parentlist"
+            [matAutocomplete]="auto" [(ngModel)]="options">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+              <div (click)="optionClicked($event, option)">
+              {{option.Name}}
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+          <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+            <mat-icon>close</mat-icon>
+          </button>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width col-md-6 col-sm-6">
+        <mat-select placeholder="Select Student" #singleSelect>
+          <mat-option>
+            <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}} >
+            <div (click)="onSelection($event, devices)">
+              {{devices.name}}
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>

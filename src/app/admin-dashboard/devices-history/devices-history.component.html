@@ -1,0 +1,189 @@
+<div class="section-content">
+  <mat-card class="device-card" *ngIf="showDeviceList" [@slideInOut]>
+    <div class="row">
+      <mat-form-field style="width: 100%;" class="example-full-width col-md-12">
+        <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" matInput [formControl]="parentlist"
+          [matAutocomplete]="auto" [(ngModel)]="option">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+            <div (click)="optionClicked($event, option)">
+            {{option.Name}}
+            </div>
+            
+          </mat-option>
+        </mat-autocomplete>
+        <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(option)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <!-- Device select with autocomplete option -->
+    <form [formGroup]="historyForm" (ngSubmit)="getHistory()">
+        <div class="row">
+          <mat-form-field class="example-full-width col-md-12 col-sm-12">
+            <mat-select placeholder="Select Student" formControlName="deviceNm" #singleSelect>
+              <mat-option>
+                <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                <div (click)="getSelectedDevice(devices)">
+                  {{devices.name}}
+                </div>
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="(f.deviceNm.hasError('required') && historyForm.get('deviceNm').touched)">Device name required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="input-calendar">
+            <mat-label>Start Time: </mat-label>
+            <input class="date-input" [owlDateTime]="dt1" formControlName="fromTime" [min]="minDate" [max]="maxDate" [owlDateTimeTrigger]="dt1" (dateTimeChange)="setToDate()" required>
+            <owl-date-time #dt1></owl-date-time>
+            <mat-error *ngIf="f.fromTime.hasError('required')">From time required</mat-error>
+        </div>
+        <div class="input-calendar">
+            <mat-label>End Time: </mat-label>
+            <input class="date-input" [owlDateTime]="dt2" formControlName="toTime" [min]="minDate" [max]="maxDate" [owlDateTimeTrigger]="dt2" required>
+            <owl-date-time #dt2 (afterPickerClosed)="compareTwoDates()"></owl-date-time>
+            <mat-error *ngIf="f.toTime.hasError('required')">To time required</mat-error>
+            <mat-error *ngIf="dateError.isError">{{ dateError.errorMessage }}</mat-error>
+        </div>
+        <button mat-button mat-raised-button>Get History</button>
+        <div class="show-msg">{{ showMsg }}</div>
+    </form>
+  </mat-card>
+  <div class="hide-dev-list" *ngIf="showDeviceList; else forward">
+        <span><img src="assets/chevron-left.png" width="30px" height="30px" (click)="hideSeekDevList()"></span>
+    </div>
+    <div>
+        <ng-template #forward>
+            <img src="assets/chevron-right.png" width="30px" height="30px" (click)="hideSeekDevList()" class="show-dev-list">
+        </ng-template>
+    </div>
+  <mat-card class="history-info-card" [hidden]="showInfoCard">
+    <mat-card-content>
+        <strong class="dev-name">{{currDevice}}</strong>&nbsp;&nbsp;
+        <b>Speed:</b> {{ currSpeed }}&nbsp;<span *ngIf="USAUser;else IndiaUser">miles/hr,</span>
+        <ng-template #IndiaUser>Km/hr,</ng-template>&nbsp;
+        <b>Date & Time: </b>{{ currDate |  date : "MMM d, y h:mm:ss a" }}&nbsp; 
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="animation-btn-card" [hidden]="showInfoCard">
+    <mat-card-content>
+        <button mat-icon-button matTooltip="Decrease Speed">
+            <mat-icon (click)="decreaseSpeed(400)">fast_rewind</mat-icon>
+        </button>
+        <button mat-mini-fab matTooltip="Play/Pause History">
+            <ng-container
+                *ngIf="isPlaying; then pauseTemp; else playTemp">
+            </ng-container>
+            <ng-template #playTemp><mat-icon (click)="startAnimation()">play_arrow</mat-icon></ng-template>
+            <ng-template #pauseTemp><mat-icon (click)="stopAnimation()">pause</mat-icon></ng-template>
+        </button>
+        <button mat-icon-button matTooltip="Increase Speed">
+            <mat-icon (click)="increaseSpeed(400)">fast_forward</mat-icon>
+        </button>
+    </mat-card-content>
+  </mat-card>
+  <div class="chart-btn" [hidden]="showInfoCard">
+    <button mat-mini-fab matTooltip="Show Chart" (click)="initialiseChart()">
+        <mat-icon>show_chart</mat-icon>
+    </button>
+  </div>
+  <mat-card class="chart-canvas" *ngIf="showChart">
+    <canvas
+        baseChart 
+        [datasets]="chartData"
+        [labels]="chartLabel"
+        [options]="chartOptions"
+        [colors]="chartColor"
+        [legend]="chartLegend"
+        [chartType]="chartType"
+        (chartClick)="setChartPoint($event)">
+    </canvas>
+  </mat-card>
+
+  <div class="chart" [hidden]="showInfoCard">
+    <button mat-mini-fab matTooltip="Show Battery Graph" (click)="ShowBatteryInfo()">
+        <mat-icon>battery_charging_full</mat-icon>
+    </button>
+  </div>
+
+  <agm-map 
+    (mapReady)="mapReady($event)"
+    [zoom]="zoomLevel" #map>
+    <!-- start and end point marker -->
+    <agm-marker 
+        *ngFor="let item of myLocation"
+        [latitude]="item.lat"
+        [longitude]="item.lng">
+    </agm-marker>
+    <!-- History location markers -->
+    <agm-marker 
+      *ngFor="let track of markers"
+      [latitude]="track.lat"
+      [longitude]="track.lng"
+      [iconUrl] ="
+      {
+        url: track.blindAlrm == 1 ?  blindIcon: icon,
+        scaledSize: {
+            width: 10,
+            height: 10
+        }
+      }"
+      [animation]="track.animation">
+      <!-- iconUrl sets custom icon for marker -->
+      <agm-snazzy-info-window [maxWidth]="450" [closeWhenOthersOpen]="true">
+        <ng-template>
+          <b>Speed:</b> {{ track.speed }} <span *ngIf="USAUser;else IndiaUser">miles/hr,</span>
+          <ng-template #IndiaUser>Km/hr,</ng-template>&nbsp;
+          <b>Date & Time:</b> {{ track.dateTimestamp*1000 |  date : "MMM d, y h:mm:ss a" }},
+          <!-- <b>Address: </b>{{ address }} -->
+          <b *ngIf="track.blindAlrm == '1'">Blind Location Time:</b> {{ track.blindAlrmTimestamp*1000 |  date : "MMM d, y HH:mm" }}
+        </ng-template>
+      </agm-snazzy-info-window>
+
+      <!-- <agm-snazzy-info-window [maxWidth]="450" [closeWhenOthersOpen]="true" *ngIf="track.blindAlrm == 1">
+        <ng-template>
+          <b>Time:</b> {{ track.blindLocationGetTimestamp }}
+        </ng-template>
+      </agm-snazzy-info-window> -->
+    </agm-marker>
+    <agm-polyline *ngFor="let point of markers;let i = index;"  [strokeColor]="point.speed > speedChange ? 'red': 'blue'">
+        <agm-polyline-point [latitude]="point.lat" [longitude]="point.lng">
+        </agm-polyline-point>
+        <ng-container *ngIf="markers[i+1]">
+          <agm-polyline-point [latitude]="markers[i+1].lat" [longitude]="markers[i+1].lng">
+          </agm-polyline-point>
+        </ng-container>
+    </agm-polyline>
+    <!-- RDPS data shown on map -->
+    <div *ngIf="showFeatureAddress">
+        <agm-marker *ngFor="let feature of sortedFeatureAdrs"
+            [latitude]="feature.latitude"
+            [longitude]="feature.longitude"
+            [iconUrl]='{"url": "http://www.mykiddytracker.com:81"+feature.feature_image}'>
+            <!-- iconUrl sets custom icon for marker -->
+            <agm-snazzy-info-window [maxWidth]="300">
+                <ng-template>
+                <b>Section:</b> {{ feature.section }}
+                <b>Location:</b> {{ getKmLocation(feature) }} Km,
+                <b>Feature Detail:</b> {{ feature.featureDetail }}
+                <b>Block Section:</b> {{ feature.blockSection }}
+                </ng-template>
+            </agm-snazzy-info-window>
+        </agm-marker>
+    </div>
+  </agm-map>
+    <div *ngIf="RoadmapView; else satelliteView">
+        <img src="../assets/india-satellite.jpg" alt="Satellite imagery" width="38px" height="38px" (click)="setMapType()" class="map-type-btn">
+    </div>
+    <ng-template #satelliteView>
+        <img src="../assets/roadmap-india.png" alt="Roadmap imagery" width="38px" height="38px" (click)="setMapType()" class="map-type-btn">
+    </ng-template>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+    <ng-template #customLoadingTemplate>
+        <div class="loader">
+            <img [src]="'../assets/PTLogo.png'">
+        </div>
+    </ng-template>
+</div>

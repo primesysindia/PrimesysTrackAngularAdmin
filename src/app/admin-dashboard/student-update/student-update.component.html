@@ -1,0 +1,160 @@
+<div class="content-section">
+  
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 10px">
+            <mat-card-header> 
+              <!-- <div mat-card-avatar class="example-header-image"></div> -->
+              <mat-card-title>STUDENT NAME UPDATE</mat-card-title>
+            </mat-card-header>
+             <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite; ">
+              <form [formGroup]="studentForm" style="margin:auto; width: 100%;" (ngSubmit)="submit(studentForm.value)">
+                <div class="row" style="margin-top: 10px;">
+                <mat-form-field class="col-md-12 col-sm-12">
+                  <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+                    [matAutocomplete]="auto" [(ngModel)]="options">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                      <div (click)="optionClicked($event, option)">
+                      {{option.Name}}
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                  <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              
+              </div>
+                
+                <div class="row">  
+                  <div class="col-md-6 col-sm-6">
+                    <mat-form-field>
+                      <mat-label>Student Name</mat-label>
+                      <textarea type="text" matInput placeholder="Student Name" name="name" formControlName="name"></textarea>
+                      <!-- <mat-error>This field is mandatory.</mat-error> -->
+                    </mat-form-field>
+                    <small>Enter Student name like K/BGTA/4/, K/BGTA/94/(comma separated) </small>
+                  </div>
+    
+                  <div class="col-md-6 col-sm-6">
+                    <mat-form-field>
+                      <mat-label>Tracker ID</mat-label>
+                      <textarea type="text" matInput placeholder="Tracker ID" name="id" formControlName="id"></textarea>
+                      <!-- <mat-error>This field is mandatory.</mat-error> -->
+                    </mat-form-field>
+                    <small>Enter Tracker Id like -001,-002,-003(hyphen and comma mandatory.) </small>
+                  </div>
+                </div>
+                <br>
+                <div class="row"> 
+                  <div class="col-md-6">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action">
+                      SUBMIT
+                    </button>
+                  </div>
+                  <div class="col-md-6">
+                    <button (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                    color: white;" class="list-group-item list-group-item-action">
+                    CANCEL
+                    </button>
+                  </div>
+                </div>
+              </form>
+          </mat-card-content>
+             </mat-card>
+<!-- <br>
+          <mat-card-header> 
+            <mat-card-title>DEVICE EXCHANGE</mat-card-title>
+          </mat-card-header>
+          <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite; ">
+              <div class="row">
+                <div class="col-md-12" *ngIf="showButton">
+                  <button mat-raised-button (click)="openDialog()" style="background: #09a0a0; color: white;" class="float-right">
+                    <mat-icon>add</mat-icon>Update New Device
+                  </button>
+                </div>
+              </div>
+              <form [formGroup]="studentExchangeForm" style="margin:auto; width: 100%;" (ngSubmit)="onSubmit(studentExchangeForm.value)">
+                  <mat-form-field class="col-md-12 col-sm-12">
+                    <input #autocompleteInput1 type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist1" matInput [formControl]="parentlist1"
+                      [matAutocomplete]="auto" [(ngModel)]="option1">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn1">
+                      <mat-option *ngFor="let option1 of autoCompleteList1" [value]="option1" (onSelectionChange)="filterPostList1($event)">
+                        <div (click)="optionClicked1($event, option1)">
+                        {{option1.Name}}
+                        </div>
+                      </mat-option>
+                    </mat-autocomplete>
+                    <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption1(option1)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                 
+                </div> 
+                <div class="row">  
+                  <div class="col-md-6 col-sm-6">
+                    <mat-form-field>
+                      <mat-label>Select Device-1</mat-label>
+                      <mat-select formControlName="device1" type="number"> 
+                        <mat-option *ngFor="let devLists of devList" value={{devLists.student_id}}>
+                          <!-- <div (click)="onSelection($event, devLists)"> -->
+                            <!-- {{devLists.name}}, {{devLists.imei_no}} -->
+                            <!-- </div> -->
+                          <!-- </mat-option>
+                      </mat-select>
+                    <mat-error>Select device</mat-error>
+                    </mat-form-field>
+                  </div>
+    
+                  <div class="col-md-6 col-sm-6">
+                    <mat-form-field>
+                      <mat-label>Select Device-2</mat-label>
+                      <mat-select formControlName="device2" type="number">
+                        <mat-option *ngFor="let devLists of devList" value={{devLists.student_id}}>
+                          <!-- <div (click)="onSelection($event, devLists)"> -->
+                            <!-- {{devLists.name}}, {{devLists.imei_no}} -->
+                            <!-- </div> -->
+                          <!-- </mat-option>
+                      </mat-select>
+                      <mat-error>Select device</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-checkbox formControlName="checked">Exchange SIM card</mat-checkbox>
+                  </div>
+                </div>
+                <br>
+                <div class="row"> 
+                  <div class="col-md-6">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action">
+                      SUBMIT
+                    </button>
+                  </div>
+                  <div class="col-md-6">
+                    <button (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                    color: white;" class="list-group-item list-group-item-action">
+                    CANCEL
+                    </button>
+                  </div>
+                </div>
+              </form>
+          </mat-card-content>
+          </mat-card>  -->
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius:'3px'}" ></ngx-loading>
+</div>

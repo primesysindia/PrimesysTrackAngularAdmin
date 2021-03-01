@@ -1,0 +1,176 @@
+<div class="content-section">
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 20px">
+          <mat-card-header> 
+              <mat-card-title>KEYMAN BEAT MODULE</mat-card-title>
+            </mat-card-header>
+          <mat-card class="example-card">
+            <mat-card-content  style="background: ghostwhite; ">
+                  
+            <div class="row" *ngIf="showAddButton">
+              <div class="col-md-12 search-div">
+                <button mat-raised-button (click)="openDialog()" style="background: #09a0a0; color: white;" class="float-right">
+                  <mat-icon>add</mat-icon>Add Beat
+                </button>
+              </div>
+            </div>
+            
+            <div class="row">
+              <mat-form-field class="example-full-width col-md-6 col-sm-6">
+                  <input #autocompleteInput type="text" placeholder="Enter Name" aria-label="Number" matInput [formControl]="parentlist"
+                    [matAutocomplete]="auto" >
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                      <div (click)="optionClicked($event, option)">
+                      {{option.Name}}
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                  <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(option)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+              </mat-form-field>
+      
+              <!-- <mat-form-field class="col-md-6 col-sm-6">
+                <mat-label>Select Student</mat-label>
+                <mat-select>
+                  <mat-option (onSelectionChange)="onSelection($event)" *ngFor="let devLists of devList" value={{devLists.student_id}}>{{devLists.name}}</mat-option>
+                </mat-select>
+              </mat-form-field> -->
+
+              <mat-form-field class="example-full-width col-md-6 col-sm-6">
+                <mat-select placeholder="Select Student" #singleSelect>
+                  <mat-option>
+                    <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                  </mat-option>
+              
+                  <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}} (onSelectionChange)="onSelection($event, devices)" >
+                    {{devices.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            
+              <div class="row" *ngIf="showAddButton">
+                <div class="col-md-2">
+                  <button mat-raised-button (click)="sendCommand()" style="background: #09a0a0; color: white;">
+                    <mat-icon>done</mat-icon>Check Period
+                  </button>
+                </div>
+                <div class="col-md-10" *ngIf="showTable">
+                  <div class="row"><strong>Command Status: </strong> {{this.message}}</div>
+                  <div class="row"><strong>Response: </strong> {{this.secondMsg}}</div>
+                </div>
+              </div>
+            <br>
+            
+            <div class="example-container mat-elevation-z8">
+              <table mat-table [dataSource]="dataSource">
+                <!-- Km start Column -->
+                <ng-container matColumnDef="KmStart">
+                  <th mat-header-cell *matHeaderCellDef> Km Start </th>
+                  <td mat-cell *matCellDef="let row"> {{row.KmStart}} </td>
+                </ng-container>
+              
+                <!-- Km end column -->
+                <ng-container matColumnDef="KmEnd">
+                  <th mat-header-cell *matHeaderCellDef >Km End</th>
+                  <td mat-cell *matCellDef="let row"> {{row.KmEnd}} </td>
+              </ng-container>
+                <!-- section name column -->
+                <ng-container matColumnDef="SectionName">
+                    <th mat-header-cell *matHeaderCellDef >Section Name</th>
+                    <td mat-cell *matCellDef="let row"> {{row.SectionName}} </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="Start_Lat">
+                  <th mat-header-cell *matHeaderCellDef> Start Lat </th>
+                  <td mat-cell *matCellDef="let row"> {{row.Start_Lat}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="Start_Lon">
+                  <th mat-header-cell *matHeaderCellDef> Start Lang </th>
+                  <td mat-cell *matCellDef="let row"> {{row.Start_Lon}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="End_Lat">
+                  <th mat-header-cell *matHeaderCellDef> End Lat </th>
+                  <td mat-cell *matCellDef="let row"> {{row.End_Lat}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="End_Lon">
+                  <th mat-header-cell *matHeaderCellDef> End Lang </th>
+                  <td mat-cell *matCellDef="let row"> {{row.End_Lon}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                  <td mat-cell *matCellDef="let row">
+                    <button style=" background-color: #17a2b8; border-radius: 20px; color: white;" mat-icon-button matTooltip="Edit" (click)="openEditDialog(row.beatId)" ><mat-icon class="icon1">edit</mat-icon></button>
+                  </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef> Delete </th>
+                    <td mat-cell *matCellDef="let row">
+                      <button style=" background-color: #ff0000af; border-radius: 20px; color: white;" mat-icon-button matTooltip="Delete" (click)="delete(row.beatId)" ><mat-icon class="icon1">delete
+                      </mat-icon></button>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> Approve-Status </th>
+                  <td mat-cell *matCellDef="let row">
+                    <button *ngIf="row.isApprove==false && showApprove; else Approved" style=" background-color: red; border-radius: 20px;" matTooltip="Not Approved" (click)="confirmDialog(row.beatId)">
+                      <!-- <mat-icon style="color: white;">close</mat-icon> -->
+                      Not Approved
+                    </button>
+                      <ng-template #Approved>
+                        <ng-container *ngIf="row.isApprove==true && showApprove">
+                        <span style="color: darkgreen; font-weight: 500;" matTooltip="Approved">
+                          <!-- <mat-icon style="color: white;">done</mat-icon> -->
+                          Approved
+                        </span>
+                        </ng-container>
+                      </ng-template>
+                      <span *ngIf="row.isApprove == true && approved == true; else notApproved"  style="color: darkgreen; font-weight: 500;" 
+                          matTooltip="Approved" >
+                        <!-- <mat-icon style="color: white;">done</mat-icon> -->
+                        Approved
+                      </span>
+                        <ng-template #notApproved>
+                        <ng-container  *ngIf="row.isApprove == false && approved == true" >
+                        <button style=" background-color:red; border-radius: 20px; color: white;" matTooltip="Approved">
+                          <!-- <mat-icon style="color: white;">close</mat-icon> -->
+                          Not Approved
+                        </button>
+                        </ng-container>
+                      </ng-template>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+                <!-- <div *ngIf="dataSource.length === 0">No records found</div> -->
+            </table>
+            </div>
+        
+          </mat-card-content>
+          </mat-card>
+          <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+          <ng-template #customLoadingTemplate>
+              <!-- <div class="loader">
+                  <img [src]="'../assets/PTLogo.png'">
+              </div> -->
+          </ng-template>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

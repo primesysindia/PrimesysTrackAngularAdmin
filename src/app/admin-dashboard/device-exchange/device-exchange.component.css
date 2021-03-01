@@ -1,0 +1,99 @@
+.content-section{
+    height: 93%;
+    padding-top: 9%;
+  }
+  .main_content {
+    width:100%; 
+    height: calc(100vh - 130px); 
+    /* background: #efefef; */
+  }
+
+  .mat-form-field{
+    width:100%; 
+  }
+
+  .mat-card-header .mat-card-title {
+    font-size: 20px;
+    text-align: center !important;
+  } 
+  
+  .example-card {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 5%;
+  }
+  .example-container {
+    height: auto;
+    /* width: 660px; */
+    overflow: auto;
+  }
+
+  table {
+    max-width: 100%;
+    /* max-width: 1024px; */
+    /* overflow: auto; */
+  }
+  th.mat-column-beforeDeviceId1, th.mat-column-beforeDeviceId2, th.mat-column-afterDeviceId1, th.mat-column-afterDeviceId2,
+  th.mat-column-beforDeviceSimNo1, th.mat-column-beforDeviceSimNo2, th.mat-column-afterDeviceSimNo1, 
+  th.mat-column-afterDeviceSimNo2, th.mat-column-name1, th.mat-column-name2{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 10%;
+    text-align: center;
+  }
+  /* 'beforeDeviceId1','beforeDeviceId2','afterDeviceId1','afterDeviceId2',
+  'beforDeviceSimNo1','beforDeviceSimNo2', 'afterDeviceSimNo1','afterDeviceSimNo2' */
+  td.mat-column-beforeDeviceId1, td.mat-column-beforeDeviceId2, td.mat-column-afterDeviceId1, td.mat-column-afterDeviceId2,
+  td.mat-column-beforDeviceSimNo1, td.mat-column-beforDeviceSimNo2, td.mat-column-afterDeviceSimNo1 ,
+   td.mat-column-afterDeviceSimNo2 , td.mat-column-name1, td.mat-column-name2
+  {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+  }
+  th.mat-header-cell:last-of-type, td.mat-cell:last-of-type {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }
+
+  th.mat-header-cell:first-of-type {
+    padding-left: 10px !important;
+}
+tr.example-detail-row {
+  height: 0;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  border-bottom-width: 100%;
+  border-top-width: 100%;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #f5f5f5;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-description {
+ 
+  padding: 16px;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}

@@ -1,0 +1,111 @@
+.v-header{
+    height: 93%;
+    display: flex;
+    align-items: center;
+    color: aliceblue;
+}
+
+.container{
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: auto;
+    text-align: center;
+}
+
+.fullscreen-video-wrap{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.fullscreen-video-wrap video{
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.header-overlay{
+    height: 100vh;
+    width:100vw;
+    position: fixed;
+    top:0;
+    left: 0;
+    background: #1b1919ad;
+    z-index: 1;
+    opacity: 0.60;
+}
+
+.header-content{
+    z-index: 2;
+    text-align: center;
+    margin: 0 auto;
+    /* width:25%; */
+}
+
+.loader {
+    z-index: 2000;
+    position: absolute;
+    color: white;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: calc(47%);
+}
+
+.loader-msg{
+    z-index: 2000;
+    position: absolute;
+    color: rgb(178, 252, 7);
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: calc(57%);
+}
+
+.form-group-cls {
+    margin: 0 auto;
+    display: grid;
+    display: -ms-flexbox;
+}
+
+button.mat-raised-button{
+    border-radius: 17px;
+    padding: 0 3rem;
+    background-color: #205c69;
+    color: #f7f3f3;
+    font-size: 16px;
+}
+
+.error-message{
+    margin-top: 0.5rem;
+    color: #f9f8f8;
+    font-size: 16px;
+    background-color: red;
+}
+
+.material-icons{
+    padding-right: 2%;
+}
+.mat-form-field{
+    line-height: 2.25rem;
+}
+::ng-deep .header-content .mat-form-field-label{
+    color: rgb(255, 255, 255) !important;
+}
+::ng-deep .header-content .mat-focused .mat-form-field-label {
+    /*change color of label*/
+    color: rgb(255, 255, 255) !important;
+    background-color: #33d67188!important; 
+}
+.iso-info {
+    color: #fdea0d;
+    font-weight: 500;
+    height: 64px;
+    width: 100%;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

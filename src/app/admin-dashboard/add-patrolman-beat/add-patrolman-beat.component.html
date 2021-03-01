@@ -1,0 +1,128 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+  <h1 mat-dialog-title>ADD PATROLMAN BEAT</h1>
+  <mat-card class="example-card">
+    <mat-card-content>
+      <form class="example-form" [formGroup]="addBeatForm" >
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Select Section Name</mat-label>
+            <mat-select formControlName="sectionName" >
+              <mat-option *ngFor="let option of section" value={{option}}>{{option}}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Select Season</mat-label>
+            <mat-select formControlName="seasonId">
+              <mat-option value="1">Summer</mat-option>
+              <mat-option value="2">Rainy</mat-option>
+              <mat-option value="3">Winter</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Start Time-1</mat-label>
+            <input type="text" matInput placeholder="Enter Start Time-1" name="startTime" formControlName="startTime">
+            <mat-error *ngIf="hasErrorInSetPeriod('startTime', 'required')">This field is required.</mat-error>
+            <mat-error *ngIf="hasErrorInSetPeriod('startTime', 'pattern')">
+              Enter Valid Time; e.g: 01:00,22:00(24-hour format)
+            </mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="col-md-6">
+            <mat-label>End Time-1</mat-label>
+            <input type="text" matInput placeholder="Enter End Time-1" name="endTime" formControlName="endTime">
+            <mat-error *ngIf="hasErrorInSetPeriod('endTime', 'required')">This field is required.</mat-error>
+            <mat-error *ngIf="hasErrorInSetPeriod('endTime', 'pattern')">
+              Enter Valid Time; e.g: 01:00,22:00(24-hour format)
+            </mat-error>
+          </mat-form-field>
+        </div>
+        
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Enter Start Time-2</mat-label>
+            <input type="text" matInput placeholder="Enter Start Time-2" name="startTime2" formControlName="startTime2">
+            <mat-error>
+              Enter Valid Time; e.g: 01:00,22:00(24-hour format)
+            </mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="col-md-6">
+            <mat-label>Enter End Time-2</mat-label>
+            <input type="text" matInput placeholder="Enter End Time-2" name="endTime2" formControlName="endTime2">
+            <mat-error>
+              Enter Valid Time; e.g: 01:00,22:00(24-hour format)
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-error>
+          **Keep a gap of 30 minutes before the start time and after the end time
+        </mat-error>
+        <div class="row" formArrayName="tripsInfo">
+          <div class="col-md-12" *ngFor="let trip of tripFormGroup.controls; let i = index;">
+            <div [formGroupName]="i" class="row">
+          <mat-form-field class="col-md-3">
+            <mat-label>Km: Start</mat-label>
+            <input type="number" matInput placeholder="Km Start" name="kmstart" formControlName="kmStart">
+            <mat-error *ngIf="tripFormGroup.controls[i].get('kmStart').errors?.required">This field is required.</mat-error>
+            <!-- <mat-error *ngIf="tripFormGroup.controls[i].get('kmStart').errors?.pattern">check the pattern</mat-error> -->
+          </mat-form-field>
+
+          <mat-form-field class="col-md-3">
+            <mat-label>Km: End</mat-label>
+            <input type="number" matInput placeholder="Km End" name="kmend" formControlName="kmEnd">
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+
+          <!-- <mat-form-field class="col-md-3">
+            <mat-label>Trip Master ID</mat-label>
+            <mat-select formControlName="fk_TripMasterId">
+              <mat-option *ngFor="let option of tripData" value={{option.fk_TripMasterId}}>{{option.tripName}}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field> -->
+
+          <mat-form-field class="col-md-3">
+            <mat-label>Trip Master ID</mat-label>
+            <mat-select placeholder="Trip Master ID" #singleSelect formControlName="fk_TripMasterId">
+              <mat-option>
+                <mat-select-search [formControl]="tripFilterCtrl"></mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let option of filteredTripList | async" value={{option.fk_TripMasterId}} (onSelectionChange)="onSelection($event, option)">{{option.tripName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <div class="col-md-1" style="margin-right: 6px;">
+            <button style="background-color: #205c69; color: rgb(243, 241, 241)" class="btn" (click)="addTrip(i)"> 
+              <mat-icon>add</mat-icon> 
+            </button>
+          </div>
+          <div class="col-md-1">
+            <button style="background-color: #ff0000af;color: white;" class="btn btn-danger" class="btn" (click)="removeTrip(i)"> 
+              <mat-icon>close</mat-icon> 
+            </button>
+          </div>
+        </div>
+          </div>
+        </div> 
+
+       
+        <!-- <mat-form-field class="col-md-6">
+          <mat-label>total Km Cover</mat-label>
+          <input type="number" formControlName="totalKmCover" name="totalKmCover" disabled>
+        </mat-form-field> -->
+        <div>
+          <button style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button (click)="saveBeat()">Save</button> &nbsp;&nbsp;
+          <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="resetForm()">Reset</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>

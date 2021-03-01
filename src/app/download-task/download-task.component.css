@@ -1,0 +1,30 @@
+#download-task-section{
+    height: 93%;
+    position: relative;
+    padding-top: 6%;
+}
+.calender-view{
+    margin-top: 0.5rem; 
+    margin-bottom: 5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+.row.day-names{
+    background-color: #dcd60bd1;
+}
+.driver-info{
+    background-color: #b9abab59;
+    font-weight: 500;
+    font-size: large;
+    padding: 0.5rem;
+}
+.row{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.col{
+    border: 1px solid grey;
+}
+ol{
+    padding-inline-start: 5px !important;
+}

@@ -1,0 +1,320 @@
+<div class="content-section">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 10px">
+          <div class="row">
+            <div class="col-md-8">
+              <mat-card-header> 
+                <mat-card-title>ISSUE TRACKING</mat-card-title>
+              </mat-card-header>
+            </div>
+            <div class="col-md-2">
+              <a [routerLink]="['/devices-info']" mat-raised-button style="background: #09a0a0; color: white;" class="float-right">
+               All Devices Info
+              </a>
+            </div>
+            <div class="col-md-2">
+              <a [routerLink]="['/issue-history']" mat-raised-button style="background: #09a0a0; color: white;" class="float-right">
+                Issue History
+              </a>
+            </div>
+          </div>
+          <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite; ">
+              <div class="row">
+                <div class="col-md-12" *ngIf="issueButton">
+                  <!-- <button mat-raised-button (click)="openDialog()" style="background: #09a0a0; color: white;" class="float-right">
+                    <mat-icon>add</mat-icon>Add Issue
+                  </button> -->
+                  <a [routerLink]="['/add-issue']" mat-raised-button style="background: #09a0a0; color: white;" class="float-right">
+                   Add Issue
+                  </a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="row">
+                    <mat-form-field class="example-full-width col-md-6 col-sm-6">
+                        <input #autocompleteInput type="text" placeholder="Enter Name" aria-label="Number" matInput [formControl]="parentlist"
+                          [matAutocomplete]="auto" [(ngModel)]="options">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                          <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                            <div (click)="optionClicked($event, option)">
+                            {{option.Name}}
+                            </div>
+                          </mat-option>
+                        </mat-autocomplete>
+                        <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+            
+                    <!-- <mat-form-field class="col-md-6 col-sm-6">
+                      <mat-label>Select Student</mat-label>
+                      <mat-select>
+                        <mat-option *ngFor="let devLists of devList" value={{devLists.student_id}}>
+                          <div (click)="onSelection($event, devLists)">
+                            {{devLists.name}}
+                            </div>
+                          </mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+                    <mat-form-field class="example-full-width col-md-6 col-sm-6">
+                      <mat-select placeholder="Select Student" #singleSelect>
+                        <mat-option>
+                          <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                          <div (click)="onSelection($event, devices)">
+                            {{devices.name}}
+                          </div>
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+              
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12">
+                          <strong>IMEI No: </strong>{{imeiNo}}
+                        </div>
+                      </div>
+                      <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12">
+                          <strong>SIM No: </strong>{{simNo}}
+                        </div>
+                      </div>
+
+                      <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12" >
+                          <strong>Battery Status: </strong><span *ngIf="data.deviceBatteryTime > 0; else showZero">{{data.deviceBattery}}  {{data.deviceBatteryTime*1000 |  date : "MMM d, y  h:mm:ss a"}}</span>
+                        </div>
+                      </div>
+                      <ng-template #showZero>
+                        {{data.deviceBattery}} {{data.deviceBatteryTime}}
+                      </ng-template>
+                      
+                      <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12">
+                          <strong>Network Strength: </strong>{{data.deviceRange}}
+                        </div>
+                      </div>
+                      <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12" >
+                          <strong>Location Time:</strong><span *ngIf="data.locationTime > 0; else showZeroLocation"> {{data.locationTime*1000  |  date : "MMM d, y h:mm:ss a"}}</span>
+                        </div>
+                          <ng-template #showZeroLocation>
+                            {{data.locationTime}}
+                          </ng-template>
+                      </div>
+                      <!-- <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12">
+                          <strong>Payment Status: </strong>{{data.PaymentStatus}}
+                        </div>
+                      </div> -->
+                      <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12">
+                          <strong>Activation Date: </strong>{{activation | date}}
+                          <span style="color: red" *ngIf="expiredWarranty">(warranty expired)</span>
+                          <span style="color: green" *ngIf="warrantyMsg">(within warranty period) </span>
+                        </div>
+                      </div>
+
+                      <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12">
+                          <strong>Service Expiry: </strong> {{data.ExpiryDate}} <span *ngIf="data.PaymentStatus == 'Active'; else inactive;" style="color: green">({{data.PaymentStatus}})</span>
+                          <ng-template #inactive>
+                          <span style="color: red">({{data.PaymentStatus}})</span>
+                          </ng-template>
+                        </div>
+                      </div>
+                      
+                      <div class="row" style="margin-bottom: 3px;">
+                        <div class="col-md-12 table-responsive">
+                          <table class="table table-bordered">
+                            <tr>
+                              <th>Section</th>
+                              <th>Start Beat</th>
+                              <th>End Beat</th>
+                            </tr>
+                            <tr *ngFor="let beatList of beatInfo">
+                              <td>{{beatList.sectionName}}</td>
+                              <td>{{beatList.kmStart}}</td>
+                              <td>{{beatList.kmEnd}}</td>
+                            </tr>
+                          </table>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <agm-map (mapReady)="mapReady($event)" [latitude]="data.lat" [longitude]="data.lan" 
+                      [zoom]="zoomLevel" [fullscreenControl]='true'  >
+                        <agm-marker *ngFor="let data of allLocations"
+                        [latitude]="data.lat"
+                        [longitude]="data.lng"
+                        [iconUrl]="data.icon">  
+                        </agm-marker>
+                      </agm-map>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- command sending to devices -->
+                <div class="command-div col-md-4 col-sm-12">
+                  <fieldset id="configuration">
+                    <legend>Configuration Command</legend>
+                      <div class="row">
+                        <mat-form-field class="col-md-12 col-sm-12">
+                        <mat-label>Select Command</mat-label>
+                          <mat-select>
+                            <mat-option *ngFor="let command of commandData" [value]="command.command">
+                              <div (click)="onOptionClicked($event, command)">
+                                {{command.title}}
+                              </div>  
+                              </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="row" *ngIf="showCommand" style="margin-top: 15px;">
+                        <div class="col-md-12">
+                        <strong>Command Description: </strong> <span *ngIf="this.receivedValues; else staticCommand">{{this.receivedValues}}</span>
+                        <ng-template #staticCommand>
+                          <span >{{this.staticValue}}</span>
+                        </ng-template>
+                      </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <button mat-raised-button (click)="sendCommand()" style="background: #09a0a0; color: white;">SEND COMMAND</button>
+                        </div>  
+                      </div>
+                      <br>
+                      <div class="row" *ngIf="showTable">
+                        <!-- <div class="col-md-12"><strong>Device IMEI: </strong>{{this.device}}</div> -->
+                        <div class="col-md-12"><strong>Command Status: </strong>{{this.message}}</div>
+                        <div class="col-md-12"><strong>Response Message: </strong>{{this.secondMsg}}</div>
+                        <!-- <div class="col-md-12"><strong>Device ID: </strong>{{this.std_id}}</div> -->
+                        <!-- <div class="col-md-12"><strong>Device Name: </strong>{{this.name}}</div> -->
+                      </div>
+                     
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 5px;">
+                <div class="col-md-12" *ngIf="showButton">
+                  <button mat-raised-button (click)="getHistory()" style="background: #09a0a0; color: white;" class="float-right">
+                    Get Exchange History
+                  </button>
+                </div>
+              </div>
+              <div>
+              <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8"
+              style="margin-top: 15px;"> 
+                <ng-container matColumnDef="issueTicketId">
+                  <th mat-header-cell *matHeaderCellDef> Ticket Id </th>
+                  <td mat-cell *matCellDef="let element"> {{element.issueTicketId}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="issueTitle">
+                  <th mat-header-cell *matHeaderCellDef> Issue Title </th>
+                  <td mat-cell *matCellDef="let element"> {{element.issueTitle}} </td>
+                </ng-container>
+                  
+                <ng-container matColumnDef="contactPerson">
+                  <th mat-header-cell *matHeaderCellDef>Contact Person</th>
+                  <td mat-cell *matCellDef="let element"> {{element.contactPerson}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="contactPersonMobNo">
+                    <th mat-header-cell *matHeaderCellDef >Contact Number</th>
+                    <td mat-cell *matCellDef="let element"> {{element.contactPersonMobNo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="issueStatus">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <span *ngIf="element.issueStatus == 1;else close" style="color: red">Open</span>
+                    <ng-template #close>
+                      <span style="color: green" *ngIf="element.issueStatus == 2;else progress">Close</span>
+                    </ng-template>
+                    <ng-template #progress>
+                      <span style="color: orange">In Progress</span>
+                    </ng-template>
+                  </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="priority">
+                  <th mat-header-cell *matHeaderCellDef>Priority</th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <span style="color: red" *ngIf="element.priority == 1;else high">Critical</span>
+                    <ng-template #high>
+                      <span style="color: orange" *ngIf="element.priority == 2;else low">High</span>
+                    </ng-template>
+                    <ng-template #low>
+                      <span style="color: green">Low</span>
+                    </ng-template>
+                  </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="createdAt">
+                  <th mat-header-cell *matHeaderCellDef>Created At</th>
+                  <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'MMM d, y, h:mm a'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="issueOwner">
+                  <th mat-header-cell *matHeaderCellDef >Issue Logged By</th>
+                  <td mat-cell *matCellDef="let element"> {{element.issueOwner}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element">
+                  <button style=" background-color: #17a2b8; border-radius: 20px; color: white;" mat-icon-button matTooltip="Edit"(click)=" openEditDialog(element.issueId)" >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </td>
+                </ng-container>
+
+                <ng-container matColumnDef="expandedDetail">
+                  <td mat-cell *matCellDef="let element" [attr.colspan]="tableHeader.length">
+                    <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                      <div class="example-element-description">
+                        <strong>Issue Comment: </strong> {{element.issueComment}}
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="tableHeader"></tr>
+                <tr mat-row *matRowDef="let element; columns: tableHeader;" class="example-element-row"
+                  [class.example-expanded-row]="expandedElement === element" 
+                  (click)="expandedElement === element? expandedElement = null : expandedElement = element">
+                </tr>
+                <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row">
+                </tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]"></mat-paginator>
+              </div>
+            
+            </mat-card-content>
+          </mat-card>
+          <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+          <ng-template #customLoadingTemplate>
+              <!-- <div class="loader">
+                  <img [src]="'../assets/PTLogo.png'">
+              </div> -->
+          </ng-template>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,23 @@
+<div class="content-section">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content" style="background-color: #dee2e6;">
+        <div style="padding: 10px">
+          <div class="row">
+            <div class="col-md-12">
+              <a style="background-color: cadetblue; color: white;" class="btn" href="http://primesystech.com/display_stats" target="_blank">
+                <i class="material-icons">
+                  equalizer
+                </i>
+                Display Stats
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

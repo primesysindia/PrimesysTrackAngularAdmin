@@ -1,0 +1,67 @@
+.content-section{
+  height: 93%;
+  padding-top: 9%;
+}
+.main_content {
+  width:100%; 
+  height: calc(100vh - 130px); 
+  /* background: #efefef; */
+}
+
+@media screen and (max-width: 767px) {
+.content-section{
+  height: 93%;
+  padding-top: 20%;
+}
+}
+.example-card {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 5%;
+}
+.example-container {
+  height: auto;
+  /* width: 660px; */
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  /* overflow: auto; */
+}
+  th.mat-column-kmStart, th.mat-column-kmEnd, th.mat-column-sectionName, th.mat-column-kmFromTo,
+  th.mat-column-tripName, th.mat-column-deviceID,
+  th.mat-column-tripStartTime, th.mat-column-tripEndTime, th.mat-column-seasonId, 
+  th.mat-column-totalKmCover, th.mat-column-action, th.mat-column-approval, 
+  th.mat-column-delete{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* width: 15%; */
+    text-align: center;
+  }
+  td.mat-column-kmStart, td.mat-column-kmEnd, td.mat-column-sectionName, td.mat-column-kmFromTo,
+  td.mat-column-tripName, td.mat-column-deviceID,td.mat-column-approval,td.mat-column-seasonId, 
+  td.mat-column-action, td.mat-column-totalKmCover, td.mat-column-tripStartTime, td.mat-column-tripEndTime, 
+  td.mat-column-delete
+   {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }
+
+  td.mat-cell:first-of-type {
+    padding-left: 10px !important;
+    /* padding-right: 24px;  */
+  }
+  th.mat-header-cell:last-of-type, td.mat-cell:last-of-type {
+    padding-right: 10px;
+    padding-left: 10px !important;
+    text-align: center;
+  }
+  .mat-card-header .mat-card-title {
+    font-size: 20px;
+    text-align: center !important;
+}

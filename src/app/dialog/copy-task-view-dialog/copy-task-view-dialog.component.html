@@ -1,0 +1,22 @@
+<div class="driver-detail">
+  {{driverName}}
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <tr>
+      <th *ngFor="let thead of tableHead">{{thead}}</th>
+    </tr>
+    <tr *ngFor="let task of tasksDetail; let i = index">
+      <td>{{i+1}}</td>
+      <td>{{task.deviceName}}</td>
+      <td>{{task.stTime*1000 | date : "MM/dd/yyyy, h:mm a"}}</td>
+      <td>{{task.stAdrs}}</td>
+      <td>{{task.edTime*1000 | date : "MM/dd/yyyy, h:mm a"}}</td>
+      <td>{{task.edAdrs}}</td>
+    </tr>
+  </table>
+</div>
+<div class="action-btn">
+  <button mat-button color="primary" (click)="copyTask()">Copy Tasks</button>
+  <button mat-button type="button" mat-dialog-close>Cancel</button>
+</div>

@@ -1,0 +1,31 @@
+<div id="download-task-section">
+  <div class="calender-view">
+    <!-- <div class="container"> -->
+      <div *ngFor="let task of taskDetails">
+        <div class="driver-info">
+          {{task.driverName}}: 423-234-6666&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">Vehicle Name: </span> 
+          <span style="color: blue;">{{task.deviceName}}</span>
+        </div>
+        <div class="row day-names">
+          <div class="col">Mon({{weekDates[0] | date: "MM/dd"}})</div>
+          <div class="col">Tue({{weekDates[1] | date: "MM/dd"}})</div>
+          <div class="col">Wed({{weekDates[2] | date: "MM/dd"}})</div>
+          <div class="col">Thu({{weekDates[3] | date: "MM/dd"}})</div>
+          <div class="col">Fri({{weekDates[4] | date: "MM/dd"}})</div>
+          <div class="col">Sat({{weekDates[5] | date: "MM/dd"}})</div>
+          <div class="col">Sun({{weekDates[6] | date: "MM/dd"}})</div>
+        </div>
+        <div class="row">
+          <div class="col" *ngFor="let day of task.tasks">
+            <ol>
+              <div *ngFor="let work of day">
+                <span *ngIf="work=='OFF';else detail">{{work}}</span>
+                <ng-template #detail><li>{{work.stAdrs}} ({{work.stTime | date : "h:mm a"}})</li></ng-template>
+              </div>
+            </ol>
+          </div>
+        </div>
+      </div>
+   <!--  </div> -->
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<!-- <div class="content-section">
+    <mat-card class="example-card">
+      <mat-card-content>
+        <h1><mat-card-title style="text-align: center;">Server Unregister and Device Remove</mat-card-title></h1>
+         <mat-form-field style="width: 100%">
+            <input matInput formControlName="ImeiNo" placeholder="Enter IMEI No.">
+              <mat-error>Please enter imei number.</mat-error>
+          </mat-form-field>
+          <div class="row">
+            <div class="col-md-4">
+              <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+              color: white;" class="list-group-item list-group-item-action">
+                Unregister
+              </button>
+            </div>
+            <div class="col-md-4">
+              <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+              color: white;" class="list-group-item list-group-item-action">
+              CANCEL
+              </button>
+            </div>
+            <div class="col-md-4">
+              <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+              color: white;" class="list-group-item list-group-item-action">
+                Remove
+              </button>
+            </div>
+           
+          </div>
+      </mat-card-content>
+    </mat-card>
+</div> -->
+
+<div class="content-section">
+  
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <app-select-example></app-select-example>
+    </mat-sidenav>
+    <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
+      <div class="main_content">
+        <div style="padding: 10px">
+          <h1><mat-card-title style="text-align: center;">Server Unregister and Device Remove</mat-card-title></h1>
+          <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite; ">
+              <form [formGroup]="deviceForm" style="margin:auto; width: 100%;">
+              <div class="row" style="margin-top: 10px;">
+                <mat-form-field class="col-md-6 col-sm-6">
+                  <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+                    [matAutocomplete]="auto" [(ngModel)]="options">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                      <div (click)="optionClicked($event, option)">
+                      {{option.Name}}
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                  <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              
+              <!-- </div> -->
+              
+             
+                <!-- <div class="row">   -->
+                  <div class="col-md-6 col-sm-6">
+                    <mat-form-field >
+                      <mat-label>Select Device</mat-label>
+                      <mat-select formControlName="device" placeholder="Select Device-1" #singleSelect>
+                        <mat-option>
+                          <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.imeiNo}}>
+                           <div (click)="onSelection($event, devices)">
+                            {{devices.name}}, {{devices.imei_no}}
+                          </div>
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error>Select device</mat-error> -->
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                  <div class="row">
+                    <div class="col-md-4">
+                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                      color: white;" class="list-group-item list-group-item-action" (click)="deviceUnregister()">
+                        Unregister
+                      </button>
+                    </div>
+                    <div class="col-md-4">
+                      <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                      color: white;" class="list-group-item list-group-item-action">
+                      CANCEL
+                      </button>
+                    </div>
+                    <div class="col-md-4">
+                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                      color: white;" class="list-group-item list-group-item-action" (click)="deviceRemove()">
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+
+          <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+</div>

@@ -1,0 +1,18 @@
+<h1 mat-dialog-title></h1>
+<div mat-dialog-content>
+  <div class="row">
+    <i class="material-icons col-md-12">
+      {{iconName}}
+    </i> 
+  </div>
+
+   <div class="dia-content">{{message}}</div>
+   <div class="dia-content" [innerHtml]="devName">{{this.devName}}</div>
+   <div class="dia-content" [innerHtml]="safeHtml"></div>
+   <div class="dia-content" [innerHtml]="messages"></div>
+
+<div mat-dialog-actions class="dialog-btn">
+  <button mat-button (click)="onNoClick()" class="btn">Close
+  </button>
+</div>
+</div>

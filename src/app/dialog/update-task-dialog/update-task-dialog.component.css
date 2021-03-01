@@ -1,0 +1,16 @@
+.mat-dialog-title{
+    text-align: center !important;
+}
+.mat-form-field{
+    margin-left: 1rem !important;
+}
+mat-dialog-actions{
+    display: flex;
+    justify-content: center;
+}
+/* ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
+    color: #066ceb !important
+} */
+.mat-dialog-content{
+    text-align: center;
+}

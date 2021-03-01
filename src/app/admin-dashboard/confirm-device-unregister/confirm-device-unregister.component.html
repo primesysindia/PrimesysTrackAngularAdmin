@@ -1,0 +1,19 @@
+ <div mat-dialog-content>
+    <div class="row">
+    <button class="align-self-center mx-auto" style=" background-color: green; border-radius: 20px;" mat-icon-button>
+      <mat-icon style="color: white;">done</mat-icon>
+    </button>
+    </div>
+    <br>
+    <p>Are you sure you want to unregister this device?</p>
+  </div>
+  
+  <div class="row" mat-dialog-actions>
+    <div class="col-md-6" style="text-align: center;">
+      <button style=" background-color: #ff0000af;" mat-button (click)="onDismiss()"><mat-icon style="color: white;">close</mat-icon></button>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+      <button style=" background-color:#205c69;" mat-raised-button (click)="deviceUnregister()"><mat-icon style="color: white;">done</mat-icon></button>
+    </div>
+  </div>
+<ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>

@@ -1,0 +1,524 @@
+<!-- GPSON COmmand set form starts -->
+<form [formGroup]="gpsForm" *ngIf="GpsOnWithTime">
+  <div class="row" style="margin-bottom: 5px;">
+    <div class="col-md-12"><strong>Set GPSON with time</strong></div>
+  </div>
+  <div class="row">
+    <mat-form-field class="col-md-12">
+      <mat-label>Enter Time in Sec to start GPS</mat-label>
+      <input type="number" matInput placeholder="Enter Time" name="gpsOn" formControlName="gpsOn">
+      <mat-error>This field is required.</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <button type="submit" (click)="submitGPSOn()" style="text-align: center;background-color: #205c69d1!important;
+      color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+    </div>
+  
+    <div class="col-md-6">
+      <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+      color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+    </div>
+  </div>
+</form>
+  
+  <!-- set family number form starts -->
+  <form [formGroup]="setFamilyNo" *ngIf="SetFamilyNo">
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12"><strong>Set Family Number</strong></div>
+    </div>
+    <div class="row" style="width: 350px;">
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter FN-1</mat-label>
+        <input type="number" matInput placeholder="Enter Family Number-1" name="FN1" formControlName="FN1">
+        <mat-error *ngIf="hasError('FN1', 'required')">This field is mandatory.</mat-error>
+        <mat-error *ngIf="hasError('FN1', 'pattern')">
+          Please enter 10 digit mobile number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter FN-2</mat-label>
+        <input type="number" matInput placeholder="Enter Family Number-2" name="FN2" formControlName="FN2" >
+        <mat-error *ngIf="hasError('FN2', 'required')">This field is mandatory.</mat-error>
+        <mat-error *ngIf="hasError('FN2', 'pattern')">
+          Please enter 10 digit mobile number
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter FN-3</mat-label>
+        <input type="number" matInput placeholder="Enter Family Number-3" name="FN3" formControlName="FN3" >
+        <mat-error *ngIf="hasError('FN3', 'required')">This field is mandatory.</mat-error>
+        <mat-error *ngIf="hasError('FN3', 'pattern')">
+          Please enter 10 digit mobile number
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="saveFamilyNo()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- set SOS Number form starts -->
+  <form [formGroup]="setSOSNoForm" *ngIf="SetSOSNo">
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12"><strong>Set SOS Number</strong></div>
+    </div>
+    <div class="row" style="width: 350px;">
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter SOS No-1</mat-label>
+        <input type="number" matInput placeholder="Enter Family Number-1" name="SOS1" formControlName="SOS1">
+        <mat-error>This field is required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter SOS No-2</mat-label>
+        <input type="number" matInput placeholder="Enter Family Number-2" name="SOS2" formControlName="SOS2" >
+        <mat-error>This field is required</mat-error>
+      </mat-form-field>
+
+      <strong class="col-md-12" style="margin-bottom: 3px;">Select Admin Number</strong>
+      <mat-radio-group class="col-md-12" aria-label="Select Admin Number" formControlName="SOS3">
+        <mat-radio-button value="9766711066">9766711066</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="7219102436">7219102436</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="saveSOS()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>  
+  <!-- Set GMT form starts -->
+  <form [formGroup]="setGMTForm" *ngIf="setGMT">
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12"><strong>Set GMT</strong></div>
+    </div>
+    <div class="row" style="width: 350px;">
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter Hour</mat-label>
+        <input type="number" matInput placeholder="Enter Hour" name="hour" formControlName="hour">
+        <mat-error>This field is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter Minute</mat-label>
+        <input type="number" matInput placeholder="Enter Minute" name="minute" formControlName="minute">
+        <mat-error>This field is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="saveGMT()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Set lbs and gps form starts -->
+  <form [formGroup]="SetTimerForm" *ngIf="SetTimer">
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12"><strong>Set Timer</strong></div>
+    </div>
+    <div class="row">
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter LBS Time</mat-label>
+        <input type="text" matInput placeholder="Enter Time" name="lbsTimer" formControlName="lbsTimer">
+        <mat-error>This field is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter GPS Time</mat-label>
+        <input type="text" matInput placeholder="Enter Time" name="GPSTimer" formControlName="GPSTimer">
+        <mat-error>This field is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="saveLbsGpsTime()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- set HBT form starts -->
+  <form [formGroup]="SetHbtForm" *ngIf="SetHbt">
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12"><strong>Set Heart Beat Packet with time</strong></div>
+    </div>
+    <div class="row">
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter Time</mat-label>
+        <input type="text" matInput placeholder="Enter Time between 1 to 300 Minutes" name="hbt" formControlName="hbt">
+        <mat-error>This field is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="saveHbtTime()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>
+    
+  <!-- set period form starts -->
+  <form [formGroup]="setTimePeriodForm" *ngIf="SetPeriod">
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12"><strong>SET TIME PERIOD</strong></div>
+    </div>
+    <div class="row" style="width: 400px;">
+    <!-- <mat-form-field class="col-md-12">
+      <mat-label>Select Day</mat-label>
+      <mat-select formControlName="selectDay">
+        <mat-option value="0">Weekly</mat-option>
+        <mat-option value="1">Saturday</mat-option>
+        <mat-option value="2">Sunday</mat-option>
+      </mat-select>
+      <mat-error>This field in required.</mat-error>
+    </mat-form-field> -->
+    </div>
+    <div class="row" style="width: 400px;">
+      <strong class="col-md-6" style="font-size: 12px;">Set 24-hour Time Period </strong>
+    </div>
+    <div class="row" style="width: 400px;">
+      <mat-form-field class="col-md-6">
+        <mat-label>Enter Start Time-1</mat-label>
+        <input type="text" matInput placeholder="Enter Start Time-1" name="startTime1" formControlName="startTime1">
+        <mat-error *ngIf="hasErrorInSetPeriod('startTime1', 'required')">This field is required.</mat-error>
+        <mat-error *ngIf="hasErrorInSetPeriod('startTime1', 'pattern')">
+          Enter Valid Time; e.g: 01:00,22:00
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6">
+        <mat-label>Enter End Time-1</mat-label>
+        <input type="text" matInput placeholder="Enter Start End-1" name="endTime1" formControlName="endTime1">
+        <mat-error *ngIf="hasErrorInSetPeriod('endTime1', 'required')">This field is required.</mat-error>
+        <mat-error *ngIf="hasErrorInSetPeriod('endTime1', 'pattern')">
+          Enter Valid Time; e.g: 01:00,22:00
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row" style="width: 400px;">
+      <strong class="col-md-12" style="font-size: 12px;">Set Shift Timings for Patrolman(Shift exist within two days)</strong>
+    </div>
+    <div class="row" style="width: 400px;">
+      <mat-form-field class="col-md-6">
+        <mat-label>Enter Start Time-2</mat-label>
+        <input type="text" matInput placeholder="Enter Start Time-2" name="startTime2" formControlName="startTime2">
+        <mat-error>
+          Enter Valid Time; e.g: 01:00,22:00
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6">
+        <mat-label>Enter End Time-2</mat-label>
+        <input type="text" matInput placeholder="Enter End Time-2" name="endTime2" formControlName="endTime2">
+        <mat-error>
+          Enter Valid Time; e.g: 01:00,22:00.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row" style="margin-top: 4px;">
+      <div class="col-md-6">
+        <button type="submit" (click)="savePeriodTime()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>
+
+  <form [formGroup]="SetOtherCommandForm" *ngIf="OtherCommand">
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12"><strong>Set Command Manually</strong></div>
+    </div>
+    <div class="row">
+      <mat-form-field class="col-md-12">
+        <mat-label>Enter Command</mat-label>
+        <input type="text" matInput placeholder="Enter Command" name="otherCommand" formControlName="otherCommand">
+        <mat-error>This field is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="saveOtherCommand()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- power on alarm -->
+  <form [formGroup]="SetPowerOnForm" *ngIf="SetPowerOn">
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-md-12"><h5 style="text-align: center;">Power On Alarm</h5></div>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 5px;">Select ON / OFF</strong>
+
+      <mat-radio-group class="col-md-12" aria-label="Select On/Off" formControlName="on_offStatus">
+        <mat-radio-button value="ON">ON</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="OFF">OFF</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 3px;">Select 1 / 0</strong>
+      <mat-radio-group class="col-md-12" aria-label="Select 1/0" formControlName="one_zeroStatus">
+        <mat-radio-button value="1">1</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="0">0</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="savePowerOnCommand()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>  
+
+   <!-- power off alarm -->
+   <form [formGroup]="SetPowerOffForm" *ngIf="SetPowerOff">
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-md-12"><h5 style="text-align: center;">Power OFF Alarm</h5></div>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 5px;">Select ON / OFF</strong>
+
+      <mat-radio-group class="col-md-12" aria-label="Select On/Off" formControlName="on_offStatus">
+        <mat-radio-button value="ON">ON</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="OFF">OFF</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 3px;">Select 1 / 0</strong>
+      <mat-radio-group class="col-md-12" aria-label="Select 1/0" formControlName="one_zeroStatus">
+        <mat-radio-button value="1">1</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="0">0</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="savePowerOffCommand()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>  
+
+  <!-- low battery alarm -->
+  <form [formGroup]="lowBatteryForm" *ngIf="SetLowBatAlm">
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-md-12"><h5 style="text-align: center;">Low Battery ON Alarm</h5></div>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 5px;">Select ON / OFF</strong>
+
+      <mat-radio-group class="col-md-12" aria-label="Select On/Off" formControlName="on_offStatus">
+        <mat-radio-button value="ON">ON</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="OFF">OFF</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 3px;">Select 1 / 0</strong>
+      <mat-radio-group class="col-md-12" aria-label="Select 1/0" formControlName="one_zeroStatus">
+        <mat-radio-button value="1">1</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="0">0</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="saveLowBatteryOnCommand()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>  
+
+  <!-- sos on/off alarm -->
+  <form [formGroup]="sosAlarmForm" *ngIf="setSosAlarm">
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-md-12"><h5 style="text-align: center;">SOS ON/OFF Alarm</h5></div>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 5px;">Select ON / OFF</strong>
+
+      <mat-radio-group class="col-md-12" aria-label="Select On/Off" formControlName="on_offStatus">
+        <mat-radio-button value="ON">ON</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="OFF">OFF</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row" style="width: 350px;">
+      <mat-form-field class="col-md-12">
+      <mat-label>Enter 1/2/3</mat-label>
+        <input type="text" matInput placeholder="Enter number" name="one_zeroStatus" formControlName="one_zeroStatus">
+      <!-- <strong class="col-md-12" style="margin-bottom: 3px;">Select 1 / 0</strong> -->
+      <!-- <mat-radio-group class="col-md-12" aria-label="Select 1/0" formControlName="one_zeroStatus">
+        <mat-radio-button value="1">1</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="0">0</mat-radio-button>
+      </mat-radio-group> -->
+    </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="savesosAlarmCommand()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>  
+
+  <!-- change sim alarm -->
+  <form [formGroup]="simChangeAlmForm" *ngIf="setSimChangeAlm">
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-md-12"><h5 style="text-align: center;">SIM change ON/OFF Alarm</h5></div>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 5px;">Select ON / OFF</strong>
+
+      <mat-radio-group class="col-md-12" aria-label="Select On/Off" formControlName="on_offStatus">
+        <mat-radio-button value="ON">ON</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="OFF">OFF</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row" style="width: 350px;">
+      <strong class="col-md-12" style="margin-bottom: 3px;">Select 1 / 0</strong>
+      <mat-radio-group class="col-md-12" aria-label="Select 1/0" formControlName="one_zeroStatus">
+        <mat-radio-button value="1">1</mat-radio-button>&nbsp;&nbsp;
+        <mat-radio-button value="0">0</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" (click)="simChangeAlarmCommand()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>  
+
+  <form [formGroup]="setWeeklyPertiodForm" *ngIf="setWeeklyPeriod">
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12"><strong>SET TIME PERIOD</strong></div>
+    </div>
+    <div class="row" style="width: 400px;">
+    <mat-form-field class="col-md-12">
+      <mat-label>Select Day</mat-label>
+      <mat-select formControlName="selectDay">
+        <mat-option value="0">Weekly</mat-option>
+        <mat-option value="1">Saturday</mat-option>
+        <mat-option value="2">Sunday</mat-option>
+      </mat-select>
+      <mat-error>This field in required.</mat-error>
+    </mat-form-field>
+    </div>
+    <div class="row" style="width: 400px;">
+      <strong class="col-md-6" style="font-size: 12px;">Set 24-hour Time Period </strong>
+    </div>
+    <div class="row" style="width: 400px;">
+      <mat-form-field class="col-md-6">
+        <mat-label>Enter Start Time-1</mat-label>
+        <input type="text" matInput placeholder="Enter Start Time-1" name="startTime1" formControlName="startTime1">
+        <mat-error *ngIf="hasErrorInWeeklySetPeriod('startTime1', 'required')">This field is required.</mat-error>
+        <mat-error *ngIf="hasErrorInWeeklySetPeriod('startTime1', 'pattern')">
+          Enter Valid Time; e.g: 01:00,22:00
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6">
+        <mat-label>Enter End Time-1</mat-label>
+        <input type="text" matInput placeholder="Enter Start End-1" name="endTime1" formControlName="endTime1">
+        <mat-error *ngIf="hasErrorInWeeklySetPeriod('endTime1', 'required')">This field is required.</mat-error>
+        <mat-error *ngIf="hasErrorInWeeklySetPeriod('endTime1', 'pattern')">
+          Enter Valid Time; e.g: 01:00,22:00
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row" style="width: 400px;">
+      <strong class="col-md-12" style="font-size: 12px;">Set Shift Timings for Patrolman(Shift exist within two days)</strong>
+    </div>
+    <div class="row" style="width: 400px;">
+      <mat-form-field class="col-md-6">
+        <mat-label>Enter Start Time-2</mat-label>
+        <input type="text" matInput placeholder="Enter Start Time-2" name="startTime2" formControlName="startTime2">
+        <mat-error>
+          Enter Valid Time; e.g: 01:00,22:00
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6">
+        <mat-label>Enter End Time-2</mat-label>
+        <input type="text" matInput placeholder="Enter End Time-2" name="endTime2" formControlName="endTime2">
+        <mat-error>
+          Enter Valid Time; e.g: 01:00,22:00.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row" style="margin-top: 4px;">
+      <div class="col-md-6">
+        <button type="submit" (click)="saveWeeklyPeriodTime()" style="text-align: center;background-color: #205c69d1!important;
+        color: white;" class="list-group-item list-group-item-action">SUBMIT</button>
+      </div>
+    
+      <div class="col-md-6">
+        <button (click)="dialogClose()" style="text-align: center;background-color: red!important;
+        color: white;" class="list-group-item list-group-item-action">CANCEL</button>
+      </div>
+    </div>
+  </form>
+  

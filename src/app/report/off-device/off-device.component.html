@@ -1,0 +1,21 @@
+
+<div *ngIf="offDevRepo; else currStatRepo">
+    {{ offStatusData.Name }}
+</div>
+
+<ng-template #currStatRepo>
+    <mat-accordion>
+        <mat-expansion-panel [expanded]="panelOpenState" (opened)="panelOpenState = true"
+                                (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+            {{ offStatusData.Name }}
+            </mat-panel-title>
+            <mat-panel-description>
+            {{ offStatusData.time*1000 | date: "MMM d, y h:mm:ss a" }}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>{{ offStatusData.address }}</p>
+        </mat-expansion-panel>
+    </mat-accordion>
+</ng-template>

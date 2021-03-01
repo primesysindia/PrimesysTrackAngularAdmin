@@ -1,0 +1,25 @@
+.driver-detail{
+    background-color: #ecd5d5;
+    text-align: center;
+    font-weight: 500;
+    font-size: large;
+    padding: 0.5rem 0;
+}
+.action-btn{
+    text-align: center;
+}
+.action-btn button{
+    background-color: rgba(214, 214, 214, 0.71);
+    margin-left: 1rem;
+}
+.table-responsive{
+    height: 400px;
+    width: 95%;
+    margin: 0 auto;
+    font-size: 14px;
+}
+.table-responsive th{
+    position: sticky;
+    top:0;
+    background: #789898;
+}

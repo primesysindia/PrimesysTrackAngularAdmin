@@ -1,0 +1,69 @@
+.content-section{
+    /* height: 93%; */
+    padding-top: 9%;
+}
+#button1 , #button2 {
+  display:inline-block;
+  /**other codes**/
+  }
+.main_content {
+  width:100%; 
+  height: calc(100vh - 130px); 
+}
+.icon1 .icon2 {
+  display: inline !important;
+}
+ /* @media screen and (max-width: 767px) {
+  .content-section{
+    height: 93%;
+    padding-top: 20%;
+}
+  } */
+.example-card {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 5%;
+  }
+  .example-container {
+    height: auto;
+    /* width: 660px; */
+    overflow: auto;
+  }
+
+.mat-card-header .mat-card-title {
+  font-size: 20px;
+  text-align: center !important;
+}
+  
+  table {
+   width: 100%;
+    /* max-width: 1024px; */
+    /* overflow: auto; */
+  }
+  th.mat-column-KmStart, th.mat-column-delete, th.mat-column-KmEnd, th.mat-column-SectionName, th.mat-column-Start_Lat,
+  th.mat-column-End_Lat, th.mat-column-Start_Lon, th.mat-column-End_Lon, th.mat-column-Start_Lat, 
+  th.mat-column-action{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 10%;
+    text-align: center;
+  }
+  td.mat-column-KmStart, td.mat-column-delete, td.mat-column-KmEnd, td.mat-column-SectionName, td.mat-column-Start_Lat,
+  td.mat-column-End_Lat, td.mat-column-Start_Lon, td.mat-column-End_Lon, td.mat-column-Start_Lat, 
+  td.mat-column-action{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+  }
+  th.mat-header-cell:last-of-type, td.mat-cell:last-of-type {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }
+
+  th.mat-header-cell:first-of-type {
+    padding-left: 10px !important;
+}

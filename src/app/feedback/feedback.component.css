@@ -1,0 +1,61 @@
+.section-content{
+    padding-top: 3rem;
+    height: 93%;
+    width: 94%;
+    margin: 0 auto;
+}
+.feedback-card{
+    margin-top: 2%;
+    padding-bottom: 8%;
+}
+.user-img{
+    background-image: url("../../assets/ptech.png");
+    background-size: cover;
+}
+.mat-card-header{
+    padding-left: 43%;
+    background-color: #d2cccc;
+    align-items: center;
+    border-radius: 30px;
+    text-align:center;
+}
+.mat-card-title{
+    padding-top: 8px;
+    font-size: 18px;
+    margin-bottom: 13px;
+    font-weight: 500;
+    color: #02013e;
+}
+.mat-card-subtitle{
+    font-size: 12px;
+    margin-top: -21px!important;
+}
+.questionLabel{
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight:500;
+}
+.mat-radio-button {
+    padding-left: 2rem;
+}
+.feed-form{
+    height: 70vh;
+    margin-top: 1rem;
+}
+.mat-form-field{
+    width: 100%;
+}
+.submit-btn{
+    margin-left: 46%;
+}
+.mat-raised-button{
+    border-radius: 14px;
+    padding: 0 2rem;
+    background-color: #205c69!important;
+    color: aliceblue;
+}
+@media screen and (max-width:450px){
+    .mat-card-header{
+        padding-left: 22% !important;
+    }
+}

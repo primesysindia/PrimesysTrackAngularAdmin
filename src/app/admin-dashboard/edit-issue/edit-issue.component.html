@@ -1,0 +1,134 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+  <mat-card-title style="text-align: center;">EDIT ISSUE </mat-card-title>
+    <form class="example-form" [formGroup]="editIssueForm" (ngSubmit)="updateIssueForm(editIssueForm.value)">
+      <mat-card class="example-card">
+        <mat-card-content>
+      <div class="row">
+        <mat-form-field class="col-md-4 col-sm-6">
+          <mat-label>Select Issue</mat-label>
+          <input type="text" formControlName="issue" name="issue" matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field class="col-md-4 col-sm-6">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option [value]="1">Open</mat-option>
+            <mat-option [value]="2">Close</mat-option>
+            <mat-option [value]="3">In Progress</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-4 col-sm-6">
+          <mat-label>Priority</mat-label>
+          <mat-select formControlName="priority">
+            <mat-option [value]="1">Critical</mat-option>
+            <mat-option [value]="2">High</mat-option>
+            <mat-option [value]="3">Low</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-12">
+          <strong *ngIf="showDescription">STEPS TO FOLLOW : 
+          {{this.description}}</strong>
+        </div>  
+      </div>
+      <div class="row">
+        <mat-form-field class="col-md-6">
+          <mat-label>Contact Person</mat-label>
+          <input readonly type="text" matInput placeholder="Caller Name" name="caller_name" formControlName="caller_name">
+          <mat-error>This field is mandatory.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-6">
+          <mat-label>Contact Number</mat-label>
+          <input type="number" matInput placeholder="Contact Number" name="contact" formControlName="contact">
+          <mat-error>This field is mandatory.</mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div class="row">
+        <mat-form-field class="col-md-6">
+          <mat-label>Issue Description</mat-label>
+          <textarea readonly matInput placeholder="Description" name="description" formControlName="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-6">
+          <mat-label>Additional Description</mat-label>
+          <textarea matInput placeholder="Description" name="description" formControlName="a_description"></textarea>
+        </mat-form-field>
+      </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <mat-card>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-checkbox [checked]="editIssueForm.get('isDeviceOn').value=='1'? true:false"
+              (change)="editIssueForm.get('isDeviceOn').setValue($event.checked? '1':'0')">Verify Device ON/OFF Status</mat-checkbox>
+            </div>
+            <div class="col-md-6">
+              <mat-checkbox [checked]="editIssueForm.get('isDeviceButtonOn').value=='1'? true:false"
+              (change)="editIssueForm.get('isDeviceButtonOn').setValue($event.checked? '1':'0')">Check the physical ON/OFF button of device</mat-checkbox>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-checkbox [checked]="editIssueForm.get('isBatteryOn').value=='1'? true:false"
+              (change)="editIssueForm.get('isBatteryOn').setValue($event.checked? '1':'0')" >Check the Battery Status</mat-checkbox>
+            </div>
+            <div class="col-md-6">
+              <mat-checkbox [checked]="editIssueForm.get('isImeiSIMCorrect').value=='1'? true:false"
+              (change)="editIssueForm.get('isImeiSIMCorrect').setValue($event.checked? '1':'0')" >Verify the IMEI and SIM Number</mat-checkbox>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-checkbox [checked]="editIssueForm.get('isGSMOn').value=='1'? true:false"
+              (change)="editIssueForm.get('isGSMOn').setValue($event.checked? '1':'0')">Check SIM network of GSM & GPRS Internet</mat-checkbox>
+            </div>
+            <div class="col-md-6">
+              <mat-checkbox [checked]="editIssueForm.get('isGpsOn').value=='1'? true:false"
+              (change)="editIssueForm.get('isGpsOn').setValue($event.checked? '1':'0')">Check GPS ON/OFF Status</mat-checkbox>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-6">
+            <strong> Issue Logged By:</strong> {{this.issueOwner}}
+            </div>
+
+            <div class="col-md-6">
+              <strong> Issue Logged At: </strong> {{this.createdAt | date:'medium'}}
+            </div>
+          </div>
+          <br>
+          <div>
+            <button style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button>Update</button> &nbsp;&nbsp;
+            <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="resetForm()">Reset</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+    <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

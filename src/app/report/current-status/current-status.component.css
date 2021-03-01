@@ -1,0 +1,18 @@
+.off-hrs{
+    margin-left: 32%;
+    color: red;
+}
+.section-name{
+    margin-left: 0.5rem; 
+}
+.mat-expansion-panel-body{
+    padding: 0 24px 4px !important;
+}
+p{
+    margin-bottom: 0rem;
+}
+@media screen and (max-width: 600px){
+    .off-hrs{
+        margin-left: 20%;
+    }
+}

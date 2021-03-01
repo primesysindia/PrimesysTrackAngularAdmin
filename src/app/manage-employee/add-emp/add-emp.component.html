@@ -1,0 +1,54 @@
+<div id="add-emp-section">
+  <mat-toolbar>
+    Add New Employee
+  </mat-toolbar>
+  <mat-card class="add-emp-card">
+      <form [formGroup]="addEmpForm" class="add-emp-form" novalidate>
+        <mat-card-content>
+            <mat-form-field class="field-block">
+              <mat-icon matPrefix>account_circle</mat-icon>
+              <input matInput formControlName="empName">
+              <mat-placeholder>Enter Emplyee Name</mat-placeholder>
+            </mat-form-field>
+            <mat-form-field class="field-block">
+              <mat-icon matPrefix>phone</mat-icon>
+              <input type="number" matInput formControlName="mobileNo" [errorStateMatcher]="matcher" pattern="^[0-9]{10}$">
+              <mat-placeholder>Enter mobile number</mat-placeholder>
+              <mat-error *ngIf="addEmpForm.get('mobileNo').hasError('pattern')">{{errors.mobileNo}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="field-block">
+              <mat-icon matPrefix>email</mat-icon>
+              <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+              <mat-placeholder>Enter email address</mat-placeholder>
+              <mat-error *ngIf="addEmpForm.get('email').hasError('pattern')">{{errors.email}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="field-block">
+              <mat-icon matPrefix>add_location</mat-icon>
+              <textarea matInput formControlName="address" placeholder=" Enter address"></textarea>
+            </mat-form-field>
+            <div class="field-block">
+              <span class="gender-block">Gender:</span>
+              <mat-radio-group formControlName="gender">
+                  <mat-radio-button value="male">Male</mat-radio-button>
+                  <mat-radio-button value="female">Female</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <mat-form-field class="field-block">
+              <input type="text" matInput formControlName="username" placeholder="Username">
+            </mat-form-field>
+            <mat-form-field class="vehicle-block">
+              <mat-select placeholder="Select Vehicle" formControlName="vehicleName">
+                <mat-option *ngFor="let device of deviceList" [value]="device">
+                  {{device.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions class="submit-btn">
+          <button mat-button mat-raised-button (click)="saveNewEmp()">Save</button>
+          <button mat-button mat-raised-button (click)="resetForm()">Reset</button>
+          <button type="button" mat-button mat-raised-button (click)="goBack()">Cancel</button>
+        </mat-card-actions>
+      </form>
+  </mat-card>
+</div>

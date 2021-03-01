@@ -1,0 +1,80 @@
+#offline-section{
+    height: 93%;
+    position: relative;
+    padding-top: 16%;
+    margin-left: 25%
+}
+.offline-msg{
+    font-size: 16px;
+    font-weight: 600;
+    color: red;
+    margin-left: 8%;
+}
+.error-icon mat-icon.mat-icon.material-icons{
+    color: #7b844b;
+    margin-left: 28%;
+    font-size: 67px;
+}
+.loader {
+    z-index: 2000;
+    position: absolute;
+    color: white;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: calc(47%);
+}
+.retry-link{
+    color: blue;
+    margin-left: 25%;
+    text-decoration: underline;
+}
+@media screen and (max-width: 600px) {
+    #offline-section{
+       padding-top: 30%;
+       margin-left: 20%
+    }
+}
+
+.app-loading {
+    position: absolute;
+    margin-left: 28%;
+  }
+  .app-loading .spinner {
+    height: 30px;
+    width: 50px;
+    animation: rotate 2s linear infinite;
+    transform-origin: center center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin:0 auto;
+  }
+  .app-loading .spinner .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke-linecap: round;
+    stroke: rgb(58, 8, 238);
+  }
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+    }
+    100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+    }
+  }
