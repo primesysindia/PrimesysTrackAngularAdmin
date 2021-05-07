@@ -13,6 +13,7 @@ export class KeymenBeatApprovalComponent implements OnInit {
   message: string;
   beatData: any=[];
   beatId: any;
+  existingBeatdata :any;
   constructor(public dialogRef: MatDialogRef<KeymenBeatApprovalComponent>,
       @Inject(MAT_DIALOG_DATA) public keymenData, 
       private beatService: BeatServiceService  )
@@ -20,16 +21,17 @@ export class KeymenBeatApprovalComponent implements OnInit {
 
       ngOnInit() {
         this.beatData = this.keymenData;
-this.beatId = this.beatData.beatId
-console.log(this.beatId)
+        this.beatId = this.beatData.beatId;
+        this.existingBeatdata = this.beatData.ExistingBeatId;
+        // console.log(this.beatId)
       }
     
       onConfirm(): void {
         // Close the dialog, return true
-        this.beatService.ApproveKeyManBeatForUser(this.beatId)
+        this.beatService.ApproveKeyManBeatForUser(this.beatId,this.existingBeatdata)
             .subscribe((data)=>{
               this.dialogRef.close();
-              console.log("data approved", data)
+              // console.log("data approved", data)
             })
       }
     

@@ -79,18 +79,18 @@
               
                   <div class="row">
                     <div class="col-md-6">
-                      <div class="row" style="margin-bottom: 3px;">
+                      <div class="row" style="margin-bottom:5px; border: 1px solid #dee2e6;">
                         <div class="col-md-12">
                           <strong>IMEI No: </strong>{{imeiNo}}
                         </div>
                       </div>
-                      <div class="row" style="margin-bottom: 3px;">
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
                         <div class="col-md-12">
                           <strong>SIM No: </strong>{{simNo}}
                         </div>
                       </div>
 
-                      <div class="row" style="margin-bottom: 3px;">
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
                         <div class="col-md-12" >
                           <strong>Battery Status: </strong><span *ngIf="data.deviceBatteryTime > 0; else showZero">{{data.deviceBattery}}  {{data.deviceBatteryTime*1000 |  date : "MMM d, y  h:mm:ss a"}}</span>
                         </div>
@@ -99,12 +99,12 @@
                         {{data.deviceBattery}} {{data.deviceBatteryTime}}
                       </ng-template>
                       
-                      <div class="row" style="margin-bottom: 3px;">
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
                         <div class="col-md-12">
                           <strong>Network Strength: </strong>{{data.deviceRange}}
                         </div>
                       </div>
-                      <div class="row" style="margin-bottom: 3px;">
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
                         <div class="col-md-12" >
                           <strong>Location Time:</strong><span *ngIf="data.locationTime > 0; else showZeroLocation"> {{data.locationTime*1000  |  date : "MMM d, y h:mm:ss a"}}</span>
                         </div>
@@ -112,12 +112,8 @@
                             {{data.locationTime}}
                           </ng-template>
                       </div>
-                      <!-- <div class="row" style="margin-bottom: 3px;">
-                        <div class="col-md-12">
-                          <strong>Payment Status: </strong>{{data.PaymentStatus}}
-                        </div>
-                      </div> -->
-                      <div class="row" style="margin-bottom: 3px;">
+                    
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
                         <div class="col-md-12">
                           <strong>Activation Date: </strong>{{activation | date}}
                           <span style="color: red" *ngIf="expiredWarranty">(warranty expired)</span>
@@ -125,7 +121,7 @@
                         </div>
                       </div>
 
-                      <div class="row" style="margin-bottom: 3px;">
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
                         <div class="col-md-12">
                           <strong>Service Expiry: </strong> {{data.ExpiryDate}} <span *ngIf="data.PaymentStatus == 'Active'; else inactive;" style="color: green">({{data.PaymentStatus}})</span>
                           <ng-template #inactive>
@@ -133,8 +129,64 @@
                           </ng-template>
                         </div>
                       </div>
+
+                      <div class="row" style="margin-bottom:5px; border: 1px solid #dee2e6;">
+                        <div class="col-md-12">
+                          <strong>Period: </strong>{{data.period}}
+                        </div>
+                      </div>
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
+                        <div class="col-md-12">
+                          <strong>SOS: </strong>{{data.sos}}
+                        </div>
+                      </div>
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
+                        <div class="col-md-12">
+                          <strong>FN: </strong>{{data.fn}}
+                        </div>
+                      </div>
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
+                        <div class="col-md-12">
+                          <strong>HBT: </strong>{{data.hbt}}
+                        </div>
+                      </div>
+
+                      <div class="row" style="margin-bottom:5px;border: 1px solid #dee2e6;">
+                        <div class="col-md-12">
+                          <strong>Timer: </strong>{{data.timer}}
+                        </div>
+                      </div>
                       
-                      <div class="row" style="margin-bottom: 3px;">
+                      
+                      <!-- <div class="row" style="margin-bottom:5px;">
+                        <div class="col-md-12 table-responsive">
+                          <table class="table table-bordered">
+                            <tr>
+                              <th>Section</th>
+                              <th>Start Beat</th>
+                              <th>End Beat</th>
+                            </tr>
+                            <tr *ngFor="let beatList of beatInfo">
+                              <td>{{beatList.sectionName}}</td>
+                              <td>{{beatList.kmStart}}</td>
+                              <td>{{beatList.kmEnd}}</td>
+                            </tr>
+                          </table>
+                          
+                        </div>
+                      </div> -->
+                    </div>
+                    <div class="col-md-6">
+                      <agm-map (mapReady)="mapReady($event)" [latitude]="data.lat" [longitude]="data.lan" 
+                      [zoom]="zoomLevel" [fullscreenControl]='true'  >
+                        <agm-marker *ngFor="let data of allLocations"
+                        [latitude]="data.lat"
+                        [longitude]="data.lng"
+                        [iconUrl]="data.icon">  
+                        </agm-marker>
+                      </agm-map>
+
+                      <div class="row" style="margin-top:5%;">
                         <div class="col-md-12 table-responsive">
                           <table class="table table-bordered">
                             <tr>
@@ -151,16 +203,6 @@
                           
                         </div>
                       </div>
-                    </div>
-                    <div class="col-md-6">
-                      <agm-map (mapReady)="mapReady($event)" [latitude]="data.lat" [longitude]="data.lan" 
-                      [zoom]="zoomLevel" [fullscreenControl]='true'  >
-                        <agm-marker *ngFor="let data of allLocations"
-                        [latitude]="data.lat"
-                        [longitude]="data.lng"
-                        [iconUrl]="data.icon">  
-                        </agm-marker>
-                      </agm-map>
                     </div>
                   </div>
                 </div>
@@ -247,7 +289,10 @@
                       <span style="color: green" *ngIf="element.issueStatus == 2;else progress">Close</span>
                     </ng-template>
                     <ng-template #progress>
-                      <span style="color: orange">In Progress</span>
+                      <span style="color: orange" *ngIf="element.issueStatus == 3;else softClose">In Progress</span>
+                    </ng-template>
+                    <ng-template #softClose>
+                      <span style="color: blue">Soft Close</span>
                     </ng-template>
                   </td>
                 </ng-container>

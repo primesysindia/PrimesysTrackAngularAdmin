@@ -1,0 +1,87 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+  <h1><mat-card-title style="text-align: center;">ADD MULTIPLE KEYMAN BEAT</mat-card-title></h1>
+    <mat-card class="example-card">
+      <mat-card-content>
+        <form class="example-form" [formGroup]="addBulkKeymanForm" >
+          <div class="row">
+            <div class="col-md-6">
+              <a [attr.href]="excelUrl" role="button">
+                Download the template to add beats in bulk.
+              </a>
+              </div>
+            
+              <div class="col-md-6"
+              style="align-items: center;justify-content: center;text-align: center;">
+                  <input type="file" (change)="addfile($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"  formControlName="file">        
+              </div>
+            </div>
+
+            <div class="row">
+              <mat-form-field class="col-md-6">
+                <mat-label>Start Time</mat-label>
+                <input type="text" matInput placeholder="Start Time" name="sTime" formControlName="start_time">
+                <mat-error>This field is required.</mat-error>
+              </mat-form-field>
+            
+              <mat-form-field class="col-md-6">
+                <mat-label>End Time</mat-label>
+                <input type="text" matInput placeholder="End Time" name="eTime" formControlName="end_time">
+                <mat-error>This field is required.</mat-error>
+              </mat-form-field>
+            </div>
+          <div style="margin-top: 4px; align-items: center;justify-content: center;text-align: center;">
+            <button style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button [disabled]="addBulkKeymanForm.invalid" (click)="addKeymanBulkBeat()">Save</button> &nbsp;&nbsp;
+            <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="resetForm()">Reset</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+  <!-- </div> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="row" style="margin-bottom: 5px;">
+
+  <div class="col-md-3" *ngIf="showMultipleBeatsBtn">
+  <a [attr.href]="excelUrl" role="button">
+    Download the template to add beats in bulk.
+  </a>
+  </div>
+ 
+  <div class="col-md-3"
+  style="align-items: center;justify-content: center;text-align: center;">
+      <input type="file" (change)="addfile($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >        
+  </div>
+
+</div>
+
+
+
+<div class="row">
+  <mat-form-field class="col-md-6">
+    <mat-label>Start Time</mat-label>
+    <input type="text" matInput placeholder="Start Time" name="sTime">
+    <mat-error>This field is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="col-md-6">
+    <mat-label>End Time</mat-label>
+    <input type="text" matInput placeholder="End Time" name="eTime">
+    <mat-error>This field is required.</mat-error>
+  </mat-form-field>
+</div> -->

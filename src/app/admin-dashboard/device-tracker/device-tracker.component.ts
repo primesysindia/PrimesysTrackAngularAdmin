@@ -485,7 +485,7 @@ export class DeviceTrackerComponent implements OnInit {
     this.liveLocServ.messages
       .takeUntil(this.ngUnsubscribe)
       .subscribe(res => {
-      // console.log("res", res)
+      console.log("res", res)
       this.loading = true;
       this.liveTrack = JSON.parse(res.data);
       let speed = 0
@@ -705,6 +705,7 @@ export class DeviceTrackerComponent implements OnInit {
                   zIndex: 0
                 }
               })
+
               let newPosition1 = new google.maps.LatLng(this.liveTrack.data.lat, this.liveTrack.data.lan);
               this.marker.setPosition(newPosition1);
               this.setInfoWindow()
@@ -752,6 +753,7 @@ export class DeviceTrackerComponent implements OnInit {
                 zIndex: 0
               }
             })
+            console.log("this.currLocation",this.currLocation)
           }
           else{
             if(this.USAUser)
@@ -1002,7 +1004,7 @@ export class DeviceTrackerComponent implements OnInit {
       this.getDevice.getAllDeviceLocation(this.pId)
         .takeUntil(this.ngUnsubscribe)
         .subscribe((data: Array<AllDevicesLocation>) => {
-          console.log(data)
+          console.log("datatata",data)
           this.totalDevices = data.length; 
           if(data.length==0){
             this.loading =false;
@@ -1088,7 +1090,8 @@ export class DeviceTrackerComponent implements OnInit {
                   devName,
                   icon
                 })
-              this.allLocations = this.markers;               
+              this.allLocations = this.markers;   
+              console.log(" this.allLocations",  this.allLocations)            
               this.devList.push(device)
           })
             //this.devicesList = this.devList

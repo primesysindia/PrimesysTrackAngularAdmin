@@ -89,7 +89,7 @@ export class AddDeviceComponent implements OnInit {
     this.beatService.GetAddDeviceDropDownInfo()
     .takeUntil(this.ngUnsubscribe)
     .subscribe((data: any)=> {
-      console.log("ressp",data)
+      // console.log("ressp",data)
       if(data.length == 0){
         this.loading = false;
         const dialogConfig = new MatDialogConfig();

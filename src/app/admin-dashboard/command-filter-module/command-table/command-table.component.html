@@ -1,0 +1,18 @@
+<div class="content-section">
+<mat-card >
+  <!-- <mat-card-content> -->
+    <div>
+      <br/>
+      <!-- <h1>List of Users</h1>
+      <hr/> -->
+      <app-search (groupFilters)="filters = $event"
+                  ></app-search>
+
+      <br/>
+
+      <app-command-history [groupFilters]="filters"
+                    [searchByKeyword]="searchText"></app-command-history>  
+    </div>
+  <!-- </mat-card-content> -->
+</mat-card>
+</div>

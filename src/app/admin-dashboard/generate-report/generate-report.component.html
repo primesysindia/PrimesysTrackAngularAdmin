@@ -5,14 +5,14 @@
         <mat-card-title style="font-size:17px">Generate Reports</mat-card-title>
       </mat-toolbar>
     </mat-card-header>
-    <form [formGroup]="reportForm" (ngSubmit)="onConfirm()">
+    <form [formGroup]="reportForm">
       <mat-card-content>
         <div class="row">
           <div class="col-md-3 col-sm-3"></div>
           <mat-form-field class="col-md-3 col-sm-3">
             <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
               [matAutocomplete]="auto" [(ngModel)]="options">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
               <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
                 <div (click)="optionClicked($event, option)">
                 {{option.Name}}
@@ -22,25 +22,50 @@
             <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
               <mat-icon>close</mat-icon>
             </button>
+              <mat-error>This field is required.</mat-error>
           </mat-form-field>
 
-          <mat-form-field class="col-md-3 col-sm-3">
+          <!-- <mat-form-field class="col-md-3 col-sm-3">
             <mat-select  formControlName="reportType" panelClass="repo-list" placeholder="Select Report Type" (selectionChange)="reportRequirement()" required>
               <mat-option [value]="Keymen">Keymen Exception Report</mat-option>
               <mat-option [value]="Patrolmen">Patrolmen Exception Report</mat-option>
             </mat-select>
-            <!-- <mat-error *ngIf="f.reportType.hasError('required')">Please Choose Report Type</mat-error> -->
-          </mat-form-field>
-          <div class="col-md-3 col-sm-3"></div>
+          </mat-form-field> -->
+
+          <div class="col-md-3 col-sm-3">
+            <mat-form-field>
+              <mat-label>Select Date</mat-label>
+              <input matInput [max]="maxDate" formControlName="reportDate" [matDatepicker]="reportDatePicker" placeholder="Choose date" (dateChange)="setDate($event.value)">
+              <mat-datepicker-toggle matSuffix [for]="reportDatePicker
+              "></mat-datepicker-toggle>
+              <mat-datepicker #reportDatePicker></mat-datepicker>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
         </div>
 
         
         <div class="row" style="text-align: center; padding-bottom: 20px;">
           <div class="col-md-12 col-sm-12">
-            <button class="submit-btn" mat-button mat-raised-button style="background-color: #205c69!important;color:white!important;">Generate Report</button>
+            <button type="submit" class="submit-btn" mat-button mat-raised-button style="background-color: #205c69!important;color:white!important;" (click)="generateReport()" [disabled]="!reportForm.valid">Generate Report</button>
           </div>
         </div>
       </mat-card-content>
     </form>
   </mat-card>
+  <br> 
+  <mat-card class="report-card" *ngIf="showTable">
+    <mat-card-content>
+    <table class="table-responsive" style="margin-top: 15px; border: 1px solid #dee2e6; width: 100%">
+      <th style="border: 1px solid #dee2e6; padding: 10px; text-align: center;">Report Name</th>
+      <th style="border: 1px solid #dee2e6; padding: 10px; text-align: center;">URL</th>
+      <th style="border: 1px solid #dee2e6; padding: 10px; text-align: center;">Action</th>
+      <tr *ngFor="let data of response">
+        <td style="border: 1px solid #dee2e6; padding: 10px; text-align: center;">{{data.reportName}}</td>
+        <td style="border: 1px solid #dee2e6; padding: 10px; text-align: center;">{{data.reportURl}}</td>
+        <td style="border: 1px solid #dee2e6; padding: 10px; text-align: center;"><button class="submit-btn" mat-button mat-raised-button style="background-color: #205c69!important;color:white!important;" type="button" (click)="sendReport(data.reportURl)">Send</button></td>
+      </tr>
+    </table> 
+  </mat-card-content>
+</mat-card>
 </div>

@@ -28,7 +28,7 @@ export class LiveLocationService {
     .connect(webSocketUrl)
     .pipe(map((response: MessageEvent): MessageEvent => {
       var res = response;
-      // console.log("response", res)
+      // console.log("responsedd", res)
       return res;
     }))
   }

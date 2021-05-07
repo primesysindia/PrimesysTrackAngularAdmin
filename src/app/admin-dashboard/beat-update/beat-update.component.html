@@ -13,8 +13,13 @@
           <mat-card class="example-card">
             <mat-card-content  style="background: ghostwhite; ">
                   
-            <div class="row" *ngIf="showAddButton">
-              <div class="col-md-12 search-div">
+            <div class="row" style="margin-bottom: 10px;">
+              <div  *ngIf="showMultipleBeatsBtn"  class="col-md-6">
+                <button mat-raised-button (click)="openNewDialog()" style="background: #09a0a0; color: white;" class="float-left">Add Multiple Beats
+                </button>
+              </div>
+
+              <div class="col-md-6" *ngIf="showAddButton">
                 <button mat-raised-button (click)="openDialog()" style="background: #09a0a0; color: white;" class="float-right">
                   <mat-icon>add</mat-icon>Add Beat
                 </button>
@@ -165,9 +170,6 @@
           </mat-card>
           <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
           <ng-template #customLoadingTemplate>
-              <!-- <div class="loader">
-                  <img [src]="'../assets/PTLogo.png'">
-              </div> -->
           </ng-template>
         </div>
       </div>

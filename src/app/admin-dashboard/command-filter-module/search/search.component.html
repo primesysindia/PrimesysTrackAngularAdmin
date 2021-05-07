@@ -1,0 +1,49 @@
+<form novalidate [formGroup]="form">
+<!-- <h3>Group Filter</h3> -->
+<div class="row">
+    <mat-form-field class="col-md-4 col-sm-4">
+        <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+        [matAutocomplete]="auto" [(ngModel)]="options">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+            <div (click)="optionClicked($event, option)">
+            {{option.Name}}, {{option.parentId}}
+            </div>
+        </mat-option>
+        </mat-autocomplete>
+        <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+        <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <div class="col-md-4">
+        <input type="text" formControlName="ParentId" class="form-control" placeholder="Parent ID"/>
+    </div>
+
+    <div class="col-md-4">
+        <input type="text" formControlName="deviceId" class="form-control" placeholder="IMEI Number"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <input type="text" formControlName="commandDeliveredMsg" class="form-control" placeholder="Command Delivery Response"/>
+    </div>
+
+    <div class="col-md-4">
+        <input type="text" formControlName="command" class="form-control" placeholder="Command Search"/>
+    </div>
+
+    <div class="col-md-4">
+        <input type="text" formControlName="login_name" class="form-control" placeholder="Logged By Name"
+        />
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <button class="btn btn-primary float-right" (click)="search(form.value)">Search</button>
+    </div>
+
+<!-- <div class="col-md-12 col-sm-12">
+    <button class="btn btn-primary float-right"
+    (click)="Reset()">Reset</button>
+</div> -->
+</div>

@@ -75,6 +75,7 @@ export class AddIssueComponent implements OnInit {
   filesId: any = [];
   fileIdArray: any = [];
   fileIDs: any;
+  parentId: any;
 
   constructor(
     // public dialogRef: MatDialogRef<AddIssueComponent>, 
@@ -95,7 +96,8 @@ export class AddIssueComponent implements OnInit {
     this.currUser = JSON.parse(localStorage.getItem('currentUserInfo'))
     this.userLoginName = this.currUser.userName;
     this.userId = this.currUser.usrId;
-    this.devData = JSON.parse(localStorage.getItem('DeviceInfo'))
+    this.devData = JSON.parse(localStorage.getItem('DeviceInfo'));
+    this.parentId = JSON.parse(localStorage.getItem('ParentId'));
     this.studId = this.devData.student_id;
     this.imeiNo = this.devData.imei_no;
     this.devName = this.devData.name;
@@ -250,7 +252,8 @@ export class AddIssueComponent implements OnInit {
             "command": this.commands,
             "device":this.imeiNo,
             "deviceName": this.devName,
-            "loginName": this.userLoginName
+            "loginName": this.userLoginName,
+            "parent_id": +this.parentId,
           }
         }
     // console.log("inputData", inputData)
@@ -292,10 +295,10 @@ export class AddIssueComponent implements OnInit {
           var reader = new FileReader();
           reader.onload = this._handleReaderLoaded.bind(this);
           reader.readAsDataURL(files);
-                        this.fileName = e.target.files[i].name;
-                        this.fileExt = e.target.files[i].name.split('.').pop();
-                        console.log("this.fileName", this.fileName)
-                        console.log("this.fileExt", this.fileExt)
+          this.fileName = e.target.files[i].name;
+          this.fileExt = e.target.files[i].name.split('.').pop();
+          console.log("this.fileName", this.fileName)
+          console.log("this.fileExt", this.fileExt)
         }
       }
     }
@@ -415,7 +418,7 @@ export class AddIssueComponent implements OnInit {
       this.beatService.saveIssue(Object.assign(issueId,this.addIssueForm.value))
         .takeUntil(this.ngUnsubscribe)
         .subscribe((data: Message)=>{
-          console.log("data", data)
+          // console.log("data", data)
           if(data.error == "true"){
             this.loading = false;
             const dialogConfig = new MatDialogConfig();
@@ -448,7 +451,7 @@ export class AddIssueComponent implements OnInit {
     this.beatService.DeleteUploadedFile(id, this.userId)
         .takeUntil(this.ngUnsubscribe)
         .subscribe((data: Message)=>{
-          console.log("data", data)
+          // console.log("data", data)
           if(data.error == "true"){
             this.loading = false;
             const dialogConfig = new MatDialogConfig();

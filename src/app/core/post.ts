@@ -202,3 +202,59 @@ export interface GetPaymentDetailsInfo {
   RemainingDays: string,
   FullName: string
 }
+
+export interface keymenBeatsForApproval {
+  ApprovedDate: number,
+    BeatId: number,
+    CreatedBy: number,
+    DeviceId:string,
+    Devicename: string,
+    EmailWhoInsert: string,
+    EndTime: number,
+    End_Lat: number,
+    End_Lon: number,
+    ExistingBeatId: number,
+    KmEnd: string,
+    KmStart: string,
+    MobWhoInsert: string,
+    NameWhoInsert:string,
+    SectionName: string,
+    Start_Lat: number,
+    Start_Lon: number,
+    UpdatedBy: number,
+    UserLoginId: number,
+    activeStatus: number,
+    beatId: number,
+    id: number,
+    isApprove: boolean,
+    parentId: number,
+    startTime: number,
+    studentId: number
+}
+
+export interface USERS {
+  deviceId: string,
+  name: string,
+  command: string,
+  commandResponse: string,
+  deviceResponse: string,
+  commandDeliveryStatus: string,
+  deviceCommandResponse: string,
+  commandDeliveredMsg: string,
+  timestamp: number,
+  studentId: number,
+  deviceResponseTime: number,
+  login_name: string
+}
+
+export interface InspectionData {
+   userLoginId :number,
+   studentId : number,
+   name: string,
+   issueTitle : string ,
+   issueDescription : string,
+   finalTestingReport : string,
+   inspectdBy : string,
+   contactPerson : string,
+   activeStatus : boolean
+}

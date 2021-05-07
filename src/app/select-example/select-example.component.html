@@ -47,7 +47,11 @@
           <span [@animateText]="linkText ? 'show' : 'hide'">Device Payment</span>
         </a> 
 
-        <a *ngIf="showDeviceUnregister" mat-list-item [routerLink]="['/device-unregister']" ><mat-icon style="color: #205c69!important;" >add_to_home_screen</mat-icon>
+        <!-- <a *ngIf="showDeviceUnregister" mat-list-item [routerLink]="['/device-unregister']" ><mat-icon style="color: #205c69!important;" >add_to_home_screen</mat-icon>
+          <span [@animateText]="linkText ? 'show' : 'hide'">Device Unregister & Remove</span>
+        </a> -->
+
+        <a mat-list-item [routerLink]="['/device-unregister']" ><mat-icon style="color: #205c69!important;" >add_to_home_screen</mat-icon>
           <span [@animateText]="linkText ? 'show' : 'hide'">Device Unregister & Remove</span>
         </a>
       </mat-nav-list>

@@ -112,6 +112,9 @@
               <a class="dropdown-item" [routerLink]="['/add-device']" routerLinkActive="active">
                 Add New Device
               </a>
+              <a class="dropdown-item" *ngIf="showreportModule" [routerLink]="['/generate-report']" routerLinkActive="active">
+                Generate Report
+              </a>
               <a class="dropdown-item" [routerLink]="['/keymen-verification']" routerLinkActive="active">
                 Keymen Beat Verification
               </a>

@@ -720,20 +720,20 @@ export class BeatServiceService {
   }
 
   // get issue details by id api
-  getIssueDetailsById(issueId) {
+  getIssueDetailsById(stdId, issueId) {
     var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
     var userLoginId = userInfo.usrId;
-    var studentId = JSON.parse(localStorage.getItem('StudentID'))
+    // var studentId = JSON.parse(localStorage.getItem('StudentID'))
     // console.log("stdid", studentId)
     let options = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     };
 
      let params = new HttpParams()
-    .set('studentId', studentId)
+    .set('studentId', stdId)
     .set('issueId', issueId)
     .set('userLoginId', userLoginId)
-    // console.log("params", params)
+    console.log("params", params)
     var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetIssueDetails', params, options) 
     // console.log("res", res)
     return res .pipe(
@@ -1056,7 +1056,7 @@ export class BeatServiceService {
     let options = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     };
-    var res = this.http.post(this.logServ.apiUrl  + 'AdminDashboardServiceApi/GetDeviceCommandHistory', params, options) 
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetDeviceCommandHistory', params, options) 
     // console.log("res", res)
     return res .pipe(
       //retry upto 3 times after getting error from server
@@ -1329,7 +1329,7 @@ export class BeatServiceService {
 
   // get payment details api of devices
   getPaymentDetails(parentId){
-    let options = {
+    let options = { 
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
     var pId = parentId.toString();
@@ -1394,7 +1394,7 @@ export class BeatServiceService {
      let params = new HttpParams()
     .set('parentId', parId)
     // console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/GetKeymanExistingBeatByParent', params, options)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetKeymanExistingBeatToApproveByParent', params, options)
     // console.log("res", res)
     return res .pipe(
       //retry upto 3 times after getting error from server
@@ -1407,7 +1407,7 @@ export class BeatServiceService {
   }
 
   // approve keymen beat for user-portal
-  ApproveKeyManBeatForUser (beatId) {
+  ApproveKeyManBeatForUser (beatId, existingBeat) {
     var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
     var userLoginId = userInfo.usrId;
 
@@ -1417,8 +1417,9 @@ export class BeatServiceService {
     let params = new HttpParams()
     .set('beatId', beatId)
     .set('userLoginId', userLoginId)
+    .set('ExistingBeatId', existingBeat)  
   
-    console.log("params", params)
+    // console.log("params", params)
     var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/UpdateRailwayKeymanBeatPathCopyApprove', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
@@ -1443,7 +1444,7 @@ export class BeatServiceService {
     .set('userLoginId', userLoginId)
   
     console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/DeviceUnRegisterAPI', params, options) 
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/DeviceUnRegisterAPI', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1463,11 +1464,34 @@ export class BeatServiceService {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     };
     let params = new HttpParams()
+    .set('ImeiNo', imeiNo)
+    .set('userLoginId', userLoginId)
+  
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/RemoveDeviceAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  DeviceRegisterAPI (imeiNo) {
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    let params = new HttpParams()
     .set('imeiNo', imeiNo)
     .set('userLoginId', userLoginId)
   
-    console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/RemoveDeviceAPI', params, options) 
+    // console.log("params register", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/DeviceRegisterAPI', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1572,6 +1596,198 @@ export class BeatServiceService {
       )
     )
   }
+
+  // get patrolmen beat list to approve
+  getPatrolmenExistingBeatByParent(parId) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     let params = new HttpParams()
+    .set('parentId', parId)
+    .set('seasonId', '1')
+    // console.log("params", params)
+    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/GetPatrolmanExistingBeatToApproveByParent', params, options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+   // approve patrolmen beat for user-portal
+  ApprovePatrolmenBeatForUser (beatId) {
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    let params = new HttpParams()
+    .set('beatId', beatId)
+    .set('userLoginId', userLoginId)
+    // .set('ExistingBeatId', existingBeat)  
+  
+    // console.log("params", params)
+    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/UpdateRailwayPatrolmanCopyApprove', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  // save keymen beats in bulk
+  saveKeymenBeatsInBulk (data: any) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     let params = new HttpParams()
+    .set('KeymanBeatData',JSON.stringify(data))
+    // console.log(params)
+    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/SaveKeymanBeatInBulk', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+// get url for report generation
+  getReportGenerateUrl (pId, day) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    let params = new HttpParams()
+    .set('parentId', pId)
+    .set('day', day)
+    // console.log(params)
+    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/GetReportAdminAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  sendReportUrl(url) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+
+    var res = this.http.post(url, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(1200000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  // save inspection form
+  saveInspectionForm (data) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+
+    let params = new HttpParams()
+    .set('inspectionId', '0')
+    .set('studentId', data.deviceNo)
+    .set('issueTitle', data.issueTitle)
+    .set('issueDescription', data.issueDesc)
+    .set('finalTestingReport', data.finalReport)
+    .set('inspectedBy', data.inspectedBy)
+    .set('contactPerson', data.contactPerson)
+    .set('inspectionDate', data.InspectionDate)
+    .set('userLoginId', userLoginId)
+    .set('isReusable', '0')
+
+    console.log(params)
+    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/SaveDeviceInspectionReportAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  // get patrolmen beat list to approve
+  getInspectionData() {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+    
+     let params = new HttpParams()
+    .set('userLoginId','0')
+    // console.log("params", params)
+    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/GetDeviceInspectionReportAPI', params, options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+   // save inspection form
+   editInspectionForm (data) {
+    console.log("data", data)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+
+    let params = new HttpParams()
+    .set('inspectionId', data.inspectionId)
+    .set('studentId', data.deviceNo)
+    .set('issueTitle', data.issueTitle)
+    .set('issueDescription', data.issueDesc)
+    .set('finalTestingReport', data.finalReport)
+    .set('inspectedBy', data.inspectedBy)
+    .set('contactPerson', data.contactPerson)
+    .set('inspectionDate', data.InspectionDate)
+    .set('userLoginId', userLoginId)
+    .set('isReusable', data.isReusable)
+
+    console.log(params)
+    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/SaveDeviceInspectionReportAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
 }
 
 

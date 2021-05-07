@@ -1,0 +1,112 @@
+<div class="content-section">
+  <mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+    <h1><mat-card-title style="text-align: center;">EDIT INSPECTION FORM</mat-card-title></h1>
+    <mat-card class="example-card">
+      <mat-card-content>
+        <form [formGroup]="editInspectionForm" style="margin:auto; width: 100%;">
+          <div class="row" style="margin-top: 10px;">
+            <!-- <mat-form-field class="col-md-4 col-sm-6">
+              <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+                [matAutocomplete]="auto" [(ngModel)]="options">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                  <div (click)="optionClicked($event, option)">
+                  {{option.Name}}
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+              <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+  
+            <mat-form-field class="example-full-width col-md-4 col-sm-6">
+              <mat-select placeholder="Select Student" #singleSelect>
+                <mat-option>
+                  <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                  <div (click)="onSelection($event, devices)">
+                    {{devices.name}}, {{devices.imei_no}}
+                  </div>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+   -->
+            <mat-form-field class="col-md-6">
+              <mat-label>Issue title</mat-label>
+              <input type="text" matInput placeholder="Issue Title" name="issue title" formControlName="issueTitle">
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-6">
+              <mat-label>Issue Description</mat-label>
+              <input type="text" matInput placeholder="Issue Description" name="issue description" formControlName="issueDesc">
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="row">
+           <mat-form-field class="col-md-12">
+              <mat-label>Final Testing Report</mat-label>
+              <textarea  ut type="text" matInput placeholder="Final Report" name="final Report" formControlName="finalReport"></textarea>
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="row">
+            <mat-form-field class="col-md-6">
+              <mat-label>Contact Person</mat-label>
+              <input type="text" matInput placeholder="Contact Person" name="contact person" formControlName="contactPerson">
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+  
+            <mat-form-field class="col-md-6">
+              <mat-label>Inspected By</mat-label>
+              <input type="text" matInput placeholder="Inspected by" name="inspected by" formControlName="inspectedBy">
+              <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-checkbox formControlName="isReusable">Is Device Reusable?</mat-checkbox>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-6">
+              <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+              color: white;" class="list-group-item list-group-item-action" (click)="submit()">
+                Save
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+              color: white;" class="list-group-item list-group-item-action">
+              CANCEL
+              </button>
+            </div>
+          </div>
+      </form>
+      </mat-card-content>
+    </mat-card>
+  <!-- </div> -->
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

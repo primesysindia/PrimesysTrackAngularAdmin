@@ -1,83 +1,62 @@
-<div class="content-section">
-<mat-card-header class="col-md-12"> 
-  <mat-card-title>DEVICE COMMAND HISTORY</mat-card-title>
-</mat-card-header>
-<mat-card class="example-card">
-  <mat-card-content style="background: ghostwhite; ">
-    <form [formGroup]="dateRangeCmdHistory" (ngSubmit)="submit()">
-    <div class="row">
-    <div class="col-md-3">
-      <mat-form-field style="width: 100%">
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-      </mat-form-field>
-    </div>
-    <div class="col-md-3" style="margin-top: 12px;">
-      <div class="input-calendar" style="width: 100%;">
-        <!-- <mat-label>Start Time: </mat-label> -->
-        <input class="date-input" placeholder="Start Time" [owlDateTime]="dt1" formControlName="startTime" [max]="maxDate" [owlDateTimeTrigger]="dt1" required>
-        <owl-date-time #dt1></owl-date-time>
-        <!-- <mat-error *ngIf="f.startTime.hasError('required')">Start time is required</mat-error> -->
-        <!-- <mat-error>Start time is required</mat-error> -->
-    </div>
-    </div>
+<div>
+  <!-- <div class="col-md-1" style="margin-top: 5px;"> -->
+    <form [formGroup]="dateRangeCmdHistory" (ngSubmit)="loadUsers()">
+      <div class="row">
+      
+        <div class="col-md-3">
+          <div class="input-calendar">
+            <input class="date-input" placeholder="Start Time" [owlDateTime]="dt1" formControlName="startTime" [max]="maxDate" [owlDateTimeTrigger]="dt1" required style="width: 100%;">
+            <owl-date-time #dt1></owl-date-time>
+          </div>
+        </div>
+    
+        <div class="col-md-3">
+          <div class="input-calendar">
+            <input class="date-input" placeholder="End Time" [owlDateTime]="dt2" formControlName="endTime" [max]="maxDate" [owlDateTimeTrigger]="dt2" required style="width: 100%;">
+            <owl-date-time #dt2 ></owl-date-time>
+            <!-- <mat-error *ngIf="f.endTime.hasError('required')">End time is required</mat-error> -->
+          </div>
+        </div>
+    
+        <div class="col-md-3">
+          <button [disabled]="!dateRangeCmdHistory.valid" style="background: cadetblue;color: white;" class="submit-btn float-right" mat-button mat-raised-button >Get History</button>
+        </div>
 
-    <div class="col-md-3" style="margin-top: 12px;">
-      <div class="input-calendar" style="width: 100%;">
-        <!-- <mat-label>End Time: </mat-label> -->
-        <input class="date-input" placeholder="End Time" [owlDateTime]="dt2" formControlName="endTime" [max]="maxDate" [owlDateTimeTrigger]="dt2" required>
-        <owl-date-time #dt2 ></owl-date-time>
-        <!-- <mat-error *ngIf="f.endTime.hasError('required')">End time is required</mat-error> -->
-    </div>
-    </div>
-
-    <div class="col-md-3" style="margin-top: 5px;">
-      <button [disabled]="!dateRangeCmdHistory.valid" style="background: cadetblue;color: white;" class="submit-btn" mat-button mat-raised-button >Get History</button>
-    </div>
+        <span class="col-md-3">
+          <button class="float-right" matTooltip="Download in Excel" (click)="downloadFile()">
+            <i class="material-icons">cloud_download</i>
+          </button>
+        </span>
     </div>
     </form>
-    <div class="example-container mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="deviceId">
-          <th mat-header-cell *matHeaderCellDef> Imei No </th>
-          <td mat-cell *matCellDef="let row"> {{row.deviceId}} </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef >Device Name</th>
-          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-      </ng-container>
-        <ng-container matColumnDef="command">
-            <th mat-header-cell *matHeaderCellDef >Command</th>
-            <td mat-cell *matCellDef="let row"> {{row.command}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="commandDeliveredMsg">
-          <th mat-header-cell *matHeaderCellDef> Command Response </th>
-          <td mat-cell *matCellDef="let row"> {{row.commandDeliveredMsg | replaceUnderscore}} </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="deviceCommandResponse">
-          <th mat-header-cell *matHeaderCellDef> Device Response</th>
-          <td mat-cell *matCellDef="let row"> {{row.deviceCommandResponse}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="timestamp">
-          <th mat-header-cell *matHeaderCellDef>Command Sent At</th>
-          <td mat-cell *matCellDef="let row"> {{row.timestamp * 1000 |  date : "MMM d, y  HH:mm"}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="login_name">
-          <th mat-header-cell *matHeaderCellDef>Command Sent By</th>
-          <td mat-cell *matCellDef="let row"> {{row.login_name}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
-        <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
-        <!-- <div *ngIf="dataSource.length === 0">No records found</div> -->
-    </table>
-    <mat-paginator [pageSizeOptions]="[30, 50, 100, 500]"></mat-paginator>
-    </div>
-  </mat-card-content>
-</mat-card>
- <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>
-</div>
+   
+  <!-- </div> -->
+  <table class="table table-bordered table-responsive">
+    <tr style="text-align: center;">
+      <th>Parent ID</th>
+      <th>Device Name</th>
+      <th>IMEI Number</th>
+      <th>Command </th>
+      <th>Command Response</th>
+      <th>Device Response</th>
+      <th>Command Sent At</th>
+      <th>Command Sent By</th>
+    </tr>
+    <tbody>
+      <tr *ngFor="let user of filteredUsers | paginate: { itemsPerPage: 30, currentPage: p } | commandTabeFilter: searchByKeyword: 'name'">
+        <td>{{ user.ParentId}}</td>
+        <td>{{ user.name}}</td>
+        <td>{{ user.deviceId}}</td>
+        <td>{{ user.command}}</td>
+        <td>{{ user.commandDeliveredMsg}}</td>
+        <td>{{ user.deviceCommandResponse}}</td>
+        <td>{{ user.timestamp * 1000 |  date : "MMM d, y  HH:mm"}}</td>
+        <td>{{ user.login_name}}</td>
+      </tr>
+    </tbody>
+    <ul class="pagination">  
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>  
+    </ul> 
+  </table>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>
+  </div>

@@ -1,0 +1,38 @@
+.content-section{
+    height: 93%;
+    padding-top: 9%;
+}
+.mat-card-header .mat-card-title {
+  font-size: 20px;
+  text-align: center !important;
+}
+table {
+    width: 100%;
+}
+td.mat-column-Devicename,td.mat-column-DeviceId, td.mat-column-KmStart,
+ td.mat-column-KmEnd, td.mat-column-SectionName,  td.mat-column-status, td.mat-column-edit
+ {
+  border-right: 1px solid #e0e0e0;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+}
+
+th.mat-column-Devicename, th.mat-column-DeviceId, th.mat-column-KmStart,
+th.mat-column-KmEnd, th.mat-column-SectionName, th.mat-column-status, th.mat-column-edit
+{
+ border-right: 1px solid #e0e0e0;
+ padding-left: 10px;
+ padding-right: 10px;
+ text-align: center;
+}
+.beat-card-three {
+  width: 98%;
+  /* margin-top: 0; */
+  margin-left: auto;
+  margin-bottom: 50px !important;
+  margin-right: auto;
+  /* padding-top: 10px; */
+  /* padding-right: 10px;
+  padding-left: 10px; */
+}

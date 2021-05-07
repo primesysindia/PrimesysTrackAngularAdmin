@@ -64,6 +64,8 @@ export class DeviceRemoveUnregisterComponent implements OnInit {
   devicesListss: Array<DevicesInfo>;
   parent_id: any;
   imei: any;
+  showBtnForAdmin: boolean = false;
+  showBtnForSupport: boolean = false;
 
   constructor(private dataService: UserDataService, 
     public dialog: MatDialog,
@@ -76,11 +78,21 @@ export class DeviceRemoveUnregisterComponent implements OnInit {
     }) 
   }
   ngOnInit() {
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var roleId = userInfo.roleId;
+    if( roleId == 20) {
+      this.showBtnForAdmin = true;
+      this.showBtnForSupport = false;
+    }
+    else if( roleId == 19) {
+      this.showBtnForSupport = true;
+      this.showBtnForAdmin = false;
+    }
     this.deviceForm = this.fb.group({
-    'parentlist1': [''],
-    'device': ['', Validators.required]
-  });
-    this.getParentData();
+      'parentlist1': [''],
+      'device': ['', Validators.required]
+    });
+      this.getParentData();
   }
 
   getParentData() {
@@ -252,6 +264,20 @@ export class DeviceRemoveUnregisterComponent implements OnInit {
     // dialogConfig.data = this.imei;
     dialogConfig.data = {
       hint: 'DeviceUnregister',
+      reqData: this.imei,
+    };
+    dialogConfig.width = '400px'
+    let dialogRef = this.dialog.open(ConfirmDeviceUnregisterComponent, dialogConfig)
+    .afterClosed().subscribe(dialogResult => {
+      this.result = dialogResult;
+    });
+  }
+
+  deviceRegister() {
+    const dialogConfig = new MatDialogConfig();
+    // dialogConfig.data = this.imei;
+    dialogConfig.data = {
+      hint: 'DeviceRegister',
       reqData: this.imei,
     };
     dialogConfig.width = '400px'

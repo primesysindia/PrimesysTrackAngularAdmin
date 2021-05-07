@@ -7,13 +7,10 @@ import { ParentUserList} from '../../core/post';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { HistoryNotFoundComponent } from '../../dialog/history-not-found/history-not-found.component';
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { onMainContentChange } from '../../core/animation';
-import { SidenavService } from '../../services/sidenav.service';
 import { BeatServiceService } from '../../services/beat-service.service';
 import { Message } from 'src/app/core/message.model';
-import { DevicesInfo } from '../../core/devicesInfo.model';
 import { MatDialog, MatDialogConfig, MatTableDataSource} from '@angular/material';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-generate-report',
@@ -37,6 +34,15 @@ export class GenerateReportComponent implements OnInit {
   parentlist = new FormControl();
   autoCompleteList: any[];
   reportForm: FormGroup;
+  d:Date = new Date();
+  todayDate =  moment(new Date());
+  maxDate: Date = new Date(this.d.getFullYear(),this.d.getMonth(),this.d.getDate());
+  dateDiff: any;
+  replacedDay: any;
+  responseData: any = [];
+  response: any;se;
+  newString: any = [];
+  showTable: boolean = false;
 
   constructor(private dataService: UserDataService, 
     public dialog: MatDialog,
@@ -45,12 +51,14 @@ export class GenerateReportComponent implements OnInit {
 
   ngOnInit() {  
     this.reportForm = this.fb.group({
-    'parentlist1': [''],
-    'reportType': ['', Validators.required]
+    'parentlist': [''],
+    'reportDate': ['', Validators.required],
+    // 'reportType': ['', Validators.required]
   });
     this.getParentData();
   }
   getParentData() {
+    this.responseData = [];
     this.loading = true;
     this.dataService.getAllParentId()
     .takeUntil(this.ngUnsubscribe)
@@ -67,9 +75,6 @@ export class GenerateReportComponent implements OnInit {
       else {
         this.allPosts = data;
         this.dataService.ParentData = data;
-        // console.log("this.parentUser", this.allPosts)
-        // this.getDevices(this.pId)
-
         this.parentlist.valueChanges.subscribe(userInput => {
           this.autoCompleteExpenseList(userInput);
         })
@@ -138,7 +143,42 @@ export class GenerateReportComponent implements OnInit {
     this.autocompleteInput.nativeElement.value = '';
   }
 
-  // optionClicked(event: Event, user: ParentUserList) {
-  //   this.getDevices(user.parentId);
-  // }
+  optionClicked(event: Event, user) {
+    this.parentId = user.parentId; 
+  }
+
+  setDate(date) {
+    this.dateDiff = Math.abs(this.todayDate.diff(date, 'days'));
+  }
+
+  generateReport() {
+    this.responseData = [];
+    this.newString = '';
+    this.beatService.getReportGenerateUrl(this.parentId, this.dateDiff )
+    .takeUntil(this.ngUnsubscribe)
+    .subscribe((data: any) => {
+      if(data.length == 0){
+        // this.loading = false;
+        const dialogConfig = new MatDialogConfig();
+        //pass data to dialog
+        dialogConfig.data = {
+          hint: 'NoReportFound'
+        };
+        const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+      } else {
+        // console.log(data)
+        this.response = data;
+        this.showTable = true;
+      }
+    })
+  }
+
+  sendReport(url) {
+    this.beatService.sendReportUrl(url)
+    .takeUntil(this.ngUnsubscribe)
+    .subscribe((data: any) => {
+      console.log(data)
+    })
+  }
 }
+

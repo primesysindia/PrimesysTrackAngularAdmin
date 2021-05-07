@@ -15,6 +15,7 @@ export class AppHeaderComponent implements OnInit {
   loggedUserInfo: User;
   showPayment: boolean = true;
   showAdmin: boolean = false;
+  showreportModule: boolean = false;
   USAUser: boolean = false;
   showTrackHistory: boolean = false;
   showHistory: boolean = true;
@@ -48,18 +49,28 @@ export class AppHeaderComponent implements OnInit {
        }
        if(this.loggedUserInfo.roleId == 7){
          this.showPayment = true;
+         this.showreportModule = false;
        }
        else{
         this.showPayment = false;
        }
-       if(this.loggedUserInfo.roleId == 19 || this.loggedUserInfo.roleId == 20){
+       if(this.loggedUserInfo.roleId == 19){
         this.showAdmin = true;
+        this.showreportModule = false;
+        this.showTrackHistory = true;
+        this.showHistory = false;
+        this.showReport = false;
+      }
+      else if(this.loggedUserInfo.roleId == 20){
+        this.showAdmin = true;
+        this.showreportModule = true;
         this.showTrackHistory = true;
         this.showHistory = false;
         this.showReport = false;
       }
       else{
        this.showAdmin = false;
+       this.showreportModule = false;
       }
      }
      return this.isUserLoggedIn;

@@ -81,7 +81,10 @@
                 <span style="color: green" *ngIf="element.issueStatus == 2;else progress">Close</span>
               </ng-template>
               <ng-template #progress>
-                <span style="color: orange">In Progress</span>
+                <span style="color: orange" *ngIf="element.issueStatus == 3;else softClose">In Progress</span>
+              </ng-template>
+              <ng-template #softClose>
+                <span style="color: blue">Soft Close</span>
               </ng-template>
             </td>
           </ng-container>

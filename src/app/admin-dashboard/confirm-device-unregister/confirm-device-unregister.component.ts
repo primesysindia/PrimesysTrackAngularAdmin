@@ -17,6 +17,7 @@ export class ConfirmDeviceUnregisterComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   loading : boolean;
   imeiNo: any;
+  hint: any;
 
   constructor(public dialogRef: MatDialogRef<ConfirmDeviceUnregisterComponent>,
     @Inject(MAT_DIALOG_DATA) public data,  
@@ -27,7 +28,8 @@ export class ConfirmDeviceUnregisterComponent implements OnInit {
 
   ngOnInit() {
     this.imeiNo = this.data.reqData;
-    // console.log("data",this.data)
+    this.hint = this.data.hint;
+    console.log("data",this.data)
   }
 
   deviceUnregister() {
@@ -58,6 +60,64 @@ export class ConfirmDeviceUnregisterComponent implements OnInit {
       })
   }
 
+  deviceRegister() {
+    // this.loading = true;
+    if(this.hint == 'DeviceRegister') {
+      // console.log("data register")
+        this.beatService.DeviceRegisterAPI(this.imeiNo)
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((data: Message)=>{
+          // console.log("data", data)
+          if(data.error == "true"){
+            this.loading = false;
+            this.dialogRef.close();
+            const dialogConfig = new MatDialogConfig();
+            //pass data to dialog
+            dialogConfig.data = {
+              hint: 'RegisterUnsuccessful',
+              message: data.message
+            };
+            const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+          } else {
+            this.loading = false;
+            this.dialogRef.close();
+            const dialogConfig = new MatDialogConfig();
+            //pass data to dialog
+            dialogConfig.data = {
+              hint: 'RegisterSuccessful',
+              message: data.message
+            };
+          const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+        }
+      })
+    } else if (this.hint == 'DeviceUnregister') {
+      // console.log("data unregister");
+      this.beatService.DeviceUnRegisterAPI(this.imeiNo)
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((data: Message)=>{
+          // console.log("data", data)
+          if(data.error == "true"){
+            this.loading = false;
+            this.dialogRef.close();
+            const dialogConfig = new MatDialogConfig();
+            //pass data to dialog
+            dialogConfig.data = {
+              hint: 'unregisteredUnsuccessful'
+            };
+            const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+          } else {
+            this.loading = false;
+            this.dialogRef.close();
+            const dialogConfig = new MatDialogConfig();
+            //pass data to dialog
+            dialogConfig.data = {
+              hint: 'unregisteredSuccessful'
+            };
+          const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+        }
+      })
+    }
+  }
   onDismiss() {
     this.dialogRef.close();
   }

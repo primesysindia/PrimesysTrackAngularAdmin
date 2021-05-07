@@ -115,6 +115,15 @@ import { ConfirmDeviceRemoveComponent } from './admin-dashboard/confirm-device-r
 import { AddDeviceComponent } from './admin-dashboard/add-device/add-device.component';
 import { AddDeviceConfirmComponent } from './admin-dashboard/add-device-confirm/add-device-confirm.component';
 import { MultipleDeviceConfirmComponent } from './admin-dashboard/multiple-device-confirm/multiple-device-confirm.component';
+import { PatrolmenBeatApprovalComponent } from './user-portal-handling-module/patrolmen-beat-approval/patrolmen-beat-approval.component';
+import { AddKeymenMutipleBeatComponent } from './admin-dashboard/add-keymen-mutiple-beat/add-keymen-mutiple-beat.component';
+import { CommandTabeFilterPipe } from './filters/command-tabe-filter.pipe';
+// import { MatTableFilterModule } from 'mat-table-filter';
+import { SearchComponent } from './admin-dashboard/command-filter-module/search/search.component';
+import { CommandTableComponent } from './admin-dashboard/command-filter-module/command-table/command-table.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { OnsiteInspectionFormComponent } from './admin-dashboard/onsite-inspection-form/onsite-inspection-form.component';
+import { EditInspectionFormComponent } from './admin-dashboard/edit-inspection-form/edit-inspection-form.component';
 
 @NgModule({
   declarations: [
@@ -199,7 +208,14 @@ import { MultipleDeviceConfirmComponent } from './admin-dashboard/multiple-devic
     ConfirmDeviceRemoveComponent,
     AddDeviceComponent,
     AddDeviceConfirmComponent,
-    MultipleDeviceConfirmComponent
+    MultipleDeviceConfirmComponent,
+    PatrolmenBeatApprovalComponent,
+    AddKeymenMutipleBeatComponent,
+    CommandTabeFilterPipe,
+    SearchComponent,
+    CommandTableComponent,
+    OnsiteInspectionFormComponent,
+    EditInspectionFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -224,10 +240,13 @@ import { MultipleDeviceConfirmComponent } from './admin-dashboard/multiple-devic
     SlimLoadingBarModule,
     NgSelectModule,
     OrderModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    NgxPaginationModule
   ],
   providers: [
     LoginService,
+
+    
     UserDataService,
     AuthGuard,
     GetDeviceService,

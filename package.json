@@ -50,6 +50,7 @@
     "ng2-slim-loading-bar": "^4.0.0",
     "ngx-loading": "^3.0.1",
     "ngx-mat-select-search": "^1.8.0",
+    "ngx-pagination": "4.0.0",
     "ngx-moment": "^3.3.0",
     "ngx-order-pipe": "^2.0.2",
     "ngx-scrollbar": "^2.2.0",

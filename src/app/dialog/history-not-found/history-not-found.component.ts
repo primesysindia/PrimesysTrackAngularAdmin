@@ -304,6 +304,38 @@ export class HistoryNotFoundComponent implements OnInit {
       this.iconName = 'sentiment_satisfied_alt'
       this.message =  this.message+'!!'
     }
+    else if(this.msg == 'NoReportFound') {
+      this.iconName = 'sentiment_satisfied_alt'
+      this.message = 'Report Not Found!!'
+    }
+    else if(this.msg == 'RegisterUnsuccessful') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = this.message+'!!'
+    }
+    else if(this.msg == 'RegisterSuccessful') {
+      this.iconName = 'sentiment_satisfied_alt'
+      this.message = this.message+'!!'
+    }
+    else if(this.msg == 'DataNotAdded') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = 'Data Not Added!!'
+    }
+    else if(this.msg == 'DataAdded') {
+      this.iconName = 'sentiment_satisfied_alt'
+      this.message = 'Data Added Successfully!!'
+    }
+    else if(this.msg == 'DataNotFound') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = 'Data Not Found!!'
+    }
+    else if(this.msg == 'DataUpdated') {
+      this.iconName = 'sentiment_satisfied_alt'
+      this.message = 'Data Updated Successfully!!'
+    }
+    else if(this.msg == 'DataNotUpdated') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = 'Data Not Updated!!'
+    }
     else{
       this.iconName = 'sentiment_very_dissatisfied'
       this.message = 'Sorry...Tracking history not found for '+this.deviceName+' device'

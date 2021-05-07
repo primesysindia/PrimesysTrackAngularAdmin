@@ -64,7 +64,7 @@
               
              
                 <!-- <div class="row">   -->
-                  <div class="col-md-6 col-sm-6">
+                  <!-- <div class="col-md-6 col-sm-6">
                     <mat-form-field >
                       <mat-label>Select Device</mat-label>
                       <mat-select formControlName="device" placeholder="Select Device-1" #singleSelect>
@@ -77,28 +77,66 @@
                           </div>
                         </mat-option>
                       </mat-select>
-                      <!-- <mat-error>Select device</mat-error> -->
                     </mat-form-field>
-                  </div>
+                  </div> -->
+                  <mat-form-field class="example-full-width col-md-6 col-sm-6">
+                    <mat-select placeholder="Select Student" #singleSelect>
+                      <mat-option>
+                        <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                        <div (click)="onSelection($event, devices)">
+                          {{devices.name}}, {{devices.imei_no}}
+                        </div>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
 
-                  <div class="row">
+                  <div class="row" *ngIf="showBtnForAdmin">
+                    <div class="col-md-3">
+                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                      color: white;" class="list-group-item list-group-item-action" (click)="deviceRegister()">
+                        Register Device
+                      </button>
+                    </div>
+                    <div class="col-md-3">
+                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                      color: white;" class="list-group-item list-group-item-action" (click)="deviceUnregister()">
+                        Unregister Device
+                      </button>
+                    </div>
+                    <div class="col-md-3">
+                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                      color: white;" class="list-group-item list-group-item-action" (click)="deviceRemove()">
+                        Disable Device On Portal
+                      </button>
+                    </div>
+                    <div class="col-md-3">
+                      <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                      color: white;" class="list-group-item list-group-item-action">
+                      CANCEL
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="showBtnForSupport">
+                    <div class="col-md-4">
+                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                      color: white;" class="list-group-item list-group-item-action" (click)="deviceRegister()">
+                        Register Device
+                      </button>
+                    </div>
                     <div class="col-md-4">
                       <button type="submit" style="text-align: center;background-color: #205c69d1!important;
                       color: white;" class="list-group-item list-group-item-action" (click)="deviceUnregister()">
-                        Unregister
+                        Unregister Device
                       </button>
                     </div>
                     <div class="col-md-4">
                       <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
                       color: white;" class="list-group-item list-group-item-action">
                       CANCEL
-                      </button>
-                    </div>
-                    <div class="col-md-4">
-                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
-                      color: white;" class="list-group-item list-group-item-action" (click)="deviceRemove()">
-                        Remove
                       </button>
                     </div>
                   </div>

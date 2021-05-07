@@ -1,0 +1,160 @@
+<div class="content-section">
+  <mat-card class="example-card">
+    <mat-card-content>
+      <h1><mat-card-title style="text-align: center;">Onsite Inspection Form</mat-card-title></h1>
+      <form [formGroup]="inspectionForm" style="margin:auto; width: 100%;">
+        <div class="row" style="margin-top: 10px;">
+          <mat-form-field class="col-md-4 col-sm-6">
+            <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+              [matAutocomplete]="auto" [(ngModel)]="options">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                <div (click)="optionClicked($event, option)">
+                {{option.Name}}
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+            <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width col-md-4 col-sm-6">
+            <mat-select placeholder="Select Student" #singleSelect>
+              <mat-option>
+                <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.student_id}}>
+                <div (click)="onSelection($event, devices)">
+                  {{devices.name}}, {{devices.imei_no}}
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-4">
+            <mat-label>Issue title</mat-label>
+            <input type="text" matInput placeholder="Issue Title" name="issue title" formControlName="issueTitle">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Issue Description</mat-label>
+            <input type="text" matInput placeholder="Issue Description" name="issue description" formControlName="issueDesc">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+        
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Final Testing Report</mat-label>
+            <textarea type="text" matInput placeholder="Final Report" name="final Report" formControlName="finalReport"></textarea>
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col-md-4">
+            <mat-label>Contact Person</mat-label>
+            <input type="text" matInput placeholder="Contact Person" name="contact person" formControlName="contactPerson">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-4">
+            <mat-label>Inspected By</mat-label>
+            <input type="text" matInput placeholder="Inspected by" name="inspected by" formControlName="inspectedBy">
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-4">
+            <mat-label>Inspection Date</mat-label>
+            <input matInput formControlName="InspectionDate" [matDatepicker]="InspectionDate" placeholder="Choose date">
+            <mat-datepicker-toggle matSuffix [for]="InspectionDate
+            "></mat-datepicker-toggle>
+            <mat-datepicker #InspectionDate></mat-datepicker>
+            <mat-error>This field is required.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+            color: white;" class="list-group-item list-group-item-action" (click)="submit()">
+              Save
+            </button>
+          </div>
+          <div class="col-md-6">
+            <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+            color: white;" class="list-group-item list-group-item-action">
+            CANCEL
+            </button>
+          </div>
+        </div>
+    </form>
+<hr>
+    <div style="margin-bottom: 5%;">
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field style="width: 100%">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-9" style="margin-top: 5px;">
+            <button class="btn-download float-right" matTooltip="Download in Excel" (click)="downloadFile()">
+              <i class="material-icons">cloud_download</i>
+            </button>
+        </div>
+      </div>
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8"
+              style="margin-top: 15px;"> 
+
+      <ng-container matColumnDef="deviceNo">
+        <th mat-header-cell *matHeaderCellDef >Device No.</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="issueTitle">
+        <th mat-header-cell *matHeaderCellDef> Issue Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.issueTitle}} </td>
+      </ng-container>
+        
+      <ng-container matColumnDef="contactPerson">
+        <th mat-header-cell *matHeaderCellDef>Contact Person</th>
+        <td mat-cell *matCellDef="let element"> {{element.contactPerson}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="issueDesp">
+          <th mat-header-cell *matHeaderCellDef >Issue Description</th>
+          <td mat-cell *matCellDef="let element"> {{element.issueDescription}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="finalReport">
+        <th mat-header-cell *matHeaderCellDef >Final Report</th>
+        <td mat-cell *matCellDef="let element"> {{element.finalTestingReport}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="inspectedBy">
+        <th mat-header-cell *matHeaderCellDef >Inspected By</th>
+        <td mat-cell *matCellDef="let element"> {{element.inspectdBy}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element">
+            <button style="background-color: #17a2b8; border-radius: 20px; color: white;" mat-icon-button matTooltip="Edit" (click)="openEditDialog(element)"><mat-icon class="icon1">edit</mat-icon></button>
+          </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10,25,50,100,500]"></mat-paginator>
+  </div>
+  </mat-card-content>
+</mat-card>
+
+<ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" ></ngx-loading>
+</div>

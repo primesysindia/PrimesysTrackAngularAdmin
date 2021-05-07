@@ -3,7 +3,7 @@ import * as Excel from "exceljs/dist/exceljs.min.js";
 import * as logoFile from './companyLogo.js';
 import * as fs from 'file-saver';
 import { DatePipe } from 'node_modules/@angular/common';
-import { IssueList, GetAllDeviceInfo} from '../core/post';
+import { IssueList, GetAllDeviceInfo, InspectionData} from '../core/post';
 
 @Injectable({
   providedIn: 'root'
@@ -143,6 +143,53 @@ export class ExcelServiceService {
         worksheet.getColumn(8).width = 10;
         this.saveFile(workbook,FileName)
       }
+
+      generateInspectionHistoryExcel(data: Array<InspectionData>,tableHeader){
+        //Create workbook and worksheet
+        // console.log(data)
+        let FileName = 'Inspection History';
+        let workbook = new Excel.Workbook();
+        let worksheet = workbook.addWorksheet('Report');
+        //setFileName
+        let subTitleRow;
+        //Add Row and formatting
+        
+        let titleRow = worksheet.addRow(['Inspection History']);
+        worksheet.addRow([]);
+        subTitleRow = worksheet.addRow([]);
+        
+        //Blank Row 
+        worksheet.addRow([]);
+        //Add Header Row
+        let headerRow = worksheet.addRow(['Sr.No','Device Name','Issue Title','Issue Description','Final Report', 'Contact Person', 'Inspected By']);
+    
+        //set style to file
+        this.applyStyle(titleRow,subTitleRow,workbook,worksheet,headerRow)
+        let i=1;
+          data.forEach(item =>{
+            let vals=[];
+            vals.push(i);
+            vals.push(item.name);
+            vals.push(item.issueTitle);
+            vals.push(item.issueDescription);
+            vals.push(item.finalTestingReport);
+            vals.push(item.contactPerson);
+            vals.push(item.inspectdBy);
+            // vals.push(this.datePipe.transform(item.createdAt, 'MMM d, y HH:mm'));
+            worksheet.addRow(vals);
+            i++;
+          })
+          worksheet.getColumn(1).width = 10;
+          worksheet.getColumn(2).width = 20;
+          worksheet.getColumn(3).width = 20;
+          worksheet.getColumn(4).width = 30;
+          worksheet.getColumn(5).width = 70;
+          worksheet.getColumn(6).width = 20;
+          worksheet.getColumn(7).width = 10;
+          // worksheet.getColumn(8).width = 10;
+          // worksheet.getColumn(9).width = 10;
+          this.saveFile(workbook,FileName)
+        }
 
   saveFile(workbook,fileName){
     //Generate Excel File with given name

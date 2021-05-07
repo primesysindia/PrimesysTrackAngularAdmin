@@ -6,12 +6,25 @@
     margin: 0 auto;
     margin-bottom: 5%;
 }
+.report-card{
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 10px 0px;
+}
 table {
     width: 100%;
 }
-.mat-card-header .mat-card-title {
+/* .mat-card-header .mat-card-title {
   font-size: 20px;
   text-align: center;
+} */
+mat-toolbar{
+  height: 40px;
+  /* border-radius: 21px; */
+  padding-top: 15px;
+  margin: 0 auto;
+  width:52%;
+  /* background-color: #bbb6b6; */
 }
 
 th.mat-column-name,th.mat-column-deviceId, th.mat-column-timestamp{

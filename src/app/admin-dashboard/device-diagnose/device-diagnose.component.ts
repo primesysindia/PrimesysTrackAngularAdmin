@@ -68,6 +68,7 @@ export class DeviceDiagnoseComponent implements OnInit {
   showCommand: boolean = false;
   staticValue: any;
   loginName: any;
+  parId: any;
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
   @Output() onSelectedOption = new EventEmitter();
@@ -208,6 +209,7 @@ export class DeviceDiagnoseComponent implements OnInit {
   // get parent data on option click
   optionClicked(event: Event, user: ParentUserList) {
     this.getDevices( user.parentId);
+    this.parId = user.parentId;
     localStorage.setItem('ParentId', JSON.stringify(user.parentId));
   }
 
@@ -311,7 +313,8 @@ export class DeviceDiagnoseComponent implements OnInit {
           "command": commands,
           "device":this.imeiNo,
           "deviceName": this.deviceData,
-          "loginName": this.loginName
+          "loginName": this.loginName,
+          "parent_id": +this.parId
         }
       };
       // console.log("input data", inputData);

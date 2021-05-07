@@ -68,6 +68,12 @@ import { ConfirmDeviceRemoveComponent } from '../admin-dashboard/confirm-device-
 import { AddDeviceComponent } from '../admin-dashboard/add-device/add-device.component';
 import { AddDeviceConfirmComponent } from '../admin-dashboard/add-device-confirm/add-device-confirm.component';
 import { MultipleDeviceConfirmComponent } from '../admin-dashboard/multiple-device-confirm/multiple-device-confirm.component';
+import { PatrolmenBeatApprovalComponent } from '../user-portal-handling-module/patrolmen-beat-approval/patrolmen-beat-approval.component';
+import { AddKeymenMutipleBeatComponent } from '../admin-dashboard/add-keymen-mutiple-beat/add-keymen-mutiple-beat.component';
+import { SearchComponent } from '../admin-dashboard/command-filter-module/search/search.component';
+import { CommandTableComponent } from '../admin-dashboard/command-filter-module/command-table/command-table.component';
+import { OnsiteInspectionFormComponent } from '../admin-dashboard/onsite-inspection-form/onsite-inspection-form.component';
+import { EditInspectionFormComponent } from '../admin-dashboard/edit-inspection-form/edit-inspection-form.component';
 
 
 const routes: Routes = [
@@ -111,7 +117,7 @@ const routes: Routes = [
   { path: 'confirm-complete-exchange', component: ConfirmdevExBeatComponent, canActivate:[AuthGuard] },
   { path: 'exchange-confirm', component: ExchangeHistoryComponent, canActivate:[AuthGuard] },
   { path: 'custom-command', component: CustomCommandModuleComponent, canActivate: [AuthGuard]},
-  { path: 'command-history', component: CommandHistoryComponent, canActivate: [AuthGuard]},
+  { path: 'command-table', component: CommandHistoryComponent, canActivate: [AuthGuard]},
   { path: 'issue-history', component: IssueHistoryComponent, canActivate: [AuthGuard] },
   { path: 'home', component: DeviceTrackerComponent, canActivate: [AuthGuard] },
   { path: 'tracking-history', component: DevicesHistoryComponent, canActivate: [AuthGuard] },
@@ -137,6 +143,12 @@ const routes: Routes = [
   { path: 'add-device', component: AddDeviceComponent, canActivate:[AuthGuard] },
   { path: 'add-device-confirm', component: AddDeviceConfirmComponent, canActivate:[AuthGuard] },
   { path: 'multiple-device-confirm', component: MultipleDeviceConfirmComponent, canActivate:[AuthGuard] },
+  { path: 'patrolmen-approval', component: PatrolmenBeatApprovalComponent, canActivate:[AuthGuard] },
+  { path: 'keymen-multiple-beats', component: AddKeymenMutipleBeatComponent, canActivate:[AuthGuard] },
+  { path: 'search-component', component: SearchComponent, canActivate:[AuthGuard] },
+  { path: 'command-history', component: CommandTableComponent, canActivate:[AuthGuard] },
+  { path: 'edit-inspection-form', component: EditInspectionFormComponent, canActivate:[AuthGuard] },
+  { path: 'inspection-form', component: OnsiteInspectionFormComponent, canActivate:[AuthGuard] },
   { path: 'offline', component: OfflineComponent},
   { path: '', component : LoginComponent},
    // otherwise redirect to home

@@ -249,6 +249,7 @@ export class AdminDashboardComponent implements OnInit {
   // get parent data on option click
   optionClicked(event: Event, user: ParentUserList) {
     this.getDevices( user.parentId);
+    this.parentId = user.parentId;
     localStorage.setItem('ParentId', JSON.stringify(user.parentId));
   }
 
@@ -695,7 +696,8 @@ export class AdminDashboardComponent implements OnInit {
               "command": this.receivedValues[j],
               "device": this.selected[i].imei_no,
               "deviceName": this.selected[i].name,
-              "loginName": this.loginName
+              "loginName": this.loginName,
+              "parent_id": +this.parentId,
             }
           };
           this.liveLocServ.sendMsg(inputData)
@@ -723,7 +725,8 @@ export class AdminDashboardComponent implements OnInit {
               "command": this.receivedValues,
               "device": this.selected[i].imei_no,
               "deviceName": this.selected[i].name,
-              "loginName": this.loginName
+              "loginName": this.loginName,
+              "parent_id": +this.parentId,
             }
           };
           // console.log("first condition", inputData);
@@ -738,7 +741,8 @@ export class AdminDashboardComponent implements OnInit {
               "command": commands,
               "device":this.selected[i].imei_no,
               "deviceName": this.selected[i].name,
-              "loginName": this.loginName
+              "loginName": this.loginName,
+              "parent_id": +this.parentId,
             }
           };
           // console.log("second condition", inputData);
@@ -752,7 +756,8 @@ export class AdminDashboardComponent implements OnInit {
               "command": this.value,
               "device":this.selected[i].imei_no,
               "deviceName": this.selected[i].name,
-              "loginName": this.loginName
+              "loginName": this.loginName,
+              "parent_id": +this.parentId,
             }
           };
           // console.log("third condition", inputData);
@@ -784,7 +789,7 @@ export class AdminDashboardComponent implements OnInit {
          for(var j =0; j< this.response.length;j++) {
             this.showTable = true
             this.responseData = JSON.parse(this.response[j].data);
-            // console.log("response", this.responseData)
+            console.log("response", this.responseData)
             this.students_id = this.responseData.studentId;
             for(var i=0; i<this.options.length;i++) {
               this.deviceData = this.options[i].name;
@@ -809,7 +814,7 @@ export class AdminDashboardComponent implements OnInit {
           "command": row.command,
           "device": row.deviceId,
           "deviceName": row.name,
-          "loginName": row.login_name
+          "loginName": row.login_name,
         }
       };
       // console.log("inputData", inputData)

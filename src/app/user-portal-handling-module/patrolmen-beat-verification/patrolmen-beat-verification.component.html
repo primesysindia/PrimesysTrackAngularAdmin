@@ -1,3 +1,89 @@
-<p>
-  patrolmen-beat-verification works!
-</p>
+<div class="content-section">
+  
+  <mat-card-header> 
+    <mat-card-title>PATROLMEN BEAT VERIFICATION</mat-card-title>
+  </mat-card-header>
+  <mat-card class="example-card">
+    <mat-card-content  style="background: ghostwhite; ">
+      <div class="row">
+        <mat-form-field class="example-full-width col-md-4 col-sm-4">
+            <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" matInput [formControl]="parentlist"
+              [matAutocomplete]="auto" >
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                <div (click)="optionClicked($event, option)">
+                {{option.Name}}
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+            <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(option)">
+              <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+       </div>
+      <div class="beat-card-three">
+        <table mat-table [dataSource]="dataSource">
+          
+          <ng-container matColumnDef="Devicename">
+            <th mat-header-cell *matHeaderCellDef> Device Name </th>
+            <td mat-cell *matCellDef="let row"> {{row.Devicename}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="DeviceId">
+            <th mat-header-cell *matHeaderCellDef> Device Imei </th>
+            <td mat-cell *matCellDef="let row"> {{row.DeviceId}} </td>
+          </ng-container>
+          <!-- Km start Column -->
+          <ng-container matColumnDef="KmStart">
+            <th mat-header-cell *matHeaderCellDef> Km Start </th>
+            <td mat-cell *matCellDef="let row"> {{row.kmStart}} </td>
+          </ng-container>
+        
+          <!-- Km end column -->
+          <ng-container matColumnDef="KmEnd">
+            <th mat-header-cell *matHeaderCellDef >Km End</th>
+            <td mat-cell *matCellDef="let row"> {{row.kmEnd}} </td>
+        </ng-container>
+          <!-- section name column -->
+          <ng-container matColumnDef="SectionName">
+              <th mat-header-cell *matHeaderCellDef >Section Name</th>
+              <td mat-cell *matCellDef="let row"> {{row.sectionName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Approve-Status </th>
+              <td mat-cell *matCellDef="let row">
+                <button *ngIf="row.isApprove==false; else Approved" style=" background-color: red; border-radius: 20px; color: white;" matTooltip="Not Approved" (click)="approveDialog(row)">
+                  Not Approved
+                </button>
+                  <ng-template #Approved>
+                    <ng-container *ngIf="row.isApprove==true">
+                    <span matTooltip="Approved" style="color: darkgreen; font-weight: 500;">
+                      Approved
+                    </span>
+                    </ng-container>
+                  </ng-template>
+              </td>
+          </ng-container>
+
+          <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> Edit </th>
+              <td mat-cell *matCellDef="let row">
+                <button style=" background-color: #17a2b8; border-radius: 20px; color: white;" mat-icon-button matTooltip="Edit" (click)="openEditDialog(row)" ><mat-icon class="icon1">edit</mat-icon></button>
+              </td>
+            </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
+          <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+      </table>
+      </div>
+      
+    </mat-card-content>
+  </mat-card>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}" [template]="customLoadingTemplate"></ngx-loading>
+      <ng-template #customLoadingTemplate>
+          <!-- <div class="loader">
+              <img [src]="'../assets/PTLogo.png'">
+          </div> -->
+      </ng-template>
+</div>

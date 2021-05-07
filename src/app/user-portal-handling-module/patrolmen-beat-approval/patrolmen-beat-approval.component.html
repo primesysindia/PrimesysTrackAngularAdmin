@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+  <div class="row">
+  <button class="align-self-center mx-auto" style=" background-color: green; border-radius: 20px;" mat-icon-button>
+    <mat-icon style="color: white;">done</mat-icon></button>
+  </div>
+  <br>
+  <p>Do you want to approve this?</p>
+</div>
+
+<div mat-dialog-actions>
+  <button style=" background-color: #ff0000af;" mat-button (click)="onDismiss()"><mat-icon style="color: white;">close</mat-icon></button>
+  <button style=" background-color:#205c69;" mat-raised-button (click)="onConfirm()"><mat-icon style="color: white;">done</mat-icon></button>
+</div>

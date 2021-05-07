@@ -188,6 +188,7 @@ export class HierarchyModuleComponent implements OnInit {
     this.loading = true;
     this.beatService.GetRailwayDepHierarchy(parentId).subscribe((res: Array<getHierarchyData>)=> {
       this.loading = false;
+      console.log(res)
       if(res.length == 0){
         this.loading = false;
         const dialogConfig = new MatDialogConfig();

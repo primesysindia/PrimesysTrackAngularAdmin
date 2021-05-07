@@ -98,7 +98,9 @@ export class IssueTrackingComponent implements OnInit {
   timestamp: any;
   warrantyMsg: boolean = false;
   expiredWarranty: boolean = false;
-  imagesUrl: string ="http://mykiddytracker.com:81/Images/"
+  imagesUrl: string ="http://mykiddytracker.com:81/Images/";
+  parentId: any;
+  liveTrack: any;
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
   @Output() onSelectedOption = new EventEmitter();
@@ -557,6 +559,7 @@ export class IssueTrackingComponent implements OnInit {
   //call getDevices function on parent select
   optionClicked(event: Event, user: ParentUserList) {
     this.getDevices( user.parentId);
+    this.parentId = user.parentId;
     localStorage.setItem('ParentId', JSON.stringify(user.parentId));
   }
 
@@ -637,6 +640,10 @@ export class IssueTrackingComponent implements OnInit {
   
   // on device selection get its value
   onSelection(event: Event, student) {
+    let inputs = {
+      "event":"stop_track"
+    }
+    this.liveLocServ.sendMsg(inputs);
     this.issueButton = true;
     this.showButton = true;
     this.student = student.student_id;
@@ -654,6 +661,7 @@ export class IssueTrackingComponent implements OnInit {
       }
       // console.log("inp", input)
       this.liveLocServ.sendMsg(input);
+      this.getCommandsList();
   }
 
   // open add issue form
@@ -676,7 +684,6 @@ export class IssueTrackingComponent implements OnInit {
     secondMsg: any;
     //send command to socket 
     sendCommand() {
-
       if(this.receivedValues) {
         var inputData =  {
           "event":"send_command",
@@ -685,7 +692,8 @@ export class IssueTrackingComponent implements OnInit {
             "command": this.receivedValues,
             "device": this.imeiNo,
             "deviceName": this.deviceName,
-            "loginName": this.loginName
+            "loginName": this.loginName,
+            "parent_id": +this.parentId
           }
         };
         // console.log("first condition", inputData);
@@ -699,7 +707,8 @@ export class IssueTrackingComponent implements OnInit {
             "command": this.commands,
             "device":this.imeiNo,
             "deviceName": this.deviceName,
-            "loginName": this.loginName
+            "loginName": this.loginName,
+            "parent_id": +this.parentId
           }
         };
       }
@@ -709,6 +718,7 @@ export class IssueTrackingComponent implements OnInit {
     this.liveLocServ.messages.takeUntil(this.ngUnsubscribe)
       .subscribe(res => {
          this.response = res;
+         console.log("res", this.response)
          this.responseData = JSON.parse(this.response.data);
           this.showTable = true;
          if(this.responseData.event == 'send_command_status') {
@@ -716,7 +726,6 @@ export class IssueTrackingComponent implements OnInit {
             this.device = this.responseData.device;
             this.name = this.responseData.name;
             this.std_id = this.responseData.studentId;
-            // console.log("res", this.responseData)
          } else if(this.responseData.event == 'send_command_device_response') {
            this.secondMsg = this.responseData.msg;
           //  console.log("responsedata", this.responseData)
@@ -739,7 +748,7 @@ export class IssueTrackingComponent implements OnInit {
           const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
         } else {
           this.data = res;
-          // console.log("fgdfg", this.data)
+          // console.log("data ress", this.data)
           this.activation = this.data.ActivationDate;
           var d: Date = new Date();
           var activeDate= new Date(this.activation);
@@ -754,7 +763,35 @@ export class IssueTrackingComponent implements OnInit {
             this.warrantyMsg = true;
           }
           this.beatInfo = this.data.beatInfoList;
-         
+          // let d: Date = new Date();
+          let icon :string = '';
+          let markerIcon :string = '';
+          var timeDiff = (parseInt(d.getTime()/1000+"")) - this.data.locationTime; 
+          // console.log("time did", timeDiff)
+          if(timeDiff<300){
+            markerIcon = this.imagesUrl+'Green_marker.svg';
+          } else {
+            markerIcon = this.imagesUrl+'Red_marker.svg'
+          }
+          this.markers.push({
+            lat: this.data.lat,
+            lng: this.data.lan,
+            icon: markerIcon
+          })
+          this.allLocations = this.markers;  
+          let myLatlng = new google.maps.LatLng(this.data.lat, this.data.lan)
+          this.marker = new SlidingMarker({
+            position: myLatlng,
+            map: this.map,
+            title: "Device",
+            duration: 1200,
+            easing: "easeOutExpo",
+            icon:  {
+              url: icon,
+              rotation: 0
+            }
+          });
+          this.zoomLevel = 16;
         }
       },(err) => {
         this.loading = false;
@@ -772,7 +809,7 @@ export class IssueTrackingComponent implements OnInit {
       localStorage.setItem('issueId',JSON.stringify(issueId))
       const dialogConfig = new MatDialogConfig();
 
-      this.beatService.getIssueDetailsById(issueId).subscribe((res: Array<IssueList>)=> {
+      this.beatService.getIssueDetailsById(this.student,issueId).subscribe((res: Array<IssueList>)=> {
         dialogConfig.width = '1000px';
         dialogConfig.height = '550px';
         dialogConfig.data = res;
@@ -782,7 +819,7 @@ export class IssueTrackingComponent implements OnInit {
         .afterClosed().subscribe((result) => {
           this.getIssueDetails(this.student, this.imeiNo);
         })
-    })
+      })
     }
 
   // get history of exhanged device
@@ -821,33 +858,19 @@ export class IssueTrackingComponent implements OnInit {
         this.data = data;
         this.beatInfo = this.data.beatInfoList;
         this.getIssueDetails(std_id, imei_no);
-        let d: Date = new Date();
-        var timeDiff = (parseInt(d.getTime()/1000+"")) - this.data.locationTime; 
-        // console.log("time did", timeDiff)
-        if(timeDiff<300){
-          markerIcon = this.imagesUrl+'Green_marker.svg';
-        } else {
-          markerIcon = this.imagesUrl+'Red_marker.svg'
-        }
-        this.markers.push({
-          lat: +this.data.lat,
-          lng: +this.data.lan,
-          icon: markerIcon
-        })
-        this.allLocations = this.markers;  
-        let myLatlng = new google.maps.LatLng(this.data.lat, this.data.lan)
-          this.marker = new SlidingMarker({
-            position: myLatlng,
-            map: this.map,
-            title: "Device",
-            duration: 1200,
-            easing: "easeOutExpo",
-            icon:  {
-              url: icon,
-              rotation: 0
-            }
-          });
-          this.zoomLevel = 16;
+        // let myLatlng = new google.maps.LatLng(this.data.lat, this.data.lan)
+        //   this.marker = new SlidingMarker({
+        //     position: myLatlng,
+        //     map: this.map,
+        //     title: "Device",
+        //     duration: 1200,
+        //     easing: "easeOutExpo",
+        //     icon:  {
+        //       url: icon,
+        //       rotation: 0
+        //     }
+        //   });
+        //   this.zoomLevel = 16;
         // this.map.setCenter({ lat: +this.data.lat, lan: +this.data.lan })
         },
         (error: any) => { 

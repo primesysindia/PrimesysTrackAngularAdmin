@@ -1,0 +1,74 @@
+.content-section{
+    height: 93%;
+    padding-top: 8%;
+    /* width: 42%;
+    margin-left: 30%; */
+}
+
+table {
+    width: 100%;
+}
+/* 'sr.No','deviceNo','issueTitle', 'issueDesp','finalReport', 'contactPerson','inspectedBy' */
+th.mat-column-deviceNo, th.mat-column-issueTitle, th.mat-column-contactPerson, th.mat-column-inspectedBy {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 10%;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    background-color: grey;
+}
+
+td.mat-column-deviceNo, td.mat-column-issueTitle, td.mat-column-contactPerson, td.mat-column-inspectedBy {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 10%;
+    text-align: center;
+}
+
+th.mat-header-cell:last-of-type {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    background-color: grey;
+  }
+
+  td.mat-cell:last-of-type {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    
+  }
+
+  th.mat-header-cell:first-of-type ,  td.mat-cell:first-of-type{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 10%;
+    text-align: center;
+}
+
+th.mat-column-finalReport, th.mat-column-issueDesp {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 30%;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    background-color: grey;
+}
+td.mat-column-finalReport, td.mat-column-issueDesp {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 30%;
+    text-align: center;
+}

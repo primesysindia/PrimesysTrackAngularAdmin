@@ -5,10 +5,11 @@ import { BeatServiceService } from '../../services/beat-service.service';
 import {  Subject } from 'rxjs';
 import { HistoryNotFoundComponent } from '../../dialog/history-not-found/history-not-found.component';
 import { UserDataService } from '../../services/user-data.service';
-import { ParentUserList} from '../../core/post';
+import { ParentUserList, keymenBeatsForApproval} from '../../core/post';
 import { FormControl} from '@angular/forms';
 import { EditKeymenBeatsComponent } from '../edit-keymen-beats/edit-keymen-beats.component';
 import { KeymenBeatApprovalComponent } from '../keymen-beat-approval/keymen-beat-approval.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
@@ -17,18 +18,20 @@ import { KeymenBeatApprovalComponent } from '../keymen-beat-approval/keymen-beat
   styleUrls: ['./keymen-beat-verification.component.css']
 })
 export class KeymenBeatVerificationComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   private ngUnsubscribe: Subject<any> = new Subject();
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   tableHeader: Array<string> = ['Devicename','DeviceId', 'KmStart', 'KmEnd', 'SectionName', 'status', 'edit'];
-  dataSource :any = [];
+  dataSource : MatTableDataSource<keymenBeatsForApproval>;
   loading: any;
-   parentUser: any;
+  parentUser: any;
   parentList: ParentUserList[];
   filteredList: any;parentlist = new FormControl();
   allPosts: any;
   autoCompleteList: any[];
   parentId: any;
-
+  responseData: any;
+  response: any;
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
   @Output() onSelectedOption = new EventEmitter();
@@ -150,7 +153,11 @@ export class KeymenBeatVerificationComponent implements OnInit {
         const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
       }
       else {
-        this.dataSource = data;
+        // this.dataSource = data; 
+        this.responseData = data;
+        this.response = new MatTableDataSource<keymenBeatsForApproval>(this.responseData);
+        this.dataSource = this.response;
+        this.dataSource.paginator = this.paginator;
       } 
       this.loading = false;
   })

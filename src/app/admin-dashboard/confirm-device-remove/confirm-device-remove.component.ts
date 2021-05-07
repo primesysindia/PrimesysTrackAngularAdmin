@@ -27,14 +27,14 @@ export class ConfirmDeviceRemoveComponent implements OnInit {
 
   ngOnInit() {
     this.imeiNo = this.data.reqData;
-    console.log("data",this.data)
+    // console.log("data",this.data)
   }
 
   deviceRemove() {
     this.beatService.DeviceRemove(this.imeiNo)
       .takeUntil(this.ngUnsubscribe)
       .subscribe((data: Message)=>{
-        console.log("data", data)
+        // console.log("data", data)
         if(data.error == "true"){
           this.loading = false;
           this.dialogRef.close();

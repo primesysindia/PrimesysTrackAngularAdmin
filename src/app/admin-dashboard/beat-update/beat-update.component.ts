@@ -20,6 +20,8 @@ import { environment } from 'src/environments/environment';
 import { LiveLocationService } from '../../services/live-location.service';
 import { CustomCommandModuleComponent } from '../custom-command-module/custom-command-module.component';
 import { DeleteBeatComponent } from '../../admin-dashboard/delete-beat/delete-beat.component';
+import * as XLSX from 'xlsx';
+import { AddKeymenMutipleBeatComponent } from '../../admin-dashboard/add-keymen-mutiple-beat/add-keymen-mutiple-beat.component';
 
 @Component({
   selector: 'app-beat-update',
@@ -67,7 +69,12 @@ export class BeatUpdateComponent implements OnInit {
   std_id: any;
   secondMsg: any;
   showTable : boolean= false;
-
+  showMultipleBeatsBtn: boolean = false;
+  file: File;
+  arrayBuffer: any;
+  filelist: any;
+  fetchedData: any = [];
+  excelUrl: string = 'http://primesystech.com/PrimesysTrackReport/TemplatesFiles/KeymanBulkTemplate.xlsx'
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
   @Output() onSelectedOption = new EventEmitter();
@@ -216,6 +223,7 @@ export class BeatUpdateComponent implements OnInit {
   optionClicked(event: Event, user: ParentUserList) {
     this.secondMsg = [];
     this.message = [];
+    this.showMultipleBeatsBtn = true;
     this.getDevices( user.parentId);
     this.parId = user.parentId;
     localStorage.setItem('ParentId', JSON.stringify(user.parentId));
@@ -458,6 +466,41 @@ export class BeatUpdateComponent implements OnInit {
      });
     
   }
+
+  addfile(event)     
+  {    
+    this.file= event.target.files[0];     
+    let fileReader = new FileReader();    
+    fileReader.readAsArrayBuffer(this.file);     
+    fileReader.onload = (e) => {    
+        this.arrayBuffer = fileReader.result;    
+        var data = new Uint8Array(this.arrayBuffer);    
+        var arr = new Array();    
+        for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);    
+        var bstr = arr.join("");    
+        var workbook = XLSX.read(bstr, {type:"binary"});    
+        var first_sheet_name = workbook.SheetNames[0];    
+        var worksheet = workbook.Sheets[first_sheet_name];    
+        console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
+          var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+          this.fetchedData = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+          // console.log("arraylist", arraylist)
+              this.filelist = [];    
+              // console.log(JSON.stringify((this.fetchedData)))   
+              // bulkData:  JSON.stringify((this.fetchedData)) 
+    }    
+  }   
+
+  openNewDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '700px';
+    dialogConfig.data = {
+      params: this.parId
+    };
+    let dialogRef = this.dialog.open(AddKeymenMutipleBeatComponent, dialogConfig)
+    .afterClosed().subscribe(dialogResult => {
+    });
+  } 
 
   ngOnDestroy() {
     let input = {
