@@ -1,0 +1,70 @@
+<div class="content-section">
+  <mat-card-header class="col-md-12">
+    <mat-card-title style="font-size: 20px;">USER APP MODULE DETAILS</mat-card-title>
+</mat-card-header>
+<mat-card class="example-card" style="margin-bottom:20%;">
+    <mat-card-content style="background: ghostwhite; ">
+      <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
+          <button mat-raised-button (click)="openDialog()" style="background: #09a0a0; color: white;margin-right: 10px;" class="float-right">
+            <mat-icon>add</mat-icon>Add App Module
+          </button>
+        
+          <a [routerLink]="['/user-mapping-module']" mat-raised-button style="background: #09a0a0; color: white;" class="float-right">
+            User Mapping Module
+          </a>
+        </div>
+      </div>
+      <div class="example-container mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" >
+          
+          <ng-container matColumnDef="sr.No">
+            <th mat-header-cell *matHeaderCellDef> Sr.No </th>
+            <td mat-cell *matCellDef="let row;let i=index"> {{i+1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="module">
+            <th mat-header-cell *matHeaderCellDef> Module Name </th>
+            <td mat-cell *matCellDef="let row"> {{row.module}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="moduleTitle">
+            <th mat-header-cell *matHeaderCellDef >Module Title</th>
+            <td mat-cell *matCellDef="let row"> {{row.moduleTitle}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="moduleDesc">
+              <th mat-header-cell *matHeaderCellDef >Module Description</th>
+              <td mat-cell *matCellDef="let row"> {{row.moduleDesc}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="moduleActivity">
+            <th mat-header-cell *matHeaderCellDef> Module Activity </th>
+            <td mat-cell *matCellDef="let row"> {{row.moduleActivity}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let row">
+              <button style=" background-color: #17a2b8; border-radius: 20px; color: white;" mat-icon-button matTooltip="Edit" (click)="openEditDialog(row)" ><mat-icon class="icon1">edit</mat-icon></button>
+            </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Delete </th>
+              <td mat-cell *matCellDef="let row">
+                <button style=" background-color: #ff0000af; border-radius: 20px; color: white;" mat-icon-button matTooltip="Delete" (click)="delete(row.moduleId)"><mat-icon class="icon1">delete
+                </mat-icon></button>
+              </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="tableHeader;"></tr>
+          <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+          <!-- <div *ngIf="dataSource.length === 0">No records found</div> -->
+      </table>
+      <mat-paginator [pageSizeOptions]="[20, 30, 50, 100]"></mat-paginator>
+      </div>
+    </mat-card-content>
+</mat-card>
+<ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>

@@ -124,6 +124,17 @@ import { CommandTableComponent } from './admin-dashboard/command-filter-module/c
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OnsiteInspectionFormComponent } from './admin-dashboard/onsite-inspection-form/onsite-inspection-form.component';
 import { EditInspectionFormComponent } from './admin-dashboard/edit-inspection-form/edit-inspection-form.component';
+import { AppModuleComponent } from './admin-dashboard/app-module/app-module.component';
+import { AddUserappModuleComponent } from './admin-dashboard/add-userapp-module/add-userapp-module.component';
+import { EditAppModuleComponent } from './admin-dashboard/edit-app-module/edit-app-module.component';
+import { DeleteAppModuleComponent } from './admin-dashboard/delete-app-module/delete-app-module.component';
+import { UserMappingModuleComponent } from './admin-dashboard/user-mapping-module/user-mapping-module.component';
+import { UserUtilityModuleComponent } from './admin-dashboard/user-utility-module/user-utility-module.component';
+import { AddUserUtilityComponent } from './admin-dashboard/add-user-utility/add-user-utility.component';
+import { EditUserUtilityComponent } from './admin-dashboard/edit-user-utility/edit-user-utility.component';
+import { DeleteUserUtilityComponent } from './admin-dashboard/delete-user-utility/delete-user-utility.component';
+import { UserUtilityMappingComponent } from './admin-dashboard/user-utility-mapping/user-utility-mapping.component';
+import { VersionControlComponent } from './version-control/version-control.component';
 
 @NgModule({
   declarations: [
@@ -216,6 +227,17 @@ import { EditInspectionFormComponent } from './admin-dashboard/edit-inspection-f
     CommandTableComponent,
     OnsiteInspectionFormComponent,
     EditInspectionFormComponent,
+    AppModuleComponent,
+    AddUserappModuleComponent,
+    EditAppModuleComponent,
+    DeleteAppModuleComponent,
+    UserMappingModuleComponent,
+    UserUtilityModuleComponent,
+    AddUserUtilityComponent,
+    EditUserUtilityComponent,
+    DeleteUserUtilityComponent,
+    UserUtilityMappingComponent,
+    VersionControlComponent,
   ],
   imports: [
     BrowserModule,

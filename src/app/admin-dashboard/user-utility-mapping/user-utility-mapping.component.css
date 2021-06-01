@@ -1,0 +1,30 @@
+.content-section{
+    height: 93%;
+    padding-top: 9%;
+}
+legend {
+    display: block;
+    width: 20% !important;
+    padding: 0;
+    margin-top: .5rem;
+    font-size: 16px !important;
+    line-height: inherit;
+    color: inherit;
+    white-space: normal;
+  }
+  #configuration {
+    display: block;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    padding-block-start: 0.35em;
+    padding-inline-start: 0.75em;
+    padding-inline-end: 0.75em;
+    padding-block-end: 0.625em;
+    min-inline-size: min-content;
+    border-width: 2px;
+    border-style: groove;
+    border-color: threedface;
+    border-image: initial;
+    margin: 0 auto;
+  }
+  

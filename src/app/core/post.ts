@@ -258,3 +258,40 @@ export interface InspectionData {
    contactPerson : string,
    activeStatus : boolean
 }
+
+export interface getAppModuleData {
+  createdBy:number,
+  updatedBy:number,
+  module: string,
+  moduleTitle:string,
+  moduleDesc:string,
+  moduleActivity: string,
+  isEnable_forDemo: boolean,
+  appPriority:  number,
+  createdAt: string,
+  updatedAt: string
+}
+
+export interface getModuleforWeb {
+  ModuleId: number,
+  UserId: number
+}
+
+export interface getUtilityData {
+  createdBy:number,
+  updatedBy:number,
+  utilityId: number,
+  utility: string,
+  utilityTitle:string,
+  utilityDesc:string,
+  utilityActivity: string,
+  isEnable_forDemo: boolean,
+  appPriority:  number,
+  createdAt: string,
+  updatedAt: string
+}
+
+export interface getUtilityForWeb {
+  UtilityId: number,
+  UserId: number
+}

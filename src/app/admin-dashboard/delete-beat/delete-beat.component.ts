@@ -30,7 +30,7 @@ export class DeleteBeatComponent implements OnInit {
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data        
     ) {
-      this.hint =data.hint; 
+      this.hint = data.hint; 
       this.beat = data.beatId;
       // console.log("data", data)
     }
@@ -52,7 +52,7 @@ export class DeleteBeatComponent implements OnInit {
     this.beatService.DeleteKeymanBeat(this.beat, this.userLoginId)
         .takeUntil(this.ngUnsubscribe)
         .subscribe((data: Message)=>{
-          console.log("data", data)
+          // console.log("data", data)
           if(data.error == "true"){
             this.loading = false;
             this.dialogRef.close();

@@ -1,0 +1,50 @@
+<mat-icon style="float:right; border: 1px solid lightgrey;" (click)="onNoClick()">close</mat-icon>
+<mat-card-title style="text-align: center;">EDIT APP MODULE </mat-card-title>
+  <mat-card class="example-card">
+    <mat-card-content>
+      <form class="example-form" [formGroup]="updateModuleForm"  (ngSubmit)="updateModule(updateModuleForm.value)">
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Module Name</mat-label>
+            <input type="text" matInput placeholder="Module Name" name="ModuleName" formControlName="ModuleName">
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Module Title</mat-label>
+            <input type="text" matInput placeholder="Module Title" name="ModuleTitle" formControlName="ModuleTitle">
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Module Activity</mat-label>
+            <input type="text" matInput placeholder="Module Activity" name="ModuleActivity" formControlName="ModuleActivity">
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Description</mat-label>
+            <textarea type="text" matInput placeholder="Description" name="Description" formControlName="Description"></textarea>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+            <mat-label>Is Enable For Demo</mat-label>
+            <mat-radio-group aria-label="Is Enable For Demo" formControlName="status">
+              <mat-radio-button value="1">Enable</mat-radio-button>
+              <mat-radio-button value="0">Disable</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      
+        <br>
+        <div>
+          <button style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button>Update</button> &nbsp;&nbsp;
+          <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="resetForm()">Reset</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>

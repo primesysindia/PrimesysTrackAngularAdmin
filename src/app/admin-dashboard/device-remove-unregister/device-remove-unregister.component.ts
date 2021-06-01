@@ -45,6 +45,13 @@ export class DeviceRemoveUnregisterComponent implements OnInit {
   /** Subject that emits when the component has been destroyed. */
   protected _onDestroy = new Subject<void>();
 
+  deviceFilterCtrl1: FormControl = new FormControl();
+  /** list of devices filtered by search keyword */
+  public filteredDevices1: ReplaySubject<DevicesInfo[]> = new ReplaySubject<DevicesInfo[]>(1);
+  @ViewChild('singleSelect') singleSelect1: MatSelect;
+  /** Subject that emits when the component has been destroyed. */
+
+
   deviceForm: FormGroup;
   post: any;
   loading: boolean;
@@ -66,6 +73,8 @@ export class DeviceRemoveUnregisterComponent implements OnInit {
   imei: any;
   showBtnForAdmin: boolean = false;
   showBtnForSupport: boolean = false;
+  devList1: any;
+  imeiNo: any;
 
   constructor(private dataService: UserDataService, 
     public dialog: MatDialog,
@@ -209,6 +218,7 @@ export class DeviceRemoveUnregisterComponent implements OnInit {
           this.devicesListss = JSON.parse(localStorage.getItem('devicesListss'))
           this.devList = this.devicesListss;
           this.deviceFilter();
+          this.getDevices1(pId)
           }
           this.loading = false;
         },
@@ -255,9 +265,80 @@ export class DeviceRemoveUnregisterComponent implements OnInit {
     );
   }
 
+
+  getDevices1(pId){
+    // this.devList1 = [];
+    this.loading = true;
+    this.beatService.GetDeviceListForEnable(pId)
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe((data: Array<DevicesInfo>) => {
+       console.log("data", data)
+        if(data.length == 0){
+          this.loading = false;
+          const dialogConfig = new MatDialogConfig();
+          //pass data to dialog
+          dialogConfig.data = {
+            hint: 'NoStudentList'
+          };
+          const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+        }
+        else{
+          this.devList1 = data;
+          this.deviceFilter1();
+          }
+          this.loading = false;
+        },
+        (error: any) => { 
+          this.loading = false;
+          const dialogConfig = new MatDialogConfig();
+          //pass data to dialog
+          dialogConfig.data = {
+            hint: 'ServerError'
+          };
+          const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+        }
+      )
+  }
+
+  deviceFilter1() {
+    // load the initial device list
+    this.filteredDevices1.next(this.devList1);
+    // console.log("filteredlist", this.filteredDevices);
+
+    // listen for search field value changes
+    this.deviceFilterCtrl1.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterdevLists1();
+      });
+  }
+
+  protected filterdevLists1() {
+    if (!this.devList1) {
+      return;
+    }
+    // get the search keyword
+    let search = this.deviceFilterCtrl1.value;
+    if (!search) {
+      this.filteredDevices1.next(this.devList1.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the devices
+    this.filteredDevices1.next(
+      this.devList1.filter(device => device.imei_no.toLowerCase().indexOf(search) > -1 || device.name.toLowerCase().indexOf(search) > -1)
+    );
+  }
+
   onSelection(event: Event, device) {
     this.imei = device.imei_no;
   }
+
+  onSelectionDevice(event: Event, device) {
+    this.imeiNo = device.DeviceID;
+    console.log(this.imeiNo)
+}
 
   deviceUnregister() {
     const dialogConfig = new MatDialogConfig();
@@ -302,4 +383,17 @@ export class DeviceRemoveUnregisterComponent implements OnInit {
     });
   }
 
+  enableDevice() {
+    const dialogConfig = new MatDialogConfig();
+    // dialogConfig.data = this.imei;
+    dialogConfig.data = {
+      hint: 'DeviceEnable',
+      reqData: this.imeiNo,
+    };
+    dialogConfig.width = '400px'
+    let dialogRef = this.dialog.open(ConfirmDeviceUnregisterComponent, dialogConfig)
+    .afterClosed().subscribe(dialogResult => {
+      this.result = dialogResult;
+    });
+  }
 }

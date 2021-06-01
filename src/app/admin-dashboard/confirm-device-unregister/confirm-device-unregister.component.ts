@@ -116,6 +116,32 @@ export class ConfirmDeviceUnregisterComponent implements OnInit {
           const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
         }
       })
+    } else if (this.hint == 'DeviceEnable') {
+      // console.log("data enable");
+      this.beatService.UpdateDeviceEnableAPI(this.imeiNo)
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe((data: Message)=>{
+          // console.log("data", data)
+          if(data.error == "true"){
+            this.loading = false;
+            this.dialogRef.close();
+            const dialogConfig = new MatDialogConfig();
+            //pass data to dialog
+            dialogConfig.data = {
+              hint: 'EnabledUnsuccessful'
+            };
+            const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+          } else {
+            this.loading = false;
+            this.dialogRef.close();
+            const dialogConfig = new MatDialogConfig();
+            //pass data to dialog
+            dialogConfig.data = {
+              hint: 'EnableSuccessful'
+            };
+          const dialogRef = this.dialog.open(HistoryNotFoundComponent, dialogConfig)
+        }
+      })
     }
   }
   onDismiss() {

@@ -135,7 +135,7 @@ export class CommandHistoryComponent implements OnInit {
     this.beatService.GetDevCmdHistoryDateWise(Object.assign(timeFormat, this.dateRangeCmdHistory.value)).subscribe((res: Array<USERS>)=> {
       this.loading = false;
       
-      // console.log("this.datasource", res)
+      console.log("this.datasource", res)
       if(res.length == 0){
         this.loading = false;
         const dialogConfig = new MatDialogConfig();
@@ -147,11 +147,11 @@ export class CommandHistoryComponent implements OnInit {
       } else {
         this.users = res;
         this.loading = false;
-        console.log("this.res",this.response)
+        // console.log("this.res",this.response)
 
         this.filteredUsers = this.filteredUsers.length > 0 ? this.filteredUsers : this.users;
       
-        console.log(" this.filteredUsers",  this.filteredUsers)
+        // console.log(" this.filteredUsers",  this.filteredUsers)
       }
     },(err) => {
       this.loading = false;

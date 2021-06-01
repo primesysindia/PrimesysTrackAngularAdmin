@@ -336,6 +336,42 @@ export class HistoryNotFoundComponent implements OnInit {
       this.iconName = 'sentiment_very_dissatisfied'
       this.message = 'Data Not Updated!!'
     }
+    else if(this.msg == 'moduleAdded') {
+      this.iconName = 'sentiment_satisfied_alt'
+      this.message = 'Module Added Successfully!!'
+    }
+    else if(this.msg == 'moduleNotAdded') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = 'Module Not Added!!'
+    }
+    else if(this.msg == 'moduleUpdated') {
+      this.iconName = 'sentiment_satisfied_alt'
+      this.message = 'Module Updated Successfully!!'
+    }
+    else if(this.msg == 'moduleNotUpdated') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = 'Module Not Updated!!'
+    }
+    else if(this.msg == 'EnabledUnsuccessful') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = 'Device not enabled!!'
+    }
+    else if(this.msg == 'EnableSuccessful') {
+      this.iconName = 'sentiment_satisfied_alt'
+      this.message = 'Device Enabled Successfully!!'
+    }
+    else if(this.msg == 'utilityNotFound') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = 'Utility Not found!!'
+    }
+    else if(this.msg == 'UtilityNotMapping') {
+      this.iconName = 'sentiment_very_dissatisfied'
+      this.message = 'Utility not Mapped!!'
+    }
+    else if(this.msg == 'UtilityMapped') {
+      this.iconName = 'sentiment_satisfied_alt'
+      this.message = 'Utility Mapped Successfully!!'
+    }
     else{
       this.iconName = 'sentiment_very_dissatisfied'
       this.message = 'Sorry...Tracking history not found for '+this.deviceName+' device'

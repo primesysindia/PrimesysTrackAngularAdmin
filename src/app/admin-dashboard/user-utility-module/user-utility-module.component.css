@@ -1,0 +1,39 @@
+.content-section{
+    height: 93%;
+    padding-top:7%;
+}
+table {
+    width: 100%;
+}
+
+/* 'sr.No','utility', 'utilityTitle','utilityDesc','utilityActivity','action','delete' */
+th.mat-header-cell:last-of-type, th.mat-column-sr.No, th.mat-column-utility, th.mat-column-utilityTitle, th.mat-column-utilityDesc, th.mat-column-utilityActivity,th.mat-column-action,th.mat-header-cell:first-of-type{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15x;
+    padding-right: 15px;
+    width: 10%;
+    text-align: center;
+    font-size: 15px;
+}
+
+td.mat-column-sr.No, td.mat-column-utility, td.mat-column-utilityTitle, td.mat-column-utilityDesc, td.mat-column-utilityActivity, td.mat-column-action{
+    border-right: 1px solid #e0e0e0;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+    font-size: 15px;
+}
+
+ td.mat-cell:last-of-type {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    font-size: 15px;
+}
+
+ td.mat-cell:first-of-type {
+    padding-left: 10px !important;
+    border-right: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 15px;
+}

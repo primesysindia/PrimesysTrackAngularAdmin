@@ -74,7 +74,17 @@ import { SearchComponent } from '../admin-dashboard/command-filter-module/search
 import { CommandTableComponent } from '../admin-dashboard/command-filter-module/command-table/command-table.component';
 import { OnsiteInspectionFormComponent } from '../admin-dashboard/onsite-inspection-form/onsite-inspection-form.component';
 import { EditInspectionFormComponent } from '../admin-dashboard/edit-inspection-form/edit-inspection-form.component';
-
+import { AppModuleComponent } from '../admin-dashboard/app-module/app-module.component';
+import { AddUserappModuleComponent } from '../admin-dashboard/add-userapp-module/add-userapp-module.component';
+import { EditAppModuleComponent } from '../admin-dashboard/edit-app-module/edit-app-module.component';
+import { DeleteAppModuleComponent } from '../admin-dashboard/delete-app-module/delete-app-module.component';
+import { UserMappingModuleComponent } from '../admin-dashboard/user-mapping-module/user-mapping-module.component';
+import { UserUtilityModuleComponent } from '../admin-dashboard/user-utility-module/user-utility-module.component';
+import { AddUserUtilityComponent } from '../admin-dashboard/add-user-utility/add-user-utility.component';
+import { EditUserUtilityComponent } from '../admin-dashboard/edit-user-utility/edit-user-utility.component';
+import { DeleteUserUtilityComponent } from '../admin-dashboard/delete-user-utility/delete-user-utility.component';
+import { UserUtilityMappingComponent } from '../admin-dashboard/user-utility-mapping/user-utility-mapping.component';
+import { VersionControlComponent } from '../version-control/version-control.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -149,6 +159,17 @@ const routes: Routes = [
   { path: 'command-history', component: CommandTableComponent, canActivate:[AuthGuard] },
   { path: 'edit-inspection-form', component: EditInspectionFormComponent, canActivate:[AuthGuard] },
   { path: 'inspection-form', component: OnsiteInspectionFormComponent, canActivate:[AuthGuard] },
+  { path: 'userApp-module-details', component: AppModuleComponent, canActivate:[AuthGuard] },
+  { path: 'add-app-module', component: AddUserappModuleComponent, canActivate:[AuthGuard] },
+  { path: 'edit-app-module', component: EditAppModuleComponent, canActivate:[AuthGuard] },
+  { path: 'delete-app-module', component: DeleteAppModuleComponent, canActivate:[AuthGuard] },
+  { path: 'user-mapping-module', component: UserMappingModuleComponent, canActivate:[AuthGuard] },
+  { path: 'user-utility-details', component: UserUtilityModuleComponent, canActivate:[AuthGuard] },
+  { path: 'add-utility-module', component: AddUserUtilityComponent, canActivate:[AuthGuard] },
+  { path: 'edit-utility-module', component: EditUserUtilityComponent, canActivate:[AuthGuard] },
+  { path: 'delete-utility-module', component: DeleteUserUtilityComponent, canActivate:[AuthGuard] },
+  { path: 'utility-mapping-module', component: UserUtilityMappingComponent, canActivate:[AuthGuard] },
+  { path: 'version-page', component: VersionControlComponent, canActivate:[AuthGuard] },
   { path: 'offline', component: OfflineComponent},
   { path: '', component : LoginComponent},
    // otherwise redirect to home

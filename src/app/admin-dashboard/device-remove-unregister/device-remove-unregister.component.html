@@ -40,45 +40,33 @@
     <mat-sidenav-content [@onMainContentChange]="onSideNavChange ? 'open': 'close'">
       <div class="main_content">
         <div style="padding: 10px">
-          <h1><mat-card-title style="text-align: center;">Server Unregister and Device Remove</mat-card-title></h1>
+          <h1><mat-card-title style="text-align: center;">Server Register/Unregister and Device Disable/Enable</mat-card-title></h1>
           <mat-card class="example-card">
             <mat-card-content style="background: ghostwhite; ">
+              <div class="row example-card3" style="margin-top: 10px;">
+              <mat-form-field class="col-md-6 col-sm-6">
+                <mat-label>Select Parent/Division</mat-label>
+                <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
+                  [matAutocomplete]="auto" [(ngModel)]="options">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
+                    <div (click)="optionClicked($event, option)">
+                    {{option.Name}}
+                    </div>
+                  </mat-option>
+                </mat-autocomplete>
+                <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
+<br>
+          <mat-card class="example-card">
+            <mat-card-content style="background: ghostwhite;">
               <form [formGroup]="deviceForm" style="margin:auto; width: 100%;">
-              <div class="row" style="margin-top: 10px;">
-                <mat-form-field class="col-md-6 col-sm-6">
-                  <input #autocompleteInput type="text" placeholder="Enter Parent Name" aria-label="Number" name="parentlist" matInput [formControl]="parentlist"
-                    [matAutocomplete]="auto" [(ngModel)]="options">
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                    <mat-option *ngFor="let option of autoCompleteList" [value]="option" (onSelectionChange)="filterPostList($event)">
-                      <div (click)="optionClicked($event, option)">
-                      {{option.Name}}
-                      </div>
-                    </mat-option>
-                  </mat-autocomplete>
-                  <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeOption(options)">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </mat-form-field>
-              
-              <!-- </div> -->
-              
-             
-                <!-- <div class="row">   -->
-                  <!-- <div class="col-md-6 col-sm-6">
-                    <mat-form-field >
-                      <mat-label>Select Device</mat-label>
-                      <mat-select formControlName="device" placeholder="Select Device-1" #singleSelect>
-                        <mat-option>
-                          <mat-select-search [formControl]="deviceFilterCtrl"></mat-select-search>
-                        </mat-option>
-                        <mat-option *ngFor="let devices of filteredDevices | async" value={{devices.imeiNo}}>
-                           <div (click)="onSelection($event, devices)">
-                            {{devices.name}}, {{devices.imei_no}}
-                          </div>
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div> -->
+              <div class="row example-card3" style="margin-top: 10px;">
                   <mat-form-field class="example-full-width col-md-6 col-sm-6">
                     <mat-select placeholder="Select Student" #singleSelect>
                       <mat-option>
@@ -93,54 +81,84 @@
                   </mat-form-field>
                 </div>
 
-                  <div class="row" *ngIf="showBtnForAdmin">
-                    <div class="col-md-3">
-                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
-                      color: white;" class="list-group-item list-group-item-action" (click)="deviceRegister()">
-                        Register Device
-                      </button>
-                    </div>
-                    <div class="col-md-3">
-                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
-                      color: white;" class="list-group-item list-group-item-action" (click)="deviceUnregister()">
-                        Unregister Device
-                      </button>
-                    </div>
-                    <div class="col-md-3">
-                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
-                      color: white;" class="list-group-item list-group-item-action" (click)="deviceRemove()">
-                        Disable Device On Portal
-                      </button>
-                    </div>
-                    <div class="col-md-3">
-                      <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
-                      color: white;" class="list-group-item list-group-item-action">
-                      CANCEL
-                      </button>
-                    </div>
+                <div class="row" *ngIf="showBtnForAdmin">
+                  <div class="col-md-4">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action" (click)="deviceRegister()">
+                      Register Device
+                    </button>
                   </div>
+                  <div class="col-md-4">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action" (click)="deviceUnregister()">
+                      Unregister Device
+                    </button>
+                  </div>
+                  <div class="col-md-4">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1 !important;
+                    color: white;" class="list-group-item list-group-item-action" (click)="deviceRemove()">
+                      Disable Device On Portal
+                    </button>
+                  </div>
+                  <!-- <div class="col-md-3">
+                    <button type="button" (click)="enableDevice()" style="text-align: center;background-color: #205c69d1 !important;
+                    color: white;" class="list-group-item list-group-item-action">
+                    Enable Device On Portal
+                    </button>
+                  </div> -->
+                </div>
 
-                  <div class="row" *ngIf="showBtnForSupport">
-                    <div class="col-md-4">
-                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
-                      color: white;" class="list-group-item list-group-item-action" (click)="deviceRegister()">
-                        Register Device
-                      </button>
-                    </div>
-                    <div class="col-md-4">
-                      <button type="submit" style="text-align: center;background-color: #205c69d1!important;
-                      color: white;" class="list-group-item list-group-item-action" (click)="deviceUnregister()">
-                        Unregister Device
-                      </button>
-                    </div>
-                    <div class="col-md-4">
-                      <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
-                      color: white;" class="list-group-item list-group-item-action">
-                      CANCEL
-                      </button>
-                    </div>
+                <div class="row example-card3" *ngIf="showBtnForSupport">
+                  <div class="col-md-4">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action" (click)="deviceRegister()">
+                      Register Device
+                    </button>
                   </div>
+                  <div class="col-md-4">
+                    <button type="submit" style="text-align: center;background-color: #205c69d1!important;
+                    color: white;" class="list-group-item list-group-item-action" (click)="deviceUnregister()">
+                      Unregister Device
+                    </button>
+                  </div>
+                  <!-- <div class="col-md-4">
+                    <button type="button" (click)="reset()" style="text-align: center;background-color: #E80000  !important;
+                    color: white;" class="list-group-item list-group-item-action">
+                    CANCEL
+                    </button>
+                  </div> -->
+                </div>
               </form>
+            </mat-card-content>
+          </mat-card>
+<br>
+          <mat-card>
+            <mat-card-content style="background: ghostwhite;">
+              <!-- <h1><mat-card-title style="text-align: center;">Enable Device On Portal</mat-card-title></h1> -->
+                <div class="row example-card3" style="margin-top: 10px;">
+                  <mat-form-field class="col-md-6 col-sm-6">
+                    <mat-select placeholder="Select Student" #singleSelect1>
+                      <mat-option>
+                        <mat-select-search [formControl]="deviceFilterCtrl1"></mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let devices of filteredDevices1 | async" value={{devices.DeviceID}}>
+                        <div (click)="onSelectionDevice($event, devices)">
+                          {{devices.Name}}, {{devices.DeviceID}}
+                        </div>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="row example-card3">
+                  <div class="col-md-4">
+                    <button type="button" (click)="enableDevice()" style="text-align: center;background-color: #205c69d1 !important;
+                      color: white;" class="list-group-item list-group-item-action">
+                      Enable Device On Portal
+                      </button>
+                  </div>
+                </div>
+              <!-- </form> -->
             </mat-card-content>
           </mat-card>
 

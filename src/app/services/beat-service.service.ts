@@ -143,7 +143,7 @@ export class BeatServiceService {
     .set('userLoginId', userLoginId)
     .set('isApprove', 'false')
 
-    // console.log("params", params)
+    console.log("params", params)
     var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/UpdateKeymanBeat', params, options) 
     // console.log("res", res)
     return res .pipe(
@@ -1420,7 +1420,7 @@ export class BeatServiceService {
     .set('ExistingBeatId', existingBeat)  
   
     // console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/UpdateRailwayKeymanBeatPathCopyApprove', params, options) 
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/UpdateRailwayKeymanBeatPathCopyApprove', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1514,7 +1514,7 @@ export class BeatServiceService {
     .set('userLoginId', userLoginId)
   
     console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/GetAddDeviceDropDownInfo', params, options) 
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetAddDeviceDropDownInfo', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1527,7 +1527,7 @@ export class BeatServiceService {
 
   //save single device info
   addSingleDevice (data) {
-    console.log(data)
+    // console.log(data)
     let options = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     };
@@ -1550,8 +1550,8 @@ export class BeatServiceService {
     .set('PayAmount',  data.PayAmount)
     .set('DeviceSimIMEINumber', data.simImeiNo)
   
-    console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/AddNewDevice', params, options) 
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/AddNewDevice', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1564,7 +1564,7 @@ export class BeatServiceService {
  
 
   addMultipleDevice (data) {
-    console.log(data)
+    // console.log(data)
     let options = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     };
@@ -1585,8 +1585,8 @@ export class BeatServiceService {
     .set('PayAmount',  data.PayAmount)
     .set('BulkData', data.bulkData)
   
-    console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/AddBulkDevices', params, options) 
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/AddBulkDevices', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1606,7 +1606,7 @@ export class BeatServiceService {
     .set('parentId', parId)
     .set('seasonId', '1')
     // console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/GetPatrolmanExistingBeatToApproveByParent', params, options)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetPatrolmanExistingBeatToApproveByParent', params, options)
     // console.log("res", res)
     return res .pipe(
       //retry upto 3 times after getting error from server
@@ -1632,7 +1632,7 @@ export class BeatServiceService {
     // .set('ExistingBeatId', existingBeat)  
   
     // console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/UpdateRailwayPatrolmanCopyApprove', params, options) 
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/UpdateRailwayPatrolmanCopyApprove', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1651,7 +1651,7 @@ export class BeatServiceService {
      let params = new HttpParams()
     .set('KeymanBeatData',JSON.stringify(data))
     // console.log(params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/SaveKeymanBeatInBulk', params, options) 
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveKeymanBeatInBulk', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1671,7 +1671,7 @@ export class BeatServiceService {
     .set('parentId', pId)
     .set('day', day)
     // console.log(params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/GetReportAdminAPI', params, options) 
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetReportAdminAPI', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1720,7 +1720,7 @@ export class BeatServiceService {
     .set('isReusable', '0')
 
     console.log(params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/SaveDeviceInspectionReportAPI', params, options) 
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveDeviceInspectionReportAPI', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1742,7 +1742,7 @@ export class BeatServiceService {
      let params = new HttpParams()
     .set('userLoginId','0')
     // console.log("params", params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/GetDeviceInspectionReportAPI', params, options)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetDeviceInspectionReportAPI', params, options)
     // console.log("res", res)
     return res .pipe(
       //retry upto 3 times after getting error from server
@@ -1776,8 +1776,8 @@ export class BeatServiceService {
     .set('userLoginId', userLoginId)
     .set('isReusable', data.isReusable)
 
-    console.log(params)
-    var res = this.http.post(this.localApi + 'AdminDashboardServiceApi/SaveDeviceInspectionReportAPI', params, options) 
+    // console.log(params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveDeviceInspectionReportAPI', params, options) 
     return res .pipe(
       //retry upto 3 times after getting error from server
       retryWhen((error:any) => {
@@ -1788,6 +1788,442 @@ export class BeatServiceService {
     ) 
   }
 
+  getAppModuleList() {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+    
+     let params = new HttpParams()
+    .set('UserId','0')
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetModuleListAPI', params, options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  getAppModuleListInUserMapping(data) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    
+     let params = new HttpParams()
+    .set('UserId', data)
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetModuleListAPI', params, options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+
+   saveAppModule (data) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+
+    let params = new HttpParams()
+    .set('moduleId', '0')
+    .set('module', data.ModuleName)
+    .set('moduleTitle', data.ModuleTitle)
+    .set('moduleDesc', data.Description)
+    .set('moduleActivity', data.ModuleActivity)
+    .set('createdBy', userLoginId)
+    .set('isDemo', data.status)
+    .set('imageUrl','demo')
+
+    console.log(params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveModuleListAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  updateAppModule (data) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+
+    let params = new HttpParams()
+    .set('moduleId', data.moduleId)
+    .set('module', data.ModuleName)
+    .set('moduleTitle', data.ModuleTitle)
+    .set('moduleDesc', data.Description)
+    .set('moduleActivity', data.ModuleActivity)
+    .set('createdBy', userLoginId)
+    .set('isDemo', data.status)
+    .set('imageUrl','demo')
+
+    console.log(params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveModuleUtilityAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  DeleteUserModule(data) {
+    let params = new HttpParams()
+    .set('Id', data)  
+    //  console.log("params", params)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/DeleteModuleListAPI', params,options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  GetModuleListForWeb(userId) {
+    let params = new HttpParams()
+    .set('UserId', userId)  
+    //  console.log("params", params)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     var res = this.http.post(this.logServ.apiUrl +'AdminDashboardServiceApi/GetModuleListForWebAPI', params,options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  // update keyman beat from user portal
+  UpdateKeymanBeatfromUserPortal(data: any) {
+    // console.log(data);
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    let parentId = JSON.parse(localStorage.getItem('ParentId'))
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+    let params = new HttpParams()
+    .set('kmStart', data.kmStart)
+    .set('kmEnd', data.kmEnd)
+    .set('sectionName', data.sectionName)
+    .set('kmStartLat', '0')
+    .set('kmStartLang', '0')
+    .set('kmEndLat', '0')
+    .set('kmEndLang', '0')
+    .set('parentId', parentId)
+    .set('beatId', data.beatId)
+    .set('studentId', data.studentId)
+    .set('userLoginId', userLoginId)
+    .set('isApprove', '1')
+
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/UpdateKeymanBeatBeforeApproveAPI', params, options) 
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  // update keyman beat from user portal
+  UpdateKeymanBeatfromUserPortalBeforeApprove(data: any) {
+    // console.log(data);
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    let parentId = JSON.parse(localStorage.getItem('ParentId'))
+    let studentId = JSON.parse(localStorage.getItem('StudentID'))
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+    let params = new HttpParams()
+    .set('kmStart', data.kmStart)
+    .set('kmEnd', data.kmEnd)
+    .set('sectionName', data.sectionName)
+    .set('kmStartLat', '0')
+    .set('kmStartLang', '0')
+    .set('kmEndLat', '0')
+    .set('kmEndLang', '0')
+    .set('parentId', parentId)
+    .set('beatId', data.beatId)
+    .set('studentId', data.studentId)
+    .set('userLoginId', userLoginId)
+    .set('isApprove', '0')
+
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/UpdateKeymanBeatBeforeApproveAPI', params, options) 
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  SaveUserMappingModule(data) {
+    console.log(data)
+    let params = new HttpParams()
+    .set('ModuleId', data.str_array)
+    .set('UserId', data.parentId)  
+    // console.log("params", params)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveUserModuleMappingAPI', params,options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  // device unregister api
+  UpdateDeviceEnableAPI (imeiNo) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    let params = new HttpParams()
+    .set('deviceId', imeiNo)
+  
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/UpdateDeviceEnableAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  // get user utility list
+  getUserUtiltyList() {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+    
+     let params = new HttpParams()
+    .set('UserId','0')
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetUtilityListAPI', params, options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  getUtilityListInUserMapping(data) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    
+     let params = new HttpParams()
+    .set('UserId', data)
+    // console.log("params", params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetUtilityListAPI', params, options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  saveUtilityModule (data) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+
+    let params = new HttpParams()
+    .set('utilityId', '0')
+    .set('utility', data.UtilityName)
+    .set('utilityTitle', data.UtilityTitle)
+    .set('utilityDesc', data.Description)
+    .set('utilityActivity', data.UtilityActivity)
+    .set('createdBy', userLoginId)
+    .set('isDemo', data.status)
+    .set('imageUrl','demo')
+
+    // console.log(params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveUtilityListAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  updateUtilityModule (data) {
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+
+    var userInfo = JSON.parse(localStorage.getItem('currentUserInfo'));
+    var userLoginId = userInfo.usrId;
+
+    let params = new HttpParams()
+    .set('utilityId', data.utilityId)
+    .set('utility', data.UtilityName)
+    .set('utilityTitle', data.UtilityTitle)
+    .set('utilityDesc', data.Description)
+    .set('utilityActivity', data.UtilityActivity)
+    .set('createdBy', userLoginId)
+    .set('isDemo', data.status)
+    .set('imageUrl','demo')
+
+    // console.log(params)
+    var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveUtilityListAPI', params, options) 
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    ) 
+  }
+
+  DeleteUtilityModule(data) {
+    let params = new HttpParams()
+    .set('Id', data)  
+    //  console.log("params", params)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/DeleteUtilityListAPI', params,options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  GetUtilityListForWeb(userId) {
+    let params = new HttpParams()
+    .set('UserId', userId)  
+     console.log("params", params)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     var res = this.http.post(this.logServ.apiUrl +'AdminDashboardServiceApi/GetUtilityListForWebAPI', params,options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  SaveUserUtilityModule(data) {
+    console.log(data)
+    let params = new HttpParams()
+    .set('UtilityId', data.str_array)
+    .set('UserId', data.parentId)  
+    // console.log("params", params)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/SaveUserUtilityMappingAPI', params,options)
+    // console.log("res", res)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
+
+  GetDeviceListForEnable (data) {
+    let params = new HttpParams()
+    .set('ParentId', data) 
+    // console.log("params", params)
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    };
+     var res = this.http.post(this.logServ.apiUrl + 'AdminDashboardServiceApi/GetDeviceListForEnableAPI', params,options)
+    return res .pipe(
+      //retry upto 3 times after getting error from server
+      retryWhen((error:any) => {
+        return interval(5000).pipe(
+          mergeMap(count => count == 3 ? throwError("Giving up") : of(count))
+        )}
+      )
+    )
+  }
 }
 
 

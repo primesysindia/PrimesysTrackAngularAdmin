@@ -1,0 +1,36 @@
+<div class="content-section">
+  <mat-card-header> 
+    <mat-card-title style="font-size: 20px;">USER MAPPING MODULE</mat-card-title>
+  </mat-card-header>
+  <mat-card class="example-card">
+    <mat-card-content style="background: ghostwhite; ">
+      <form [formGroup]="userMappingForm" (ngSubmit)="save(userMappingForm.value)">
+      <div class="row">
+        <div class="col-md-4"> 
+          <mat-label>Select Division Name/Parent Name </mat-label>
+          <ng-select [items]="allParent"
+                  [virtualScroll]="true"
+                  bindLabel="Name" bindValue="parentId" 
+                  placeholder="Enter Parent Name" formControlName="parentId"
+                  (change)="getSelectedParent($event)" required>
+          </ng-select>
+        </div>
+      </div>
+      <fieldset id="configuration">
+        <legend>Modules List</legend>
+        <div class="row">
+          <div class="col-md-3 checkbox" *ngFor="let modules of moduleData">
+            <mat-checkbox type="checkbox" (change)="onCheckChange($event, modules)" [checked]="modules.checked" formControlName="modulesName"  [value]="modules.moduleId">{{modules.module}}</mat-checkbox>
+          </div>
+        </div>
+      </fieldset>
+
+      <div style="margin-top: 10px;">
+        <button style="background-color: #205c69; color: white" class="btn" mat-button mat-raised-button>Save</button> &nbsp;&nbsp;
+        <button style=" color: white" class="btn btn-danger" mat-button mat-raised-button (click)="resetForm()">Reset</button>
+      </div>
+    </form>
+    </mat-card-content>
+  </mat-card>
+  <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationTypes.wanderingCubes, backdropBorderRadius: '3px'}"></ngx-loading>
+</div>
